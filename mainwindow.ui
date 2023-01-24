@@ -103,7 +103,7 @@
       <item>
        <widget class="QPushButton" name="pushButton_5">
         <property name="styleSheet">
-         <string notr="true">background-color: qconicalgradient(cx:0.5, cy:0.5, angle:0, stop:0 rgba(35, 40, 3, 255), stop:0.16 rgba(136, 106, 22, 255), stop:0.225 rgba(166, 140, 41, 255), stop:0.285 rgba(204, 181, 74, 255), stop:0.345 rgba(235, 219, 102, 255), stop:0.415 rgba(245, 236, 112, 255), stop:0.52 rgba(209, 190, 76, 255), stop:0.57 rgba(187, 156, 51, 255), stop:0.635 rgba(168, 142, 42, 255), stop:0.695 rgba(202, 174, 68, 255), stop:0.75 rgba(218, 202, 86, 255), stop:0.815 rgba(208, 187, 73, 255), stop:0.88 rgba(187, 156, 51, 255), stop:0.935 rgba(137, 108, 26, 255), stop:1 rgba(35, 40, 3, 255));</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Back</string>
@@ -113,7 +113,7 @@
       <item>
        <widget class="QPushButton" name="pushButton_4">
         <property name="styleSheet">
-         <string notr="true">background-color: qlineargradient(spread:pad, x1:0, y1:1, x2:0, y2:0, stop:0 rgba(0, 0, 0, 255), stop:0.05 rgba(14, 8, 73, 255), stop:0.36 rgba(28, 17, 145, 255), stop:0.6 rgba(126, 14, 81, 255), stop:0.75 rgba(234, 11, 11, 255), stop:0.79 rgba(244, 70, 5, 255), stop:0.86 rgba(255, 136, 0, 255), stop:0.935 rgba(239, 236, 55, 255));</string>
+         <string notr="true"/>
         </property>
         <property name="text">
          <string>Forward</string>
@@ -121,9 +121,10 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_2">
+       <widget class="QPushButton" name="_save">
         <property name="styleSheet">
-         <string notr="true">background-color: qlineargradient(spread:repeat, x1:0, y1:0, x2:1, y2:0, stop:0 rgba(255, 0, 0, 255), stop:0.17 rgba(255, 0, 0, 255), stop:0.18 rgba(255, 255, 255, 255), stop:0.210212 rgba(255, 255, 255, 255), stop:0.220212 rgba(0, 16, 255, 255), stop:0.279897 rgba(0, 16, 255, 255), stop:0.289897 rgba(255, 255, 255, 255), stop:0.32 rgba(255, 255, 255, 255), stop:0.33 rgba(255, 0, 0, 255), stop:1 rgba(255, 0, 0, 255));</string>
+         <string notr="true">background-color: rgb(13, 140, 232);
+color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
          <string>Save</string>
@@ -131,9 +132,10 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton">
+       <widget class="QPushButton" name="_clear">
         <property name="styleSheet">
-         <string notr="true">background-color: qradialgradient(spread:pad, cx:0.5, cy:0.5, radius:0.5, fx:0.5, fy:0.5, stop:0 rgba(255, 0, 0, 255), stop:0.479904 rgba(255, 0, 0, 255), stop:0.522685 rgba(255, 255, 255, 255), stop:1 rgba(255, 255, 255, 255));</string>
+         <string notr="true">background-color: rgb(255, 36, 36);
+color: rgb(255, 255, 255);</string>
         </property>
         <property name="text">
          <string>Clear</string>
@@ -171,7 +173,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox"/>
+             <widget class="QSpinBox" name="_spinBoxX"/>
             </item>
            </layout>
           </item>
@@ -185,7 +187,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_2"/>
+             <widget class="QSpinBox" name="_spinBoxY"/>
             </item>
            </layout>
           </item>
@@ -199,7 +201,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_3"/>
+             <widget class="QSpinBox" name="_spinBoxH"/>
             </item>
            </layout>
           </item>
@@ -213,7 +215,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_4"/>
+             <widget class="QSpinBox" name="_spinBoxW"/>
             </item>
            </layout>
           </item>
@@ -227,7 +229,7 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_5"/>
+             <widget class="QSpinBox" name="_spinBoxSSize"/>
             </item>
            </layout>
           </item>
@@ -241,7 +243,30 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_6"/>
+             <widget class="QFrame" name="_strokeColor">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <widget class="QPushButton" name="_strokeChoose">
+               <property name="geometry">
+                <rect>
+                 <x>-10</x>
+                 <y>-10</y>
+                 <width>111</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgba(10, 0, 0, 0);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </widget>
             </item>
            </layout>
           </item>
@@ -255,7 +280,30 @@
              </widget>
             </item>
             <item>
-             <widget class="QSpinBox" name="spinBox_7"/>
+             <widget class="QFrame" name="_fillColor">
+              <property name="frameShape">
+               <enum>QFrame::StyledPanel</enum>
+              </property>
+              <property name="frameShadow">
+               <enum>QFrame::Raised</enum>
+              </property>
+              <widget class="QPushButton" name="_fillChoose">
+               <property name="geometry">
+                <rect>
+                 <x>-10</x>
+                 <y>-7</y>
+                 <width>111</width>
+                 <height>31</height>
+                </rect>
+               </property>
+               <property name="styleSheet">
+                <string notr="true">background-color: rgba(10, 0, 0, 0);</string>
+               </property>
+               <property name="text">
+                <string/>
+               </property>
+              </widget>
+             </widget>
             </item>
            </layout>
           </item>
@@ -271,7 +319,7 @@
            </widget>
           </item>
           <item>
-           <widget class="QSpinBox" name="spinBox_8"/>
+           <widget class="QSpinBox" name="_spinBoxO"/>
           </item>
          </layout>
         </item>
@@ -303,6 +351,27 @@
            </size>
           </property>
          </spacer>
+        </item>
+        <item>
+         <widget class="QLabel" name="label_11">
+          <property name="minimumSize">
+           <size>
+            <width>100</width>
+            <height>0</height>
+           </size>
+          </property>
+          <property name="styleSheet">
+           <string notr="true">font: 700 11pt &quot;Ubuntu Condensed&quot;;
+color: rgb(186, 189, 182);
+font-size: 36px;</string>
+          </property>
+          <property name="text">
+           <string>VectorIGO</string>
+          </property>
+          <property name="alignment">
+           <set>Qt::AlignCenter</set>
+          </property>
+         </widget>
         </item>
        </layout>
       </item>

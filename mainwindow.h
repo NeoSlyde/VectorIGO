@@ -12,5 +12,9 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
+public slots:
+    void openColorPicker();
+private:
+    std::unique_ptr<QDialog> colorPicker;
 };
 #endif // MAINWINDOW_H
