@@ -1,0 +1,11 @@
+<RCC>
+    <qresource prefix="/">
+        <file>ressources/redo.png</file>
+        <file>ressources/undo.png</file>
+        <file>ressources/fill.png</file>
+        <file>ressources/form_square.png</file>
+        <file>ressources/pen.png</file>
+        <file>ressources/pencil.png</file>
+        <file>ressources/text.png</file>
+    </qresource>
+</RCC>
