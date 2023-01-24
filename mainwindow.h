@@ -13,8 +13,10 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
 public slots:
-    void openColorPicker();
+    void openColorPickerFill();
+    void openColorPickerStroke();
 private:
-    std::unique_ptr<QDialog> colorPicker;
+    std::unique_ptr<QDialog> colorPickerFill;
+    std::unique_ptr<QDialog> colorPickerStroke;
 };
 #endif // MAINWINDOW_H
