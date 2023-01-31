@@ -1,5 +1,9 @@
 #include "mainwindow.h"
 #include "qdialog.h"
+#include <iostream>
+#include <QSvgGenerator>
+#include "toolmanager.h"
+
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent), colorPickerFill(new QDialog([&](int h, int s, int l) {
@@ -16,9 +20,39 @@ MainWindow::MainWindow(QWidget *parent)
       }))
 {
     setupUi(this);
+    scene = new VScene(this);
+    _graphicsView->setScene(scene);
+
+    ToolManager* toolManager = new ToolManager();
+
 
     connect(_fillChoose, &QPushButton::clicked, this, &MainWindow::openColorPickerFill);
     connect(_strokeChoose, &QPushButton::clicked, this, &MainWindow::openColorPickerStroke);
+    connect(
+            _mouseTool, &QAbstractButton::clicked,
+            toolManager, &ToolManager::setMouseTool
+        );
+
+        connect(
+            _rectangleTool, &QAbstractButton::clicked,
+            toolManager, &ToolManager::setRectangleTool
+        );
+
+        connect(
+            scene, &VScene::sigmousePressEvent,
+            toolManager, &ToolManager::slotMousePress
+        );
+
+        connect(
+            scene, &VScene::sigmouseMoveEvent,
+            toolManager, &ToolManager::slotMouseMove
+        );
+
+        connect(
+            scene, &VScene::sigmouseReleaseEvent,
+            toolManager, &ToolManager::slotMouseRelease
+        );
+
 }
 
 
@@ -83,3 +117,8 @@ void MainWindow::openColorPickerFill() {
 void MainWindow::openColorPickerStroke() {
     colorPickerStroke->show();
 }
+
+MainWindow::~MainWindow()
+{
+}
+

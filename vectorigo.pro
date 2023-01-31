@@ -19,7 +19,8 @@ SOURCES += \
     vrectangletool.cpp \
     vscene.cpp \
     vtool.cpp \
-    vview.cpp
+    vview.cpp \
+    qdialog.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -30,7 +31,8 @@ HEADERS += \
     vrectangletool.h \
     vscene.h \
     vtool.h \
-    vview.h
+    vview.h \
+    qdialog.h
 
 FORMS += \
     mainwindow.ui\

@@ -18,7 +18,7 @@
     <item>
      <layout class="QHBoxLayout" name="_toolbar">
       <item>
-       <widget class="QPushButton" name="pushButton_3">
+       <widget class="QPushButton" name="_rectangleTool">
         <property name="styleSheet">
          <string notr="true">image: url(:/ressources/form_square.png);</string>
         </property>
@@ -28,7 +28,7 @@
        </widget>
       </item>
       <item>
-       <widget class="QPushButton" name="pushButton_8">
+       <widget class="QPushButton" name="_mouseTool">
         <property name="styleSheet">
          <string notr="true">image: url(:/ressources/pencil.png);</string>
         </property>
@@ -159,7 +159,7 @@ color: rgb(255, 255, 255);</string>
     <item>
      <layout class="QHBoxLayout" name="horizontalLayout_13">
       <item>
-       <widget class="QGraphicsView" name="graphicsView"/>
+       <widget class="QGraphicsView" name="_graphicsView"/>
       </item>
       <item>
        <layout class="QVBoxLayout" name="Settings">
@@ -397,7 +397,7 @@ font-size: 36px;</string>
      <x>0</x>
      <y>0</y>
      <width>923</width>
-     <height>22</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuVectorIgo">
@@ -421,13 +421,6 @@ font-size: 36px;</string>
    </property>
   </action>
  </widget>
- <customwidgets>
-  <customwidget>
-   <class>VView</class>
-   <extends>QGraphicsView</extends>
-   <header>vview.h</header>
-  </customwidget>
- </customwidgets>
  <resources/>
  <connections/>
 </ui>
