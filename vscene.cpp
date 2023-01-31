@@ -13,6 +13,7 @@
 VScene::VScene(QObject *parent) :
     QGraphicsScene::QGraphicsScene(parent)
 {
+    setSceneRect(0,0,800,800);
 }
 
 void VScene::mousePressEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
