@@ -421,6 +421,13 @@ font-size: 36px;</string>
    </property>
   </action>
  </widget>
+ <customwidgets>
+  <customwidget>
+   <class>VView</class>
+   <extends>QGraphicsView</extends>
+   <header>vview.h</header>
+  </customwidget>
+ </customwidgets>
  <resources/>
  <connections/>
 </ui>

@@ -2,8 +2,12 @@
 #define MAINWINDOW_H
 
 #include "ui_mainwindow.h"
+#include "rectangle.h"
 
+#include "vscene.h"
 #include <QMainWindow>
+
+
 
 class MainWindow : public QMainWindow, private Ui::MainWindow
 {
@@ -19,4 +23,5 @@ private:
     std::unique_ptr<QDialog> colorPickerFill;
     std::unique_ptr<QDialog> colorPickerStroke;
 };
+
 #endif // MAINWINDOW_H

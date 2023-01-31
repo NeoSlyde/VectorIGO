@@ -1,4 +1,5 @@
 QT       += core gui
+QT += svg
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -10,12 +11,26 @@ CONFIG += c++17
 
 SOURCES += \
     main.cpp \
-    mainwindow.cpp\
-    qdialog.cpp
+    mainwindow.cpp \
+    rectangle.cpp \
+    toolmanager.cpp \
+    vgrabber.cpp \
+    vmousetool.cpp \
+    vrectangletool.cpp \
+    vscene.cpp \
+    vtool.cpp \
+    vview.cpp
 
 HEADERS += \
-    mainwindow.h\
-    qdialog.h
+    mainwindow.h \
+    rectangle.h \
+    toolmanager.h \
+    vgrabber.h \
+    vmousetool.h \
+    vrectangletool.h \
+    vscene.h \
+    vtool.h \
+    vview.h
 
 FORMS += \
     mainwindow.ui\
