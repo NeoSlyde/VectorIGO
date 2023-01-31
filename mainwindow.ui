@@ -490,12 +490,12 @@ font-size: 36px;</string>
   </action>
   <action name="actionExport_as_SVG">
    <property name="text">
-    <string>Export as SVG</string>
+    <string>Export as SVG...</string>
    </property>
   </action>
   <action name="actionExport_as_PNG">
    <property name="text">
-    <string>Export as PNG</string>
+    <string>Export as PNG...</string>
    </property>
   </action>
   <action name="actionUndo">
@@ -530,7 +530,7 @@ font-size: 36px;</string>
   </action>
   <action name="actionCheck_for_Update">
    <property name="text">
-    <string>Check for Update</string>
+    <string>Check for Update...</string>
    </property>
   </action>
   <action name="actionAbout">
