@@ -14,10 +14,12 @@ SOURCES += \
     mainwindow.cpp \
     rectangle.cpp \
     toolmanager.cpp \
+    vcolorpicker.cpp \
     vgrabber.cpp \
     vmousetool.cpp \
     vrectangletool.cpp \
     vscene.cpp \
+    vshape.cpp \
     vtool.cpp \
     vview.cpp \
     qdialog.cpp
@@ -26,10 +28,12 @@ HEADERS += \
     mainwindow.h \
     rectangle.h \
     toolmanager.h \
+    vcolorpicker.h \
     vgrabber.h \
     vmousetool.h \
     vrectangletool.h \
     vscene.h \
+    vshape.h \
     vtool.h \
     vview.h \
     qdialog.h

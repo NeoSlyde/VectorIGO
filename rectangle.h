@@ -4,24 +4,25 @@
 #include <QObject>
 #include <QGraphicsRectItem>
 #include "vgrabber.h"
+#include "vshape.h"
 
 
 class VRectangle;
 
-class VRectangle : public QObject, public QGraphicsRectItem
+class VRectangle : public VShape, public QGraphicsRectItem
 {
-    Q_OBJECT
+
 
 public:
     VRectangle(QObject *parent = nullptr, QGraphicsItem *parentGraphic = nullptr);
+    QLayout* getPanel() override;
     //~VRectangle();
-    //VRectangle(qreal x, qreal y, qreal w, qreal h, QObject *parent = nullptr, QGraphicsItem *parentGraphic = nullptr);
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
     QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void updateGrabbersPosition();
     void updateGrabbersVisibility();
-
+    QString toString() override;
 
 private:
     VGrabber* grabber1 = nullptr;
@@ -32,13 +33,16 @@ private:
     VGrabber* grabber6 = nullptr;
     VGrabber* grabber7 = nullptr;
     VGrabber* grabber8 = nullptr;
-    QPointF anchorGrabberDeformation;
-    QPointF mousePressScenePoint;
     qreal distance(QPointF p1, QPointF p2);
+    void resize(QPointF moveDest );
+    void doRotation(int rota);
+    QPointF anchorGrabberDeformation;
+    QColor strokeColor;
+    QColor FillColor;
+    qreal thickness;
 
 public slots:
-    void resize(QGraphicsSceneMouseEvent *event);
-
+    //mouse inputs
     void moveResizeFromTopLeft(QGraphicsSceneMouseEvent *event);
     void pressResizeFromTopLeft(QGraphicsSceneMouseEvent *event);
 
@@ -55,6 +59,17 @@ public slots:
     void resizeFromBtm(QGraphicsSceneMouseEvent *event);
     void resizeFromRight(QGraphicsSceneMouseEvent *event);
     void resizeFromLeft(QGraphicsSceneMouseEvent *event);
+
+    //panel inputs
+    void slotRotate(int rota);
+    void slotResizeFromTopLeftX(int x);
+    void slotResizeFromTopLeftY(int y);
+    void setWidth(qreal inputWidth);
+    void setHeight(qreal inputHeight);
+    void updateStrokeColor(QColor col);
+    void updateFillColor(QColor col);
+    void updateThickness(qreal thickness);
+
 };
 
 #endif // RECTANGLE_H

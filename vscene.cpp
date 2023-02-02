@@ -8,12 +8,13 @@
 #include <algorithm>
 #include <iostream>
 #include "vgrabber.h"
+#include <QKeyEvent>
 
 
 VScene::VScene(QObject *parent) :
     QGraphicsScene::QGraphicsScene(parent)
 {
-    setSceneRect(0,0,800,800);
+    setSceneRect(0,0,800,600);
 }
 
 void VScene::mousePressEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
@@ -29,6 +30,38 @@ void VScene::mouseMoveEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
 void VScene::mouseReleaseEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
 {
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
+}
+
+VShape *VScene::getSelectedShape()
+{
+    QList<QGraphicsItem*> selectedItemslist = selectedItems();
+    if(selectedItemslist.empty()) return NULL;
+
+    VShape* selectedShape = dynamic_cast<VShape*>(selectedItemslist.at(0));
+    return (selectedShape==nullptr)? NULL:selectedShape;
+}
+
+ QList<QGraphicsItem*>* VScene::getShapes()
+{
+    QList<QGraphicsItem*> itemsL = items();
+    QList<QGraphicsItem*>* shapes = new QList<QGraphicsItem*>();
+    foreach (QGraphicsItem* item, itemsL) {
+        VShape* shape = dynamic_cast<VShape*>(item);
+        if(shape!=nullptr){
+            shapes->append(item);
+        }
+    }
+    return shapes;
+}
+
+
+void VScene::removeAllShapes()
+{
+    QList<QGraphicsItem*>* shapes = getShapes();
+    for (QGraphicsItem* shape: *shapes) {
+        removeItem(shape);
+        delete shape;
+    }
 }
 
 
@@ -52,6 +85,23 @@ void VScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void VScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     emit sigmouseReleaseEvent(mouseEvent, this);
+}
+
+
+void VScene::keyPressEvent(QKeyEvent *keyEvent)
+{
+    if(keyEvent->key()==Qt::Key_Delete){
+        QList<QGraphicsItem*> selectedItemslist = selectedItems();
+
+        foreach (QGraphicsItem* item, selectedItemslist) {
+            removeItem(item);
+            delete item;
+        }
+        emit sigRemoveItems();
+        return;
+    }
+
+    QGraphicsScene::keyPressEvent(keyEvent);
 }
 
 
