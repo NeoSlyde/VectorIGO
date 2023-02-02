@@ -161,8 +161,26 @@
          <item>
           <widget class="QPushButton" name="_save">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(13, 140, 232);
-color: rgb(255, 255, 255);</string>
+            <string notr="true">QPushButton
+{
+background-color: rgb(13, 140, 232);
+color: rgb(255, 255, 255);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color: white;
+font: bold 14px;
+min-width: 4em;
+padding: 6px;
+}
+QPushButton:pressed
+{
+  background-color: rgb(0, 66, 117);
+}
+QPushButton:hover:!pressed
+{
+  background-color: rgb(71, 176, 255);
+}</string>
            </property>
            <property name="text">
             <string>Save</string>
@@ -172,8 +190,26 @@ color: rgb(255, 255, 255);</string>
          <item>
           <widget class="QPushButton" name="_clear">
            <property name="styleSheet">
-            <string notr="true">background-color: rgb(255, 36, 36);
-color: rgb(255, 255, 255);</string>
+            <string notr="true">QPushButton
+{
+background-color: rgb(255, 36, 36);
+color: rgb(255, 255, 255);
+border-style: outset;
+border-width: 1px;
+border-radius: 10px;
+border-color: white;
+font: bold 14px;
+min-width: 2em;
+padding: 6px;
+}
+QPushButton:pressed
+{
+  background-color: rgb(115, 6, 6);     
+}
+QPushButton:hover:!pressed
+{
+  background-color: rgb(255, 91, 91);
+}</string>
            </property>
            <property name="text">
             <string>Clear</string>
