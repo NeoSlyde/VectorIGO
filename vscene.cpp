@@ -90,7 +90,7 @@ void VScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void VScene::keyPressEvent(QKeyEvent *keyEvent)
 {
-    if(keyEvent->key()==Qt::Key_Backspace){
+    if(keyEvent->key()==Qt::Key_Delete){
         QList<QGraphicsItem*> selectedItemslist = selectedItems();
 
         foreach (QGraphicsItem* item, selectedItemslist) {

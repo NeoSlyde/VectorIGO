@@ -179,6 +179,19 @@ QLayout* VRectangle::getPanel()
     std::cout << "GET PANEL" << std::endl;
     QVBoxLayout* panel = new QVBoxLayout();
 
+    QLabel* labelSettings = new QLabel();
+    labelSettings->setAlignment(Qt::AlignCenter);
+    labelSettings->setText(QString("Settings"));
+    panel->addWidget(labelSettings);
+    labelSettings->setStyleSheet("QLabel { padding-bottom: 10px; }");
+    QFont font = labelSettings->font();
+    font.setBold(true);
+    font.setPointSize(14);
+    labelSettings->setFont(font);
+    QFrame* line = new QFrame();
+    line->setFrameShape(QFrame::HLine);
+    line->setFrameShadow(QFrame::Sunken);
+    panel->addWidget(line);
 //
 
     QLabel* lableTL = new QLabel();
