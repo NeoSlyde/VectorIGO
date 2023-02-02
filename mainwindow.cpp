@@ -18,11 +18,12 @@ MainWindow::MainWindow(QWidget *parent)
     _undo->setIcon(QIcon(":/ressources/undo.png"));
     _redo->setIcon(QIcon(":/ressources/redo.png"));
 
-    //set #E9E9E9 background to groupBox_2
     QPalette palette = _groupBox_2->palette();
     palette.setColor(QPalette::Window, QColor("#CECECE"));
     _groupBox_2->setPalette(palette);
     _groupBox_2->setAutoFillBackground(true);
+    _groupBox_2->setStyleSheet("QGroupBox {border: 1px solid gray;border-radius: 9px;margin-top: 0.5em;}QGroupBox::title {subcontrol-origin: margin;subcontrol-position: top center;padding: 0 3px;}");
+
 
 
 
