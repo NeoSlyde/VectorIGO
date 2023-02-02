@@ -14,7 +14,7 @@ void VRectangleTool::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent, VScen
 //    QPointF originePoint = mouseEvent->buttonDownScenePos(Qt::RightButton);
     pBuildingRectangle = new VRectangle();
     pBuildingRectangle->setRect(0, 0, 6, 6);
-    pBuildingRectangle->setSelected(true);
+    //pBuildingRectangle->setSelected(true);
     scene->addItem(pBuildingRectangle);
     pBuildingRectangle->setPos( mouseEvent->scenePos().x(), mouseEvent->scenePos().y() );
 }
@@ -34,7 +34,7 @@ void VRectangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene
 
     pBuildingRectangle->setPos(x_top_left,y_top_left);
     pBuildingRectangle->setRect(0, 0, width, height);
-    pBuildingRectangle->setSelected(true);
+    //pBuildingRectangle->setSelected(true);
     pBuildingRectangle->updateGrabbersPosition();
 }
 

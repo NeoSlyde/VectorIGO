@@ -19,6 +19,7 @@ MainWindow::MainWindow(QWidget *parent)
           colorPickerStroke->close();
       }))
 {
+
     setupUi(this);
     scene = new VScene(this);
     _graphicsView->setScene(scene);
@@ -53,8 +54,22 @@ MainWindow::MainWindow(QWidget *parent)
             toolManager, &ToolManager::slotMouseRelease
         );
 
-}
 
+        connect(
+            scene, &VScene::sigmouseReleaseEvent,
+            this, &MainWindow::updatePanel
+        );
+
+        connect(
+            scene, &VScene::sigmouseMoveEvent,
+            this, &MainWindow::updatePanel
+        );
+
+        connect(
+            scene, &VScene::sigRemoveItems,
+            this, &MainWindow::updatePanel
+        );
+}
 
 
 
@@ -116,6 +131,38 @@ void MainWindow::openColorPickerFill() {
 
 void MainWindow::openColorPickerStroke() {
     colorPickerStroke->show();
+}
+
+
+
+
+void clearLayout(QLayout* layout, bool deleteWidgets = true)
+{
+    while (QLayoutItem* item = layout->takeAt(0))
+    {
+        if (deleteWidgets)
+        {
+            if (QWidget* widget = item->widget())
+                widget->deleteLater();
+        }
+        if (QLayout* childLayout = item->layout())
+            clearLayout(childLayout, deleteWidgets);
+        delete item;
+    }
+}
+
+
+void MainWindow::updatePanel()
+{
+    clearLayout(_verticalLayout);
+
+    if(scene->getSelectedShape()==NULL){
+        std::cout << "pas de shape selected: " << std::endl;
+        return;
+    }else{
+        QLayout* panel = scene->getSelectedShape()->getPanel();
+        _verticalLayout->addLayout(panel);
+    }
 }
 
 MainWindow::~MainWindow()

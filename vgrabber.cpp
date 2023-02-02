@@ -9,11 +9,11 @@ VGrabber::VGrabber(qreal x, qreal y, QObject *parent, QGraphicsItem *parentGraph
     QGraphicsRectItem(parentGraphic)
 {
     setFlag(QGraphicsItem::ItemIsMovable, true);
-    setFlag(QGraphicsItem::ItemIsSelectable, true);
-    setFlag(QGraphicsItem::ItemIsFocusable, true);
+    //setFlag(QGraphicsItem::ItemIsSelectable, true);
+    //setFlag(QGraphicsItem::ItemIsFocusable, true);
     setRect(QRectF(0,0,width(),height()));
     setPos(x,y);
-    parentGraphic->setSelected(true);
+    //parentGraphic->setSelected(true);
     _pen = QPen(Qt::black);
     _brush = QBrush(Qt::white);
     setPen(_pen);

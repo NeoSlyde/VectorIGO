@@ -27,6 +27,7 @@ public:
 public slots:
     void openColorPickerFill();
     void openColorPickerStroke();
+    void updatePanel();
     void btn1Function();
     void btn2Function();
     void btn3Function();

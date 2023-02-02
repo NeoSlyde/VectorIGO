@@ -19,5 +19,4 @@ void VView::drawBackground(QPainter *painter, const QRectF &rect)
 
 
 
-
 }

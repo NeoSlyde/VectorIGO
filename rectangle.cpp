@@ -6,13 +6,17 @@
 #include <QGraphicsItem>
 #include <QGraphicsScene>
 #include <iostream>
+#include "vcolorpicker.h"
 #include "vgrabber.h"
 #include <QGraphicsSceneMouseEvent>
 #include <cmath>
+#include <QLabel>
+#include <QSpinBox>
+#include <QLineEdit>
 
 
 VRectangle::VRectangle(QObject *parent, QGraphicsItem *parentGraphic):
-    QObject(parent),
+    VShape(parent),
     VRectangle::QGraphicsRectItem(parentGraphic)
 {    
     setFlag(QGraphicsItem::ItemIsMovable, true);
@@ -20,6 +24,10 @@ VRectangle::VRectangle(QObject *parent, QGraphicsItem *parentGraphic):
     setFlag(QGraphicsItem::ItemIsFocusable, true);
     setFlag(QGraphicsItem::ItemSendsGeometryChanges, true);
     setFlag(QGraphicsItem::ItemSendsScenePositionChanges, true);
+
+    strokeColor = QColor(Qt::red);
+    FillColor = QColor(Qt::blue);
+    thickness = 3;
 
     grabber1 = new VGrabber(0-VGrabber::width(), 0-VGrabber::height(), nullptr, this);
     QObject::connect(grabber1, &VGrabber::sigMousePressEvent,this, &VRectangle::pressResizeFromTopLeft);
@@ -51,34 +59,25 @@ VRectangle::VRectangle(QObject *parent, QGraphicsItem *parentGraphic):
 }
 
 
-//VRectangle::VRectangle(qreal x, qreal y, qreal w, qreal h, QObject *parent, QGraphicsItem *parentGraphic)
-//{
-//    VRectangle::QGraphicsRectItem(x, y, w, h, parentGraphic);
-//    VRectangle(parent, parentGraphic);
-//}
-
-
-
 
 void VRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
-    QStyleOptionGraphicsItem myoption = (*option);
-    myoption.state &= !QStyle::State_Selected;
+    setPen(QPen(strokeColor, thickness));
+    setBrush(FillColor);
 
-    QColor redColor(Qt::red);
-    QPen redPen(redColor);
-    redPen.setWidth(0);
-    setPen(redPen);
-
-    if(isSelected()){
-        QBrush grayBrush(Qt::lightGray);
-        setBrush(grayBrush);
-    }else{
-        QBrush blueBrush(Qt::blue);
-        setBrush(blueBrush);
+    if(thickness<=0.01){
+        setPen(QPen(Qt::transparent));
     }
 
-    QGraphicsRectItem::paint(painter, &myoption, widget);
+//    if(isSelected()){
+//        QBrush grayBrush(Qt::lightGray);
+//        setBrush(grayBrush);
+//    }
+
+//    QStyleOptionGraphicsItem myoption = (*option);
+//    myoption.state &= !QStyle::State_Selected;
+
+    QGraphicsRectItem::paint(painter, option, widget);
 }
 
 
@@ -86,7 +85,7 @@ void VRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 QVariant VRectangle::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     // Keep the shape inside the scene rect
-/**/    if (change == ItemPositionChange && scene()) {
+    if (change == ItemPositionChange && scene()) {
         // value is the new position.
         QPointF newPos = value.toPointF();
         QRectF rect = scene()->sceneRect();
@@ -97,18 +96,19 @@ QVariant VRectangle::itemChange(GraphicsItemChange change, const QVariant &value
             return newPos;
         }
     }
-/**/
+
     // Toggle grabbers if selected or not
-    if (change == QGraphicsItem::ItemSelectedChange && scene() )
+    if (change == QGraphicsItem::ItemSelectedHasChanged && scene() )
         {
-        updateGrabbersVisibility();
+            updateGrabbersVisibility();
         }
 
     //mise a jout position des grabbers ultra laggy ici
-//    if (scene()  && change == QGraphicsItem::ItemSelectedChange)
-//    {
-//        updateGrabbers();
-//    }
+    if (scene()  && change == QGraphicsItem::ItemPositionHasChanged)
+    {
+        updateGrabbersPosition();
+        updateGrabbersVisibility();
+    }
 
     // Traitement de base
     return QGraphicsItem::itemChange(change, value);
@@ -118,12 +118,10 @@ QVariant VRectangle::itemChange(GraphicsItemChange change, const QVariant &value
 
 
 
-//--------------------------GRABBERS--------------------------
 
 void VRectangle::updateGrabbersPosition()
 {
     prepareGeometryChange();
-    //update position
     grabber1->updatePosition(0-VGrabber::width(), 0-VGrabber::height());
     grabber2->updatePosition(rect().width(), 0-VGrabber::height());
     grabber3->updatePosition(rect().width() , rect().height());
@@ -133,23 +131,16 @@ void VRectangle::updateGrabbersPosition()
     grabber7->updatePosition(rect().width()/2-VGrabber::width()/2, rect().height());
     grabber8->updatePosition(0-VGrabber::width(), rect().height()/2-VGrabber::height()/2);
     update();
-
-
 }
 
 void VRectangle::updateGrabbersVisibility()
 {
     if(isSelected()){
-        grabber1->setVisible(false);
-        grabber2->setVisible(false);
-        grabber3->setVisible(false);
-        grabber4->setVisible(false);
-        grabber5->setVisible(false);
-        grabber6->setVisible(false);
-        grabber7->setVisible(false);
-        grabber8->setVisible(false);
-    }
-    else{
+        scene()->selectedItems().count();
+        VShape* selectedShape = dynamic_cast<VShape*>(scene()->selectedItems().at(0));
+
+
+        std::cout << "RECT SELECTED" << selectedShape->toString().toStdString() <<std::endl;
         grabber1->setVisible(true);
         grabber2->setVisible(true);
         grabber3->setVisible(true);
@@ -165,70 +156,373 @@ void VRectangle::updateGrabbersVisibility()
             grabber4->setVisible(false);
         }
     }
+    else{
+        std::cout << "RECT NOT SELECTED" << scene()->selectedItems().count() <<std::endl;
+        grabber1->setVisible(false);
+        grabber2->setVisible(false);
+        grabber3->setVisible(false);
+        grabber4->setVisible(false);
+        grabber5->setVisible(false);
+        grabber6->setVisible(false);
+        grabber7->setVisible(false);
+        grabber8->setVisible(false);
+    }
 }
+
+QString VRectangle::toString()
+{
+    return QString("Ceci est un rectangle");
+}
+
+QLayout* VRectangle::getPanel()
+{
+    std::cout << "GET PANEL" << std::endl;
+    QVBoxLayout* panel = new QVBoxLayout();
+
+//
+
+    QLabel* lableTL = new QLabel();
+    lableTL->setAlignment(Qt::AlignCenter);
+    lableTL->setText(QString("Top Left Coordinates"));
+    panel->addWidget(lableTL);
+
+    QHBoxLayout* layoutCoordTL = new QHBoxLayout();
+    panel->addItem(layoutCoordTL);
+
+    QLabel* labelTLX = new QLabel();
+    labelTLX->setText(QString("X:"));
+    layoutCoordTL->addWidget(labelTLX);
+
+    QLineEdit* lineEditTLX = new QLineEdit();
+    lineEditTLX->setText( QString::number(mapToScene(rect().topLeft()).x()) );
+    lineEditTLX->setReadOnly(true);
+    lineEditTLX->setAlignment(Qt::AlignCenter);
+    //lineEditTPX->setMaximumWidth(38);
+    layoutCoordTL->addWidget(lineEditTLX);
+
+    QLabel* labelTLY = new QLabel();
+    labelTLY->setText(QString("Y:"));
+    layoutCoordTL->addWidget(labelTLY);
+
+    QLineEdit* lineEditTLY = new QLineEdit();
+    lineEditTLY->setText( QString::number(mapToScene(rect().topLeft()).y()) );
+    lineEditTLY->setReadOnly(true);
+    lineEditTLY->setAlignment(Qt::AlignCenter);
+    //lineEditTPY->setMaximumWidth(38);
+    layoutCoordTL->addWidget(lineEditTLY);
+
+//
+
+    QLabel* lableTR = new QLabel();
+    lableTR->setAlignment(Qt::AlignCenter);
+    lableTR->setText(QString("Top Right Coordinates"));
+    panel->addWidget(lableTR);
+
+    QHBoxLayout* layoutCoordTR = new QHBoxLayout();
+    panel->addItem(layoutCoordTR);
+
+    QLabel* labelTRX = new QLabel();
+    labelTRX->setText(QString("X:"));
+    layoutCoordTR->addWidget(labelTRX);
+
+    QLineEdit* lineEditTRX = new QLineEdit();
+    lineEditTRX->setText( QString::number(mapToScene(rect().topRight()).x()) );
+    lineEditTRX->setReadOnly(true);
+    lineEditTRX->setAlignment(Qt::AlignCenter);
+    //lineEditTRX->setMaximumWidth(38);
+    layoutCoordTR->addWidget(lineEditTRX);
+
+    QLabel* labelTRY = new QLabel();
+    labelTRY->setText(QString("Y:"));
+    layoutCoordTR->addWidget(labelTRY);
+
+    QLineEdit* lineEditTRY = new QLineEdit();
+    lineEditTRY->setText( QString::number(mapToScene(rect().topRight()).y()) );
+    lineEditTRY->setReadOnly(true);
+    lineEditTRY->setAlignment(Qt::AlignCenter);
+    //lineEditTRY->setMaximumWidth(38);
+    layoutCoordTR->addWidget(lineEditTRY);
+//
+//
+
+    QLabel* lableBR = new QLabel();
+    lableBR->setAlignment(Qt::AlignCenter);
+    lableBR->setText(QString("Bottom Right Coordinates"));
+    panel->addWidget(lableBR);
+
+    QHBoxLayout* layoutCoordBR = new QHBoxLayout();
+    panel->addItem(layoutCoordBR);
+
+    QLabel* labelBRX = new QLabel();
+    labelBRX->setText(QString("X:"));
+    layoutCoordBR->addWidget(labelBRX);
+
+    QLineEdit* lineEditBRX = new QLineEdit();
+    lineEditBRX->setText( QString::number(mapToScene(rect().bottomRight()).x()) );
+    lineEditBRX->setReadOnly(true);
+    lineEditBRX->setAlignment(Qt::AlignCenter);
+    //lineEditTPX->setMaximumWidth(38);
+    layoutCoordBR->addWidget(lineEditBRX);
+
+    QLabel* labelBRY = new QLabel();
+    labelBRY->setText(QString("Y:"));
+    layoutCoordBR->addWidget(labelBRY);
+
+    QLineEdit* lineEditBRY = new QLineEdit();
+    lineEditBRY->setText( QString::number(mapToScene(rect().bottomRight()).y()) );
+    lineEditBRY->setReadOnly(true);
+    lineEditBRY->setAlignment(Qt::AlignCenter);
+    //lineEditTPY->setMaximumWidth(38);
+    layoutCoordBR->addWidget(lineEditBRY);
+
+//
+//
+
+    QLabel* lableBL = new QLabel();
+    lableBL->setAlignment(Qt::AlignCenter);
+    lableBL->setText(QString("Bottom Left Coordinates"));
+    panel->addWidget(lableBL);
+
+    QHBoxLayout* layoutCoordBL = new QHBoxLayout();
+    panel->addItem(layoutCoordBL);
+
+    QLabel* labelBLX = new QLabel();
+    labelBLX->setText(QString("X:"));
+    layoutCoordBL->addWidget(labelBLX);
+
+    QLineEdit* lineEditBLX = new QLineEdit();
+    lineEditBLX->setText( QString::number(mapToScene(rect().bottomLeft()).x()) );
+    lineEditBLX->setReadOnly(true);
+    lineEditBLX->setAlignment(Qt::AlignCenter);
+    //lineEditTPX->setMaximumWidth(38);
+    layoutCoordBL->addWidget(lineEditBLX);
+
+    QLabel* labelBLY = new QLabel();
+    labelBLY->setText(QString("Y:"));
+    layoutCoordBL->addWidget(labelBLY);
+
+    QLineEdit* lineEditBLY = new QLineEdit();
+    lineEditBLY->setText( QString::number(mapToScene(rect().bottomLeft()).y()) );
+    lineEditBLY->setReadOnly(true);
+    lineEditBLY->setAlignment(Qt::AlignCenter);
+    //lineEditTPY->setMaximumWidth(38);
+    layoutCoordBL->addWidget(lineEditBLY);
+
+//
+//
+    QHBoxLayout* layoutWidth = new QHBoxLayout();
+    layoutWidth->setAlignment(Qt::AlignLeft);
+    panel->addItem(layoutWidth);
+
+    QLabel* labelWidth = new QLabel();
+    labelWidth->setAlignment(Qt::AlignCenter);
+    labelWidth->setText(QString("Width"));
+    layoutWidth->addWidget(labelWidth);
+
+    QSpinBox* spinBoxWidth = new QSpinBox();
+    spinBoxWidth->setRange(4, INT_MAX);
+    spinBoxWidth->setValue(rect().width());
+    spinBoxWidth->setAlignment(Qt::AlignCenter);
+    connect(  spinBoxWidth, &QSpinBox::valueChanged,  this, &VRectangle::setWidth );
+    layoutWidth->addWidget(spinBoxWidth);
+
+//
+//
+    QHBoxLayout* layoutHeight = new QHBoxLayout();
+    panel->addItem(layoutHeight);
+    layoutHeight->setAlignment(Qt::AlignLeft);
+
+    QLabel* labelHeight = new QLabel();
+    labelHeight->setAlignment(Qt::AlignCenter);
+    labelHeight->setText(QString("Height"));
+    layoutHeight->addWidget(labelHeight);
+
+    QSpinBox* spinBoxHeight = new QSpinBox();
+    spinBoxHeight->setRange(4, INT_MAX);
+    spinBoxHeight->setValue(rect().height());
+    spinBoxHeight->setAlignment(Qt::AlignCenter);
+    connect(  spinBoxHeight, &QSpinBox::valueChanged,  this, &VRectangle::setHeight );
+    layoutHeight->addWidget(spinBoxHeight);
+
+//
+//
+    QHBoxLayout* layoutRoata = new QHBoxLayout();
+    panel->addItem(layoutRoata);
+    layoutRoata->setAlignment(Qt::AlignLeft);
+
+    QLabel* labelRota = new QLabel();
+    labelRota->setAlignment(Qt::AlignCenter);
+    labelRota->setText(QString("Rotation"));
+    layoutRoata->addWidget(labelRota);
+
+    QSpinBox* spinBoxRota = new QSpinBox();
+    spinBoxRota->setRange(0, 360);
+    spinBoxRota->setValue(rotation());
+    spinBoxRota->setAlignment(Qt::AlignCenter);
+    connect(  spinBoxRota, &QSpinBox::valueChanged,  this, &VRectangle::slotRotate );
+    layoutRoata->addWidget(spinBoxRota);
+
+//
+    QHBoxLayout* layoutThickness = new QHBoxLayout();
+    panel->addItem(layoutThickness);
+    layoutThickness->setAlignment(Qt::AlignLeft);
+
+    QLabel* labelThickness = new QLabel();
+    labelThickness->setAlignment(Qt::AlignCenter);
+    labelThickness->setText(QString("Thickness"));
+    layoutThickness->addWidget(labelThickness);
+
+    QDoubleSpinBox* spinBoxThickness = new QDoubleSpinBox();
+    spinBoxThickness->setRange(0, 40);
+    spinBoxThickness->setValue(thickness);
+    spinBoxThickness->setAlignment(Qt::AlignCenter);
+    connect(  spinBoxThickness, &QDoubleSpinBox::valueChanged,  this, &VRectangle::updateThickness );
+    layoutThickness->addWidget(spinBoxThickness);
+//
+    QLabel* labelColor = new QLabel();
+    labelColor->setAlignment(Qt::AlignCenter);
+    labelColor->setText(QString("Color"));
+    panel->addWidget(labelColor);
+
+    QHBoxLayout* layoutColor = new QHBoxLayout();
+    panel->addItem(layoutColor);
+
+    QLabel* labelSC = new QLabel();
+    labelSC->setAlignment(Qt::AlignCenter);
+    labelSC->setText(QString("Stroke"));
+    layoutColor->addWidget(labelSC);
+
+    VColorPicker* colorPickerStroke = new VColorPicker();
+    colorPickerStroke->setColor(strokeColor);
+    connect(  colorPickerStroke, &VColorPicker::sigColorChanged,  this, &VRectangle::updateStrokeColor );
+    layoutColor->addWidget(colorPickerStroke);
+
+    QLabel* labelFC = new QLabel();
+    labelFC->setAlignment(Qt::AlignCenter);
+    labelFC->setText(QString("Fill"));
+    layoutColor->addWidget(labelFC);
+
+    VColorPicker* colorPickerFill = new VColorPicker();
+    colorPickerFill->setColor(FillColor);
+    connect(  colorPickerFill, &VColorPicker::sigColorChanged,  this, &VRectangle::updateFillColor );
+    layoutColor->addWidget(colorPickerFill);
+
+//  
+    return panel;
+}
+
+
+
 
 qreal VRectangle::distance(QPointF p1, QPointF p2)
 {
     return sqrt(pow(p2.x() - p1.x(), 2) + pow(p2.y() - p1.y(), 2) * 1.0);
 }
 
-void VRectangle::resize(QGraphicsSceneMouseEvent *event)
+
+void VRectangle::resize(QPointF moveDest )
 {
     std::cout << "GRABBER SIG RECEIVE" << std::endl;
-    int x_top_left = std::min(anchorGrabberDeformation.x(), event->scenePos().x());
-    int y_top_left = std::min(anchorGrabberDeformation.y(), event->scenePos().y());
+    int x_top_left = std::min(anchorGrabberDeformation.x(), moveDest.x());
+    int y_top_left = std::min(anchorGrabberDeformation.y(), moveDest.y());
 
-    int width = std::abs(event->scenePos().x()-anchorGrabberDeformation.x());
-    int height = std::abs(event->scenePos().y()-anchorGrabberDeformation.y());
+    int width = std::abs(moveDest.x()-anchorGrabberDeformation.x());
+    int height = std::abs(moveDest.y()-anchorGrabberDeformation.y());
 
     setPos(x_top_left,y_top_left);
     setRect(0, 0, width, height);
     updateGrabbersPosition();
 }
 
-//--------------------------
+void VRectangle::setWidth(qreal inputWidth)
+{
+    QRectF rec = rect();
+    rec.setWidth(inputWidth);
+    setRect(rec);
+    updateGrabbersPosition();
+}
+
+void VRectangle::setHeight(qreal inputHeight)
+{
+    QRectF rec = rect();
+    rec.setHeight(inputHeight);
+    setRect(rec);
+    updateGrabbersPosition();
+
+}
+
+void VRectangle::updateStrokeColor(QColor col)
+{
+    strokeColor = col;
+    update();
+}
+
+void VRectangle::updateFillColor(QColor col)
+{
+    FillColor = col;
+    update();
+}
+
+void VRectangle::updateThickness(qreal thickness)
+{
+    this->thickness = thickness;
+    update();
+}
+
+void VRectangle::doRotation(int rota)
+{
+    setTransformOriginPoint(rect().center());
+    setRotation(rota);
+    updateGrabbersVisibility();
+}
+
+
+//-----------------------MOUSE INPUTS---------------------
+
 void VRectangle::moveResizeFromTopLeft(QGraphicsSceneMouseEvent *event)
 {
-    resize(event);
+    resize( event->scenePos() );
 }
 
 void VRectangle::pressResizeFromTopLeft(QGraphicsSceneMouseEvent *event)
 {
-    anchorGrabberDeformation = QPointF(  pos() + rect().bottomRight()  );
-    mousePressScenePoint = QPointF(event->scenePos());
+    anchorGrabberDeformation = mapToScene(rect().bottomRight());
 }
-//--------------------------
+
 
 void VRectangle::moveResizeFromTopRight(QGraphicsSceneMouseEvent *event)
 {
-    resize(event);
+    resize( event->scenePos() );
+
 }
 
 void VRectangle::pressResizeFromTopRight(QGraphicsSceneMouseEvent *event)
 {
-    anchorGrabberDeformation = QPointF(rect().bottomLeft().x()+pos().x(), rect().bottomLeft().y()+pos().y());
+    anchorGrabberDeformation = mapToScene(rect().bottomLeft());
 }
 
 
 void VRectangle::moveResizeFromBtmRight(QGraphicsSceneMouseEvent *event)
 {
-    resize(event);
+    resize( event->scenePos() );
+
 }
 
 void VRectangle::pressResizeFromBtmRight(QGraphicsSceneMouseEvent *event)
 {
-    anchorGrabberDeformation = QPointF(rect().topLeft().x()+pos().x(), rect().topLeft().y()+pos().y());
+    anchorGrabberDeformation = mapToScene(rect().topLeft());
 }
 
 
 void VRectangle::moveResizeFromBtmLeft(QGraphicsSceneMouseEvent *event)
 {
-    resize(event);
+    resize( event->scenePos() );
+
 }
 
 void VRectangle::pressResizeFromBtmLeft(QGraphicsSceneMouseEvent *event)
 {
-    anchorGrabberDeformation = QPointF(rect().topRight().x()+pos().x(), rect().topRight().y()+pos().y());
+    anchorGrabberDeformation = mapToScene(rect().topRight());
 }
 
 
@@ -239,8 +533,6 @@ void VRectangle::resizeFromTop(QGraphicsSceneMouseEvent *event)
     QPointF p1 = event->lastScenePos();
     QPointF p2 = event->scenePos();
     qreal dist = distance(p1,p2);
-    //qreal dist_prev_centre = distance(p1,mapToParent(rect().center()));
-    //qreal dist_cur_centre  = distance(p2,mapToParent(rect().center()));
 
     QRectF rec = rect();
     rec.setHeight(  (contains(mapFromParent(p2)))? rec.height()-dist:rec.height()+dist );
@@ -265,11 +557,6 @@ void VRectangle::resizeFromBtm(QGraphicsSceneMouseEvent *event)
     QRectF rec = rect();
     rec.setHeight(  (contains(mapFromParent(p2)))? rec.height()-dist:rec.height()+dist );
     if(rec.width()<=4 || rec.height()<=4) return;
-
-//    if(contains(mapFromParent(p2)))
-//        moveBy(-dist*cos(rotation()*M_PI/180.0 +3*M_PI/2), -dist*sin(rotation()*M_PI/180.0 +3*M_PI/2));
-//    else
-//        moveBy(-dist*cos(rotation()*M_PI/180.0 +3*M_PI/2), -dist*sin(rotation()*M_PI/180.0 +3*M_PI/2));
 
     setRect(rec);
     updateGrabbersPosition();
@@ -308,6 +595,28 @@ void VRectangle::resizeFromLeft(QGraphicsSceneMouseEvent *event)
     setRect(rec);
     updateGrabbersPosition();
 
+}
+
+
+//---------------------PANEL INPUTS-------------------------
+
+
+void VRectangle::slotResizeFromTopLeftX(int x)
+{
+    resize( QPointF(x, mapToParent(rect().topLeft()).y())  );
+    anchorGrabberDeformation = mapToParent(rect().bottomRight());
+}
+
+void VRectangle::slotResizeFromTopLeftY(int y)
+{
+    resize( QPointF(mapToParent(rect().topLeft()).x(), y) );
+    anchorGrabberDeformation = mapToParent(rect().bottomRight());
+}
+
+
+void VRectangle::slotRotate(int rota)
+{
+    doRotation(rota);
 }
 
 
