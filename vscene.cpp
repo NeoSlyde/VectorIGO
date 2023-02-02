@@ -41,6 +41,29 @@ VShape *VScene::getSelectedShape()
     return (selectedShape==nullptr)? NULL:selectedShape;
 }
 
+ QList<QGraphicsItem*>* VScene::getShapes()
+{
+    QList<QGraphicsItem*> itemsL = items();
+    QList<QGraphicsItem*>* shapes = new QList<QGraphicsItem*>();
+    foreach (QGraphicsItem* item, itemsL) {
+        VShape* shape = dynamic_cast<VShape*>(item);
+        if(shape!=nullptr){
+            shapes->append(item);
+        }
+    }
+    return shapes;
+}
+
+
+void VScene::removeAllShapes()
+{
+    QList<QGraphicsItem*>* shapes = getShapes();
+    for (QGraphicsItem* shape: *shapes) {
+        removeItem(shape);
+        delete shape;
+    }
+}
+
 
 
 

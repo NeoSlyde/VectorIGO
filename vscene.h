@@ -17,13 +17,17 @@ public:
     void mouseMoveEventDefault(QGraphicsSceneMouseEvent *mouseEvent);
     void mouseReleaseEventDefault(QGraphicsSceneMouseEvent *mouseEvent);
     VShape* getSelectedShape();
+    QList<QGraphicsItem*>* getShapes();
 
+public slots:
+    void removeAllShapes();
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void keyPressEvent(QKeyEvent* keyEvent) override;
+
 
 
 signals:

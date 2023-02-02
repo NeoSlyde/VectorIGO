@@ -6,29 +6,25 @@
 
 
 MainWindow::MainWindow(QWidget *parent)
-    : QMainWindow(parent), colorPickerFill(new QDialog([&](int h, int s, int l) {
-    qDebug() << "TEST";
-    auto str = std::string("background-color: hsl(") + std::to_string(h) + "," + std::to_string(s) + "," + std::to_string(l)+ ");";
-    _fillChoose->setStyleSheet(QString(str.c_str()));
-    colorPickerFill->close();
-})),
-      colorPickerStroke(new QDialog([&](int h, int s, int l) {
-          qDebug() << "TEST";
-          auto str = std::string("background-color: hsl(") + std::to_string(h) + "," + std::to_string(s) + "," + std::to_string(l)+ ");";
-          _strokeChoose->setStyleSheet(QString(str.c_str()));
-          colorPickerStroke->close();
-      }))
+    : QMainWindow(parent)
 {
-
     setupUi(this);
+    _panel->setVisible(false);
+    setWindowTitle(QString("VectorIGO"));
+    _rectangleTool->setIcon(QIcon(":/ressources/form_square.png"));
+    _mouseTool->setIcon(QIcon(":/ressources/pencil.png"));
+    _textTool->setIcon(QIcon(":/ressources/text.png"));
+    _courbeTool->setIcon(QIcon(":/ressources/pen.png"));
+    _undo->setIcon(QIcon(":/ressources/undo.png"));
+    _redo->setIcon(QIcon(":/ressources/redo.png"));
+
     scene = new VScene(this);
     _graphicsView->setScene(scene);
 
     ToolManager* toolManager = new ToolManager();
 
-
-    connect(_fillChoose, &QPushButton::clicked, this, &MainWindow::openColorPickerFill);
-    connect(_strokeChoose, &QPushButton::clicked, this, &MainWindow::openColorPickerStroke);
+    connect(  _zoom, &QSlider::valueChanged,  this, &MainWindow::updateZoom  );
+    connect(  _reset, &QPushButton::clicked,  this, &MainWindow::resetZoom  );
     connect(
             _mouseTool, &QAbstractButton::clicked,
             toolManager, &ToolManager::setMouseTool
@@ -68,6 +64,11 @@ MainWindow::MainWindow(QWidget *parent)
         connect(
             scene, &VScene::sigRemoveItems,
             this, &MainWindow::updatePanel
+        );
+
+        connect(
+            _clear, &QAbstractButton::clicked,
+            scene, &VScene::removeAllShapes
         );
 }
 
@@ -125,14 +126,6 @@ void MainWindow::sceneToSvg()
     scene->render( &painter );
 }
 
-void MainWindow::openColorPickerFill() {
-    colorPickerFill->show();
-}
-
-void MainWindow::openColorPickerStroke() {
-    colorPickerStroke->show();
-}
-
 
 
 
@@ -158,11 +151,26 @@ void MainWindow::updatePanel()
 
     if(scene->getSelectedShape()==NULL){
         std::cout << "pas de shape selected: " << std::endl;
+         _panel->setVisible(false);
         return;
     }else{
         QLayout* panel = scene->getSelectedShape()->getPanel();
         _verticalLayout->addLayout(panel);
+        _panel->setVisible(true);
     }
+}
+
+void MainWindow::updateZoom(int inputZoom)
+{
+    _graphicsView->resetTransform();
+    //graphicsView->setTransformationAnchor(QGraphicsView::Anchor);
+    qreal zoom = inputZoom/100.0;
+    _graphicsView->scale(zoom,zoom);
+}
+
+void MainWindow::resetZoom()
+{
+    _zoom->setValue(100);
 }
 
 MainWindow::~MainWindow()
