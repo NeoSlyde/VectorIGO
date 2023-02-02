@@ -18,6 +18,15 @@ MainWindow::MainWindow(QWidget *parent)
     _undo->setIcon(QIcon(":/ressources/undo.png"));
     _redo->setIcon(QIcon(":/ressources/redo.png"));
 
+    //set #E9E9E9 background to groupBox_2
+    QPalette palette = _groupBox_2->palette();
+    palette.setColor(QPalette::Window, QColor("#CECECE"));
+    _groupBox_2->setPalette(palette);
+    _groupBox_2->setAutoFillBackground(true);
+
+
+
+
     scene = new VScene(this);
     _graphicsView->setScene(scene);
 
