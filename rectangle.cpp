@@ -141,6 +141,7 @@ void VRectangle::updateGrabbersVisibility()
 
 
         std::cout << "RECT SELECTED" << selectedShape->toString().toStdString() <<std::endl;
+
         grabber1->setVisible(true);
         grabber2->setVisible(true);
         grabber3->setVisible(true);
@@ -420,6 +421,24 @@ QLayout* VRectangle::getPanel()
     connect(  colorPickerFill, &VColorPicker::sigColorChanged,  this, &VRectangle::updateFillColor );
     layoutColor->addWidget(colorPickerFill);
 
+    QHBoxLayout* layoutZvalue = new QHBoxLayout();
+    panel->addItem(layoutZvalue);
+    layoutZvalue->setAlignment(Qt::AlignLeft);
+
+    QLabel* labelZvalue = new QLabel();
+    labelZvalue->setAlignment(Qt::AlignCenter);
+    labelZvalue->setText(QString("Position"));
+    layoutZvalue->addWidget(labelZvalue);
+
+    QSpinBox* spinBoxZvalue = new QSpinBox();
+    spinBoxZvalue->setRange(0, 100);
+    spinBoxZvalue->setValue(zValue());
+    spinBoxZvalue->setAlignment(Qt::AlignCenter);
+    connect(  spinBoxZvalue, &QSpinBox::valueChanged,  this, &VRectangle::updateZvalue );
+    layoutZvalue->addWidget(spinBoxZvalue);
+
+
+
 //  
     return panel;
 }
@@ -632,6 +651,10 @@ void VRectangle::slotRotate(int rota)
     doRotation(rota);
 }
 
+void VRectangle::updateZvalue(int z)
+{
+    setZValue(z);
+}
 
 
 

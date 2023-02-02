@@ -12,6 +12,7 @@ public:
     explicit VShape(QObject *parent = nullptr);
     virtual QLayout* getPanel() =0;
     virtual QString toString() =0;
+    virtual void updateZvalue(int z) =0;
 
 
 

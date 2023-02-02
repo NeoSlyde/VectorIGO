@@ -16,6 +16,7 @@ class VRectangle : public VShape, public QGraphicsRectItem
 public:
     VRectangle(QObject *parent = nullptr, QGraphicsItem *parentGraphic = nullptr);
     QLayout* getPanel() override;
+    void updateZvalue(int z) override;
     //~VRectangle();
 
     void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
