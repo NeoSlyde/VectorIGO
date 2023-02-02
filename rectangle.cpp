@@ -427,7 +427,7 @@ QLayout* VRectangle::getPanel()
 
     QLabel* labelZvalue = new QLabel();
     labelZvalue->setAlignment(Qt::AlignCenter);
-    labelZvalue->setText(QString("Position"));
+    labelZvalue->setText(QString("Position / Z-Value"));
     layoutZvalue->addWidget(labelZvalue);
 
     QSpinBox* spinBoxZvalue = new QSpinBox();
