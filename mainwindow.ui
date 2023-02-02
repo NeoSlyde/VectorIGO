@@ -171,7 +171,7 @@ border-radius: 10px;
 border-color: white;
 font: bold 14px;
 min-width: 4em;
-padding: 6px;
+padding: 3px;
 }
 QPushButton:pressed
 {
@@ -199,8 +199,8 @@ border-width: 1px;
 border-radius: 10px;
 border-color: white;
 font: bold 14px;
-min-width: 2em;
-padding: 6px;
+min-width: 2.5em;
+padding: 3px;
 }
 QPushButton:pressed
 {
