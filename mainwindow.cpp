@@ -1,8 +1,13 @@
+#include <QFileDialog>
+#include <QtGui/QImage>
+#include <QtGui/QPixmap>
+#include <QtWidgets/QGraphicsView>
 #include "mainwindow.h"
 #include "qdialog.h"
 #include <iostream>
 #include "ellipse.h"
 #include <QSvgGenerator>
+
 #include "toolmanager.h"
 
 
@@ -82,11 +87,109 @@ MainWindow::MainWindow(QWidget *parent)
             _clear, &QAbstractButton::clicked,
             scene, &VScene::removeAllShapes
         );
+
+        /* Export */
+
+        connect(actionExport_as_SVG, &QAction::triggered,
+                this, &MainWindow::exportSVG);
+
+        connect(actionExport_as_PNG, &QAction::triggered,
+                this, &MainWindow::exportPNG);
+
+        connect(actionExport_as_JPG, &QAction::triggered,
+                this, &MainWindow::exportJPG);
+
+        connect(actionExport_as_BMP, &QAction::triggered,
+                this, &MainWindow::exportBMP);
 }
 
 
+/* export scene to svg file */
+void MainWindow::exportSVG(){
 
+    /* export scene to svg file.
+     * svg file size = scene size.
+     */
 
+    QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as SVG file."), "filename",
+       tr("SVG files (*.svg)"));
+
+    int padding = 40; /* Top and right padding */
+    QSvgGenerator generator;
+    generator.setFileName(newPath);
+    generator.setSize(QSize(scene->width(), scene->height()));
+    generator.setViewBox(QRect(-padding, -padding, scene->width()+padding, scene->height()+padding));
+    generator.setTitle(tr("VectorIGO SVG document"));
+
+    QPainter painter;
+    painter.begin(&generator);
+    scene->render(&painter);
+    painter.end();
+
+    std::cout << "Exported as SVG file to : " << newPath.toStdString() << std::endl;
+
+}
+
+/* export scene to png file */
+void MainWindow::exportPNG(){
+
+    /* export scene to png file.
+     * png file size = scene size.
+     */
+
+    QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as PNG file."), "filename",
+       tr("PNG files (*.png)"));
+
+    QGraphicsView view(scene);
+    QImage image(view.size(), QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.save(newPath, "PNG");
+
+    std::cout << "Exported as PNG file to : " << newPath.toStdString() << std::endl;
+
+}
+
+/* export scene to jpg file */
+void MainWindow::exportJPG(){
+
+    /* export scene to jpg file.
+     * jpg file size = scene size.
+     */
+
+    QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as JPG file."), "filename",
+       tr("JPG files (*.jpg)"));
+
+    QGraphicsView view(scene);
+    QImage image(view.size(), QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.save(newPath, "JPG");
+
+    std::cout << "Exported as JPG file to : " << newPath.toStdString() << std::endl;
+}
+
+/* export scene to bmp file */
+void MainWindow::exportBMP(){
+
+    /* export scene to bmp file.
+     * bmp file size = scene size.
+     */
+
+    QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as BMP file."), "filename",
+       tr("BMP files (*.bmp)"));
+
+    QGraphicsView view(scene);
+    QImage image(view.size(), QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.save(newPath, "BMP");
+
+    std::cout << "Exported as BMP file to : " << newPath.toStdString() << std::endl;
+}
 
 void MainWindow::btn1Function()
 {
@@ -107,7 +210,6 @@ void MainWindow::btn2Function()
     //graphicsView->scale(2,2);
 }
 
-
 qreal a = 0;
 void MainWindow::btn3Function()
 {
@@ -117,25 +219,6 @@ void MainWindow::btn3Function()
     //rect1->setRotation(a);
 
 
-}
-
-
-
-
-void MainWindow::sceneToSvg()
-{
-    std::cout << "OUIIIIIIIII: " << std::endl;
-
-    QSvgGenerator svgGen;
-    svgGen.setFileName( "/Users/leopaul/Desktop/scene.svg" );
-    svgGen.setSize(QSize(200, 200));
-    svgGen.setViewBox(QRect(0, 0, 200, 200));
-    svgGen.setTitle(tr("SVG Generator Example Drawing"));
-    svgGen.setDescription(tr("description trop cool"));
-
-    QPainter painter( &svgGen );
-
-    scene->render( &painter );
 }
 
 

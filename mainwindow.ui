@@ -443,7 +443,7 @@ font-size: 36px;</string>
      <x>0</x>
      <y>0</y>
      <width>923</width>
-     <height>22</height>
+     <height>23</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuVectorIgo">
@@ -456,6 +456,8 @@ font-size: 36px;</string>
      </property>
      <addaction name="actionExport_as_SVG"/>
      <addaction name="actionExport_as_PNG"/>
+     <addaction name="actionExport_as_JPG"/>
+     <addaction name="actionExport_as_BMP"/>
     </widget>
     <addaction name="actionNew"/>
     <addaction name="actionOpen_Project"/>
@@ -581,6 +583,16 @@ font-size: 36px;</string>
   <action name="actionAbout">
    <property name="text">
     <string>About</string>
+   </property>
+  </action>
+  <action name="actionExport_as_JPG">
+   <property name="text">
+    <string>Export as JPG...</string>
+   </property>
+  </action>
+  <action name="actionExport_as_BMP">
+   <property name="text">
+    <string>Export as BMP...</string>
    </property>
   </action>
  </widget>

@@ -338,7 +338,7 @@ QLayout* VRectangle::getPanel()
     spinBoxWidth->setRange(4, INT_MAX);
     spinBoxWidth->setValue(rect().width());
     spinBoxWidth->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxWidth, &QSpinBox::valueChanged,  this, &VRectangle::setWidth );
+   // connect(  spinBoxWidth, &QSpinBox::valueChanged,  this, &VRectangle::setWidth );
     layoutWidth->addWidget(spinBoxWidth);
 
 //
@@ -356,7 +356,7 @@ QLayout* VRectangle::getPanel()
     spinBoxHeight->setRange(4, INT_MAX);
     spinBoxHeight->setValue(rect().height());
     spinBoxHeight->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxHeight, &QSpinBox::valueChanged,  this, &VRectangle::setHeight );
+   // connect(  spinBoxHeight, &QSpinBox::valueChanged,  this, &VRectangle::setHeight );
     layoutHeight->addWidget(spinBoxHeight);
 
 //
@@ -374,7 +374,7 @@ QLayout* VRectangle::getPanel()
     spinBoxRota->setRange(0, 360);
     spinBoxRota->setValue(rotation());
     spinBoxRota->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxRota, &QSpinBox::valueChanged,  this, &VRectangle::slotRotate );
+    //connect(  spinBoxRota, &QSpinBox::valueChanged,  this, &VRectangle::slotRotate );
     layoutRoata->addWidget(spinBoxRota);
 
 //
@@ -391,7 +391,7 @@ QLayout* VRectangle::getPanel()
     spinBoxThickness->setRange(0, 40);
     spinBoxThickness->setValue(thickness);
     spinBoxThickness->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxThickness, &QDoubleSpinBox::valueChanged,  this, &VRectangle::updateThickness );
+   // connect(  spinBoxThickness, &QDoubleSpinBox::valueChanged,  this, &VRectangle::updateThickness );
     layoutThickness->addWidget(spinBoxThickness);
 //
     QLabel* labelColor = new QLabel();
@@ -409,7 +409,7 @@ QLayout* VRectangle::getPanel()
 
     VColorPicker* colorPickerStroke = new VColorPicker();
     colorPickerStroke->setColor(strokeColor);
-    connect(  colorPickerStroke, &VColorPicker::sigColorChanged,  this, &VRectangle::updateStrokeColor );
+   // connect(  colorPickerStroke, &VColorPicker::sigColorChanged,  this, &VRectangle::updateStrokeColor );
     layoutColor->addWidget(colorPickerStroke);
 
     QLabel* labelFC = new QLabel();
@@ -435,7 +435,7 @@ QLayout* VRectangle::getPanel()
     spinBoxZvalue->setRange(0, 100);
     spinBoxZvalue->setValue(zValue());
     spinBoxZvalue->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxZvalue, &QSpinBox::valueChanged,  this, &VRectangle::updateZvalue );
+   // connect(  spinBoxZvalue, &QSpinBox::valueChanged,  this, &VRectangle::updateZvalue );
     layoutZvalue->addWidget(spinBoxZvalue);
 
 

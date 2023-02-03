@@ -13,7 +13,9 @@
 VScene::VScene(QObject *parent) :
     QGraphicsScene::QGraphicsScene(parent)
 {
-    setSceneRect(0,0,800,600);
+    int width_ = 800;
+    int height_ = 600;
+    setSceneRect(0,0,width_,height_);
 }
 
 void VScene::mousePressEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
