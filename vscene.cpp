@@ -1,5 +1,4 @@
 #include "vscene.h"
-#include "rectangle.h"
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsEllipseItem>
@@ -43,6 +42,7 @@ VShape *VScene::getSelectedShape()
     return (selectedShape==nullptr)? NULL:selectedShape;
 }
 
+
  QList<QGraphicsItem*>* VScene::getShapes()
 {
     QList<QGraphicsItem*> itemsL = items();
@@ -65,6 +65,7 @@ void VScene::removeAllShapes()
         delete shape;
     }
 }
+
 
 
 

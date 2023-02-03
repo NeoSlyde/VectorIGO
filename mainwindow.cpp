@@ -5,6 +5,7 @@
 #include "mainwindow.h"
 #include "qdialog.h"
 #include <iostream>
+#include "ellipse.h"
 #include <QSvgGenerator>
 
 #include "toolmanager.h"
@@ -22,6 +23,7 @@ MainWindow::MainWindow(QWidget *parent)
     _courbeTool->setIcon(QIcon(":/ressources/pen.png"));
     _undo->setIcon(QIcon(":/ressources/undo.png"));
     _redo->setIcon(QIcon(":/ressources/redo.png"));
+    _ellipseTool->setIcon(QIcon(":/ressources/ellipse.png"));
 
 
 
@@ -44,6 +46,11 @@ MainWindow::MainWindow(QWidget *parent)
             _rectangleTool, &QAbstractButton::clicked,
             toolManager, &ToolManager::setRectangleTool
         );
+        connect(
+            _ellipseTool, &QAbstractButton::clicked,
+            toolManager, &ToolManager::setEllipseTool
+        );
+
 
         connect(
             scene, &VScene::sigmousePressEvent,
@@ -239,7 +246,7 @@ void MainWindow::updatePanel()
 
     if(scene->getSelectedShape()==NULL){
         std::cout << "pas de shape selected: " << std::endl;
-         _panel->setVisible(false);
+        _panel->setVisible(false);
         return;
     }else{
         QLayout* panel = scene->getSelectedShape()->getPanel();

@@ -18,9 +18,11 @@ public:
     void mouseReleaseEventDefault(QGraphicsSceneMouseEvent *mouseEvent);
     VShape* getSelectedShape();
     QList<QGraphicsItem*>* getShapes();
+    QList<QGraphicsEllipseItem*>* getEllipseShapes();
 
 public slots:
     void removeAllShapes();
+
 
 protected:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
