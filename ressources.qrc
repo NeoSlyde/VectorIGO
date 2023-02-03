@@ -7,5 +7,6 @@
         <file>ressources/pen.png</file>
         <file>ressources/pencil.png</file>
         <file>ressources/text.png</file>
+        <file>ressources/ellipse.png</file>
     </qresource>
 </RCC>

@@ -3,6 +3,7 @@
 
 #include "ui_mainwindow.h"
 #include "rectangle.h"
+#include "ellipse.h"
 
 #include "vscene.h"
 #include <QMainWindow>
