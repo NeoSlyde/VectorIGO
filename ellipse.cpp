@@ -83,7 +83,7 @@ QVariant ellipse::itemChange(GraphicsItemChange change, const QVariant &value)
         }
     }
 
-    if (change == QGraphicsEllipseItem::ItemSelectedChange && scene() )
+    if (change == QGraphicsEllipseItem::ItemSelectedHasChanged && scene() )
     {
         updateGrabbersVisibility();
     }
@@ -153,7 +153,7 @@ void ellipse::updateGrabbersPosition()
 
 void ellipse::setWidth(qreal inputWidth)
 {
-    QRectF rec = boundingRect();
+    QRectF rec = rect();
     rec.setWidth(inputWidth);
     setRect(rec);
     updateGrabbersPosition();
@@ -161,7 +161,7 @@ void ellipse::setWidth(qreal inputWidth)
 
 void ellipse::setHeight(qreal inputHeight)
 {
-    QRectF rec = boundingRect();
+    QRectF rec = rect();
     rec.setHeight(inputHeight);
     setRect(rec);
     updateGrabbersPosition();
@@ -580,13 +580,15 @@ void ellipse::resizeFromLeft(QGraphicsSceneMouseEvent *event)
 
 void ellipse::slotResizeFromTopLeftX(int x)
 {
-    resize( QPointF(x, mapToParent(boundingRect().topLeft()).y())  );
-    anchorGrabberDeformation = mapToParent(boundingRect().bottomRight());
+    resize( QPointF(x, mapToParent(rect().topLeft()).y())  );
+    anchorGrabberDeformation = mapToParent(rect().bottomRight());
+
 }
 void ellipse::slotResizeFromTopLeftY(int y)
 {
-    resize( QPointF(mapToParent(boundingRect().topLeft()).x(), y) );
-    anchorGrabberDeformation = mapToParent(boundingRect().bottomRight());
+    resize( QPointF(mapToParent(rect().topLeft()).x(), y) );
+    anchorGrabberDeformation = mapToParent(rect().bottomRight());
+
 }
 
 
