@@ -101,6 +101,10 @@ MainWindow::MainWindow(QWidget *parent)
 
         connect(actionExport_as_BMP, &QAction::triggered,
                 this, &MainWindow::exportBMP);
+
+        /* import background */
+        connect(actionimport_background, &QAction::triggered,
+                this, &MainWindow::importBackground);
 }
 
 
@@ -189,6 +193,19 @@ void MainWindow::exportBMP(){
     image.save(newPath, "BMP");
 
     std::cout << "Exported as BMP file to : " << newPath.toStdString() << std::endl;
+}
+
+/* import background : import a png file as new background  */
+void MainWindow::importBackground(){
+
+    QString newPath = QFileDialog::getOpenFileName(0, tr("VectorIGO : Import a PNG file."),"", "Files(*.png)");
+
+    QGraphicsView view(scene);
+    view.setRenderHint(QPainter::Antialiasing);
+
+    QPixmap backgroundImage(newPath);
+    scene->addPixmap(backgroundImage);
+    scene->setSceneRect(backgroundImage.rect());
 }
 
 void MainWindow::btn1Function()

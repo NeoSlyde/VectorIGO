@@ -324,7 +324,7 @@ QLayout* ellipse::getPanel()
     spinBoxWidth->setRange(4, INT_MAX);
     spinBoxWidth->setValue(boundingRect().width());
     spinBoxWidth->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxWidth, &QSpinBox::valueChanged,  this, &ellipse::setWidth );
+   // connect(  spinBoxWidth, &QSpinBox::valueChanged,  this, &ellipse::setWidth );
     layoutWidth->addWidget(spinBoxWidth);
 
 //
@@ -342,7 +342,7 @@ QLayout* ellipse::getPanel()
     spinBoxHeight->setRange(4, INT_MAX);
     spinBoxHeight->setValue(boundingRect().height());
     spinBoxHeight->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxHeight, &QSpinBox::valueChanged,  this, &ellipse::setHeight );
+  //  connect(  spinBoxHeight, &QSpinBox::valueChanged,  this, &ellipse::setHeight );
     layoutHeight->addWidget(spinBoxHeight);
 
 //
@@ -360,7 +360,7 @@ QLayout* ellipse::getPanel()
     spinBoxRota->setRange(0, 360);
     spinBoxRota->setValue(rotation());
     spinBoxRota->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxRota, &QSpinBox::valueChanged,  this, &ellipse::slotRotate );
+   // connect(  spinBoxRota, &QSpinBox::valueChanged,  this, &ellipse::slotRotate );
     layoutRoata->addWidget(spinBoxRota);
 
 //
@@ -377,7 +377,7 @@ QLayout* ellipse::getPanel()
     spinBoxThickness->setRange(0, 40);
     spinBoxThickness->setValue(thickness);
     spinBoxThickness->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxThickness, &QDoubleSpinBox::valueChanged,  this, &ellipse::updateThickness );
+ //   connect(  spinBoxThickness, &QDoubleSpinBox::valueChanged,  this, &ellipse::updateThickness );
     layoutThickness->addWidget(spinBoxThickness);
 //
     QLabel* labelColor = new QLabel();
@@ -421,7 +421,7 @@ QLayout* ellipse::getPanel()
     spinBoxZvalue->setRange(0, 100);
     spinBoxZvalue->setValue(zValue());
     spinBoxZvalue->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxZvalue, &QSpinBox::valueChanged,  this, &ellipse::updateZvalue );
+//    connect(  spinBoxZvalue, &QSpinBox::valueChanged,  this, &ellipse::updateZvalue );
     layoutZvalue->addWidget(spinBoxZvalue);
 
 

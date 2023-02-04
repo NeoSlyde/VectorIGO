@@ -462,6 +462,7 @@ font-size: 36px;</string>
     <addaction name="actionNew"/>
     <addaction name="actionOpen_Project"/>
     <addaction name="separator"/>
+    <addaction name="actionimport_background"/>
     <addaction name="actionSave_3"/>
     <addaction name="menuExport"/>
     <addaction name="separator"/>
@@ -593,6 +594,11 @@ font-size: 36px;</string>
   <action name="actionExport_as_BMP">
    <property name="text">
     <string>Export as BMP...</string>
+   </property>
+  </action>
+  <action name="actionimport_background">
+   <property name="text">
+    <string>Import background</string>
    </property>
   </action>
  </widget>

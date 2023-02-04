@@ -33,6 +33,7 @@ public slots:
     void exportPNG();
     void exportJPG();
     void exportBMP();
+    void importBackground();
     void btn1Function();
     void btn2Function();
     void btn3Function();
