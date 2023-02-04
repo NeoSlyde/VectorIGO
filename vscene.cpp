@@ -1,5 +1,4 @@
 #include "vscene.h"
-#include "rectangle.h"
 #include <QGraphicsScene>
 #include <QGraphicsSceneMouseEvent>
 #include <QGraphicsEllipseItem>
@@ -14,8 +13,14 @@
 VScene::VScene(QObject *parent) :
     QGraphicsScene::QGraphicsScene(parent)
 {
+<<<<<<< HEAD
     setSceneRect(0,0,800,600);
     copiedShapes = new QList<VShape*>();
+=======
+    int width_ = 800;
+    int height_ = 600;
+    setSceneRect(0,0,width_,height_);
+>>>>>>> main
 }
 
 void VScene::mousePressEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
@@ -44,6 +49,7 @@ VShape *VScene::getSelectedShape()
 }
 
 
+<<<<<<< HEAD
 QList<VShape *>* VScene::getSelectedShapes()
 {
     QList<QGraphicsItem*> selectedItemslist = selectedItems();
@@ -58,6 +64,8 @@ QList<VShape *>* VScene::getSelectedShapes()
 }
 
 
+=======
+>>>>>>> main
  QList<QGraphicsItem*>* VScene::getShapes()
 {
     QList<QGraphicsItem*> itemsL = items();
@@ -155,6 +163,7 @@ void VScene::paste()
         delta+=QPointF(5,5);
     }
 }
+
 
 
 

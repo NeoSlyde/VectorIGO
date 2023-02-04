@@ -3,6 +3,7 @@
 
 #include "ui_mainwindow.h"
 #include "rectangle.h"
+#include "ellipse.h"
 
 #include "vscene.h"
 #include <QMainWindow>
@@ -30,6 +31,10 @@ public slots:
     void updatePanel();
     void updateZoom(int inputZoom);
     void resetZoom();
+    void exportSVG();
+    void exportPNG();
+    void exportJPG();
+    void exportBMP();
     void btn1Function();
     void btn2Function();
     void btn3Function();

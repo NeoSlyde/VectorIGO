@@ -5,6 +5,7 @@
 #include "vtool.h"
 #include "vrectangletool.h"
 #include "vmousetool.h"
+#include "ellipsetool.h"
 
 #include <QObject>
 
@@ -19,6 +20,7 @@ public:
 public slots:
     void setMouseTool();
     void setRectangleTool();
+    void setEllipseTool();
     void slotMousePress(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene);
     void slotMouseMove(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene);
     void slotMouseRelease(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene);
@@ -28,6 +30,7 @@ private:
     VRectangleTool* rectangleTool = new VRectangleTool();
     VMouseTool* mouseTool = new VMouseTool();
     VTool* CurrentTool = mouseTool;
+    ellipseTool* ellipsetool=new ellipseTool();
 };
 
 

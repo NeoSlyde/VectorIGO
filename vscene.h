@@ -20,15 +20,26 @@ public:
     VShape* getSelectedShape();
     QList<VShape*>* getSelectedShapes();
     QList<QGraphicsItem*>* getShapes();
+<<<<<<< HEAD
     void save(QTextStream &stream);
     void load(QTextStream &stream);
     bool isEmpty();
+=======
+    QList<QGraphicsEllipseItem*>* getEllipseShapes();
+
+public slots:
+>>>>>>> main
     void removeAllShapes();
     void removeShapes();
     void copy();
     void paste();
 
+<<<<<<< HEAD
 private:
+=======
+
+protected:
+>>>>>>> main
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent) override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent) override;

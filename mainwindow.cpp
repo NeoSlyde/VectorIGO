@@ -1,10 +1,20 @@
+#include <QFileDialog>
+#include <QtGui/QImage>
+#include <QtGui/QPixmap>
+#include <QtWidgets/QGraphicsView>
 #include "mainwindow.h"
 #include "toolmanager.h"
 //#include "qdialog.h"
 #include <iostream>
+#include "ellipse.h"
 #include <QSvgGenerator>
+<<<<<<< HEAD
 #include <QFileDialog>
 #include <QMessageBox>
+=======
+
+#include "toolmanager.h"
+>>>>>>> main
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -19,6 +29,7 @@ MainWindow::MainWindow(QWidget *parent)
     _courbeTool->setIcon(QIcon(":/ressources/pen.png"));
     _undo->setIcon(QIcon(":/ressources/undo.png"));
     _redo->setIcon(QIcon(":/ressources/redo.png"));
+    _ellipseTool->setIcon(QIcon(":/ressources/ellipse.png"));
 
 
 
@@ -42,6 +53,11 @@ MainWindow::MainWindow(QWidget *parent)
             _rectangleTool, &QAbstractButton::clicked,
             toolManager, &ToolManager::setRectangleTool
         );
+        connect(
+            _ellipseTool, &QAbstractButton::clicked,
+            toolManager, &ToolManager::setEllipseTool
+        );
+
 
         connect(
             scene, &VScene::sigmousePressEvent,
@@ -90,15 +106,115 @@ MainWindow::MainWindow(QWidget *parent)
             scene, &VScene::removeAllShapes
         );
 
+<<<<<<< HEAD
         connect(
             _save, &QAbstractButton::clicked,
             this, &MainWindow::saveDoc
         );
+=======
+        /* Export */
+
+        connect(actionExport_as_SVG, &QAction::triggered,
+                this, &MainWindow::exportSVG);
+
+        connect(actionExport_as_PNG, &QAction::triggered,
+                this, &MainWindow::exportPNG);
+
+        connect(actionExport_as_JPG, &QAction::triggered,
+                this, &MainWindow::exportJPG);
+
+        connect(actionExport_as_BMP, &QAction::triggered,
+                this, &MainWindow::exportBMP);
+>>>>>>> main
 }
 
 
+/* export scene to svg file */
+void MainWindow::exportSVG(){
 
+    /* export scene to svg file.
+     * svg file size = scene size.
+     */
 
+    QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as SVG file."), "filename",
+       tr("SVG files (*.svg)"));
+
+    int padding = 40; /* Top and right padding */
+    QSvgGenerator generator;
+    generator.setFileName(newPath);
+    generator.setSize(QSize(scene->width(), scene->height()));
+    generator.setViewBox(QRect(-padding, -padding, scene->width()+padding, scene->height()+padding));
+    generator.setTitle(tr("VectorIGO SVG document"));
+
+    QPainter painter;
+    painter.begin(&generator);
+    scene->render(&painter);
+    painter.end();
+
+    std::cout << "Exported as SVG file to : " << newPath.toStdString() << std::endl;
+
+}
+
+/* export scene to png file */
+void MainWindow::exportPNG(){
+
+    /* export scene to png file.
+     * png file size = scene size.
+     */
+
+    QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as PNG file."), "filename",
+       tr("PNG files (*.png)"));
+
+    QGraphicsView view(scene);
+    QImage image(view.size(), QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.save(newPath, "PNG");
+
+    std::cout << "Exported as PNG file to : " << newPath.toStdString() << std::endl;
+
+}
+
+/* export scene to jpg file */
+void MainWindow::exportJPG(){
+
+    /* export scene to jpg file.
+     * jpg file size = scene size.
+     */
+
+    QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as JPG file."), "filename",
+       tr("JPG files (*.jpg)"));
+
+    QGraphicsView view(scene);
+    QImage image(view.size(), QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.save(newPath, "JPG");
+
+    std::cout << "Exported as JPG file to : " << newPath.toStdString() << std::endl;
+}
+
+/* export scene to bmp file */
+void MainWindow::exportBMP(){
+
+    /* export scene to bmp file.
+     * bmp file size = scene size.
+     */
+
+    QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as BMP file."), "filename",
+       tr("BMP files (*.bmp)"));
+
+    QGraphicsView view(scene);
+    QImage image(view.size(), QImage::Format_ARGB32);
+    image.fill(Qt::transparent);
+    QPainter painter(&image);
+    scene->render(&painter);
+    image.save(newPath, "BMP");
+
+    std::cout << "Exported as BMP file to : " << newPath.toStdString() << std::endl;
+}
 
 void MainWindow::btn1Function()
 {
@@ -119,7 +235,6 @@ void MainWindow::btn2Function()
     //graphicsView->scale(2,2);
 }
 
-
 qreal a = 0;
 void MainWindow::btn3Function()
 {
@@ -134,6 +249,7 @@ void MainWindow::btn3Function()
 
 
 
+<<<<<<< HEAD
 void MainWindow::sceneToSvg()
 {
     std::cout << "OUIIIIIIIII: " << std::endl;
@@ -151,6 +267,8 @@ void MainWindow::sceneToSvg()
 }
 
 
+=======
+>>>>>>> main
 void clearLayout(QLayout* layout, bool deleteWidgets = true)
 {
     while (QLayoutItem* item = layout->takeAt(0))
@@ -173,7 +291,7 @@ void MainWindow::updatePanel()
 
     if(scene->getSelectedShape()==NULL){
         std::cout << "pas de shape selected: " << std::endl;
-         _panel->setVisible(false);
+        _panel->setVisible(false);
         return;
     }else{
         QLayout* panel = scene->getSelectedShape()->getPanel();
