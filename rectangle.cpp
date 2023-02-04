@@ -13,9 +13,10 @@
 #include <QLabel>
 #include <QSpinBox>
 #include <QLineEdit>
+#include <exception>
 
 
-VRectangle::VRectangle(QObject *parent, QGraphicsItem *parentGraphic):
+VRectangle::VRectangle(QGraphicsItem *parentGraphic,QObject *parent):
     VShape(parent),
     VRectangle::QGraphicsRectItem(parentGraphic)
 {    
@@ -172,8 +173,98 @@ void VRectangle::updateGrabbersVisibility()
 
 QString VRectangle::toString()
 {
-    return QString("Ceci est un rectangle");
+    return QString("rectangle");
 }
+
+VShape* VRectangle::clone()
+{
+    VRectangle* newRect = new VRectangle();
+    scene()->addItem(newRect);
+    newRect->setPos(pos());
+    newRect->setRect(rect());
+    newRect->setRotation(rotation());
+    newRect->updateStrokeColor(strokeColor);
+    newRect->updateFillColor(FillColor);
+    newRect->updateThickness(thickness);
+    newRect->setVisible(false);
+    return newRect;
+}
+
+void VRectangle::setVisible(bool value)
+{
+    QGraphicsItem::setVisible(value);
+    updateGrabbersPosition();
+    updateGrabbersVisibility();
+}
+
+void VRectangle::setSelected(bool value)
+{
+    QGraphicsItem::setSelected(value);
+}
+
+void VRectangle::MoveBy(QPointF delta)
+{
+    QGraphicsItem::moveBy(delta.x(),delta.y());
+}
+
+QString VRectangle::serialize()
+{
+    QString posX = QString::number(pos().x());
+    QString posY = QString::number(pos().y());
+    QString rectX = QString::number(rect().topLeft().x());
+    QString rectY = QString::number(rect().topLeft().y());
+    QString rectW = QString::number(rect().width());
+    QString rectH = QString::number(rect().height());
+    QString rota = QString::number(rotation());
+    QString stroke = strokeColor.name();
+    QString fill = FillColor.name();
+    QString thick = QString::number(thickness);
+
+    QString description = toString() +' '+posX+' '+posY+' '+rectX+' '+rectY+' '+rectW+' '+rectH+' '+rota+' '+stroke+' '+fill+' '+thick;
+    return description;
+}
+
+QGraphicsItem* VRectangle::deSerialize(QString input, QGraphicsScene* parentScene)
+{
+    QStringList elements = input.split(' ');
+    if (elements.count()!=11) return nullptr;
+
+    qreal posX, posY, rectX, rectY, rectW, rectH, rota, thick;
+    QColor stroke, fill;
+
+    try {
+        posX = elements.at(1).toDouble();
+        posY = elements.at(2).toDouble();
+        rectX = elements.at(3).toDouble();
+        rectY = elements.at(4).toDouble();
+        rectW = elements.at(5).toDouble();
+        rectH = elements.at(6).toDouble();
+        rota = elements.at(7).toDouble();
+        stroke = QColor(elements.at(8));
+        fill = QColor(elements.at(9));
+        thick = elements.at(10).toDouble();
+    } catch(...) {
+        return nullptr;
+    }
+
+    VRectangle* newRect = new VRectangle();
+    parentScene->addItem(newRect);
+    newRect->setPos(posX,posY);
+    newRect->setRect(QRectF(rectX,rectY, rectW, rectH));
+    newRect->setRotation(rota);
+    newRect->updateStrokeColor(stroke);
+    newRect->updateFillColor(fill);
+    newRect->updateThickness(thick);
+    newRect->updateGrabbersPosition();
+
+    std::cout << "RECTANGLE DESERIALIZED" << std::endl;
+
+
+    return newRect;
+
+}
+
+
 
 QLayout* VRectangle::getPanel()
 {
@@ -503,9 +594,17 @@ void VRectangle::updateThickness(qreal thickness)
 
 void VRectangle::doRotation(int rota)
 {
+    std::cout << rect().topLeft().x()<<" "<< rect().topLeft().y()<< std::endl;
+    std::cout << pos().x()<<" "<< pos().y()<< std::endl;
+    std::cout << mapToScene(rect().topLeft()).x()<<" "<< mapToScene(rect().topLeft()).y()<< std::endl;
     setTransformOriginPoint(rect().center());
     setRotation(rota);
     updateGrabbersVisibility();
+    std::cout << rect().topLeft().x()<<" "<< rect().topLeft().y()<< std::endl;
+    std::cout << pos().x()<<" "<< pos().y()<< std::endl;
+    std::cout << mapToScene(rect().topLeft()).x()<<" "<< mapToScene(rect().topLeft()).y()<< std::endl;
+
+
 }
 
 
@@ -573,8 +672,14 @@ void VRectangle::resizeFromTop(QGraphicsSceneMouseEvent *event)
         moveBy(+dist*cos(rotation()*M_PI/180.0 + M_PI/2), +dist*sin(rotation()*M_PI/180.0 + M_PI/2 ));
     else
         moveBy(-dist*cos(rotation()*M_PI/180.0 + M_PI/2), -dist*sin(rotation()*M_PI/180.0 + M_PI/2 ));
-
     setRect(rec);
+
+
+//    QPointF c(rect().topLeft());
+//    rect().translate(-rect().x(),-rect().y());
+//    setRect(rect());
+//    moveBy(c.x(),c.y());
+
     updateGrabbersPosition();
 }
 

@@ -15,6 +15,7 @@ VScene::VScene(QObject *parent) :
     QGraphicsScene::QGraphicsScene(parent)
 {
     setSceneRect(0,0,800,600);
+    copiedShapes = new QList<VShape*>();
 }
 
 void VScene::mousePressEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
@@ -32,6 +33,7 @@ void VScene::mouseReleaseEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
 }
 
+
 VShape *VScene::getSelectedShape()
 {
     QList<QGraphicsItem*> selectedItemslist = selectedItems();
@@ -40,6 +42,21 @@ VShape *VScene::getSelectedShape()
     VShape* selectedShape = dynamic_cast<VShape*>(selectedItemslist.at(0));
     return (selectedShape==nullptr)? NULL:selectedShape;
 }
+
+
+QList<VShape *>* VScene::getSelectedShapes()
+{
+    QList<QGraphicsItem*> selectedItemslist = selectedItems();
+    QList<VShape*>* selectedShapes = new QList<VShape*>();
+
+    for (QGraphicsItem* selectedItem:  selectedItemslist) {
+        VShape* selectedShape = dynamic_cast<VShape*>(selectedItem);
+        if(selectedShape!=nullptr) selectedShapes->append(selectedShape);
+    }
+
+    return selectedShapes;
+}
+
 
  QList<QGraphicsItem*>* VScene::getShapes()
 {
@@ -52,7 +69,47 @@ VShape *VScene::getSelectedShape()
         }
     }
     return shapes;
-}
+ }
+
+ void VScene::save(QTextStream &stream)
+ {
+    QList<QGraphicsItem*> itemsL = items(Qt::AscendingOrder);
+    for (int i=0; i<itemsL.count(); ++i) {
+        QGraphicsItem* item = itemsL.at(i);
+        VShape* shape = dynamic_cast<VShape*>(item);
+        if(shape==nullptr) continue;
+        stream << shape->serialize();
+        if (i<items().count()-1) stream << '\n';
+    }
+    //    m_undoStack->setClean();
+ }
+
+ void VScene::load(QTextStream &stream)
+ {
+     while(!stream.atEnd())
+     {
+        QString line = stream.readLine();
+        QStringList lineElements = line.split(' ');
+        if (lineElements.isEmpty()) continue;
+        QString shapeId = lineElements.at(0);
+
+        QGraphicsItem* currentShape = nullptr;
+        if(shapeId == "rectangle")
+            /*currentShape = */VRectangle::deSerialize(line, this);
+        // if == ellipse
+        // if ...
+
+        //if (currentShape==nullptr) continue;
+     }
+ }
+
+ bool VScene::isEmpty()
+ {
+    QList<QGraphicsItem*>* shapes = getShapes();
+    bool val = shapes->isEmpty();
+    delete shapes;
+    return val;
+ }
 
 
 void VScene::removeAllShapes()
@@ -61,6 +118,41 @@ void VScene::removeAllShapes()
     for (QGraphicsItem* shape: *shapes) {
         removeItem(shape);
         delete shape;
+    }
+    delete shapes;
+}
+
+void VScene::removeShapes()
+{
+    QList<QGraphicsItem*> selectedItemslist = selectedItems();
+
+    foreach (QGraphicsItem* item, selectedItemslist) {
+        removeItem(item);
+        delete item;
+    }
+    emit sigRemoveItems();
+}
+
+void VScene::copy()
+{
+    copiedShapes->clear();
+    delta = QPointF(5,5);
+    QList<VShape *>* selectedShapes = getSelectedShapes();
+    for(VShape* selectedShape : *selectedShapes){
+        copiedShapes->append(selectedShape);
+    }
+    delete selectedShapes;
+}
+
+void VScene::paste()
+{
+    for(VShape* copiedShape : *copiedShapes){
+        copiedShape->setSelected(false);
+        VShape* copy = copiedShape->clone();
+        copy->MoveBy(delta);
+        copy->setVisible(true);
+        copy->setSelected(true);
+        delta+=QPointF(5,5);
     }
 }
 
@@ -90,18 +182,30 @@ void VScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 
 void VScene::keyPressEvent(QKeyEvent *keyEvent)
 {
-    if(keyEvent->key()==Qt::Key_Delete){
-        QList<QGraphicsItem*> selectedItemslist = selectedItems();
+    if(keyEvent->key()==Qt::Key_Backspace || keyEvent->key()==Qt::Key_Delete){
+        removeShapes();
+    }
 
-        foreach (QGraphicsItem* item, selectedItemslist) {
-            removeItem(item);
-            delete item;
-        }
-        emit sigRemoveItems();
-        return;
+    if(keyEvent->matches(QKeySequence::Copy)){
+        copy();
     }
 
     QGraphicsScene::keyPressEvent(keyEvent);
+    emit sigkeyPressEvent(keyEvent);
+}
+
+
+
+
+void VScene::keyReleaseEvent(QKeyEvent *keyEvent)
+{
+
+    if(keyEvent->matches(QKeySequence::Paste)){
+        paste();
+    }
+
+    QGraphicsScene::keyReleaseEvent(keyEvent);
+    emit sigkeyReleaseEvent(keyEvent);
 }
 
 

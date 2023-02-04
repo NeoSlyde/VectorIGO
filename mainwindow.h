@@ -6,6 +6,8 @@
 
 #include "vscene.h"
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QMessageBox>
 
 
 
@@ -21,10 +23,10 @@ public:
     QGraphicsRectItem *rectangle;
     QGraphicsTextItem *text;
     void sceneToSvg();
-    VRectangle* rect1;
-    VRectangle* rect2;
 
 public slots:
+    void saveDoc();
+    void loadDoc();
     void updatePanel();
     void updateZoom(int inputZoom);
     void resetZoom();

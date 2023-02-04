@@ -1,8 +1,10 @@
 #include "mainwindow.h"
-#include "qdialog.h"
+#include "toolmanager.h"
+//#include "qdialog.h"
 #include <iostream>
 #include <QSvgGenerator>
-#include "toolmanager.h"
+#include <QFileDialog>
+#include <QMessageBox>
 
 
 MainWindow::MainWindow(QWidget *parent)
@@ -28,6 +30,7 @@ MainWindow::MainWindow(QWidget *parent)
 
     ToolManager* toolManager = new ToolManager();
 
+    connect(actionOpen_Project, &QAction::triggered, this, &MainWindow::loadDoc);
     connect(  _zoom, &QSlider::valueChanged,  this, &MainWindow::updateZoom  );
     connect(  _reset, &QPushButton::clicked,  this, &MainWindow::resetZoom  );
     connect(
@@ -60,9 +63,20 @@ MainWindow::MainWindow(QWidget *parent)
             scene, &VScene::sigmouseReleaseEvent,
             this, &MainWindow::updatePanel
         );
-
         connect(
             scene, &VScene::sigmouseMoveEvent,
+            this, &MainWindow::updatePanel
+        );
+        connect(
+            scene, &VScene::sigmousePressEvent,
+            this, &MainWindow::updatePanel
+        );
+        connect(
+            scene, &VScene::sigkeyPressEvent,
+            this, &MainWindow::updatePanel
+        );
+        connect(
+            scene, &VScene::sigkeyReleaseEvent,
             this, &MainWindow::updatePanel
         );
 
@@ -74,6 +88,11 @@ MainWindow::MainWindow(QWidget *parent)
         connect(
             _clear, &QAbstractButton::clicked,
             scene, &VScene::removeAllShapes
+        );
+
+        connect(
+            _save, &QAbstractButton::clicked,
+            this, &MainWindow::saveDoc
         );
 }
 
@@ -132,8 +151,6 @@ void MainWindow::sceneToSvg()
 }
 
 
-
-
 void clearLayout(QLayout* layout, bool deleteWidgets = true)
 {
     while (QLayoutItem* item = layout->takeAt(0))
@@ -177,6 +194,68 @@ void MainWindow::resetZoom()
 {
     _zoom->setValue(100);
 }
+
+
+
+
+QString filePath;
+void MainWindow::saveDoc()
+{
+
+    for (;;) {
+        QString fileName = filePath;
+
+        if (fileName.isEmpty())
+            fileName = QFileDialog::getSaveFileName();
+        if (fileName.isEmpty())
+            break;
+
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly)) {
+            QMessageBox::warning(this,
+                                tr("File error"),
+                                tr("Failed to open\n%1").arg(fileName));
+
+        } else {
+            QTextStream stream(&file);
+            scene->save(stream);
+            filePath = fileName;
+            break;
+        }
+    }
+}
+
+void MainWindow::loadDoc()
+{
+    QString fileName = QFileDialog::getOpenFileName(this);
+    if (fileName.isEmpty())
+        return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this,
+                            tr("File error"),
+                            tr("Failed to open\n%1").arg(fileName));
+        return;
+    }
+
+    scene->removeAllShapes();
+
+    QTextStream stream(&file);
+    scene->load(stream);
+
+//    if (!doc->load(stream)) {
+//        QMessageBox::warning(this,
+//                            tr("Parse error"),
+//                            tr("Failed to parse\n%1").arg(fileName));
+//        delete doc;
+//        return;
+//    }
+
+    filePath = fileName;
+}
+
+
 
 MainWindow::~MainWindow()
 {

@@ -21,8 +21,7 @@ SOURCES += \
     vscene.cpp \
     vshape.cpp \
     vtool.cpp \
-    vview.cpp \
-    qdialog.cpp
+    vview.cpp
 
 HEADERS += \
     mainwindow.h \
@@ -35,12 +34,10 @@ HEADERS += \
     vscene.h \
     vshape.h \
     vtool.h \
-    vview.h \
-    qdialog.h
+    vview.h
 
 FORMS += \
-    mainwindow.ui\
-    qdialog.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin
