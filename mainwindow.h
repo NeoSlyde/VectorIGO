@@ -26,8 +26,13 @@ public:
     void sceneToSvg();
 
 public slots:
-    void saveDoc();
+    void zoomIn();
+    void zoomOut();
+    void clear();
     void loadDoc();
+    void saveDoc();
+    void saveDocAs();
+    void newProject();
     void updatePanel();
     void updateZoom(int inputZoom);
     void resetZoom();
@@ -35,11 +40,13 @@ public slots:
     void exportPNG();
     void exportJPG();
     void exportBMP();
-    void btn1Function();
-    void btn2Function();
-    void btn3Function();
+    void about();
+    void aboutQt();
+    void quit();
+
 
 private:
+    QString filePath;
     std::unique_ptr<QDialog> colorPickerFill;
     std::unique_ptr<QDialog> colorPickerStroke;
 };

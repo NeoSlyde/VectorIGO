@@ -422,7 +422,7 @@ QLayout* VRectangle::getPanel()
 
     QLabel* labelWidth = new QLabel();
     labelWidth->setAlignment(Qt::AlignCenter);
-    labelWidth->setText(QString("Width"));
+    labelWidth->setText(QString("Width "));
     layoutWidth->addWidget(labelWidth);
 
     QSpinBox* spinBoxWidth = new QSpinBox();
@@ -519,7 +519,7 @@ QLayout* VRectangle::getPanel()
 
     QLabel* labelZvalue = new QLabel();
     labelZvalue->setAlignment(Qt::AlignCenter);
-    labelZvalue->setText(QString("Position / Z-Value"));
+    labelZvalue->setText(QString("Layer / Z-Axis"));
     layoutZvalue->addWidget(labelZvalue);
 
     QSpinBox* spinBoxZvalue = new QSpinBox();

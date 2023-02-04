@@ -317,7 +317,7 @@ QLayout* ellipse::getPanel()
 
     QLabel* labelWidth = new QLabel();
     labelWidth->setAlignment(Qt::AlignCenter);
-    labelWidth->setText(QString("Width"));
+    labelWidth->setText(QString("Width "));
     layoutWidth->addWidget(labelWidth);
 
     QSpinBox* spinBoxWidth = new QSpinBox();
@@ -414,7 +414,7 @@ QLayout* ellipse::getPanel()
 
     QLabel* labelZvalue = new QLabel();
     labelZvalue->setAlignment(Qt::AlignCenter);
-    labelZvalue->setText(QString("Position / Z-Value"));
+    labelZvalue->setText(QString("Layer / Z-Axis"));
     layoutZvalue->addWidget(labelZvalue);
 
     QSpinBox* spinBoxZvalue = new QSpinBox();
@@ -600,8 +600,98 @@ void ellipse::updateZvalue(int z)
 {
     setZValue(z);
 }
+
+VShape* ellipse::clone()
+{
+    ellipse* newEllipse = new ellipse();
+    scene()->addItem(newEllipse);
+    newEllipse->setPos(pos());
+    newEllipse->setRect(rect());
+    newEllipse->setRotation(rotation());
+    newEllipse->updateStrokeColor(strokeColor);
+    newEllipse->updateFillColor(FillColor);
+    newEllipse->updateThickness(thickness);
+    newEllipse->setVisible(false);
+    return newEllipse;
+}
+
+void ellipse::setVisible(bool value)
+{
+    QGraphicsItem::setVisible(value);
+    updateGrabbersPosition();
+    updateGrabbersVisibility();
+}
+
+void ellipse::setSelected(bool value)
+{
+    QGraphicsItem::setSelected(value);
+}
+
+void ellipse::MoveBy(QPointF delta)
+{
+    QGraphicsItem::moveBy(delta.x(),delta.y());
+}
+
+QString ellipse::serialize()
+{
+    QString posX = QString::number(pos().x());
+    QString posY = QString::number(pos().y());
+    QString rectX = QString::number(rect().topLeft().x());
+    QString rectY = QString::number(rect().topLeft().y());
+    QString rectW = QString::number(rect().width());
+    QString rectH = QString::number(rect().height());
+    QString rota = QString::number(rotation());
+    QString stroke = strokeColor.name();
+    QString fill = FillColor.name();
+    QString thick = QString::number(thickness);
+
+    QString description = toString() +' '+posX+' '+posY+' '+rectX+' '+rectY+' '+rectW+' '+rectH+' '+rota+' '+stroke+' '+fill+' '+thick;
+    return description;
+}
+
+QGraphicsItem* ellipse::deSerialize(QString input, QGraphicsScene* parentScene)
+{
+    QStringList elements = input.split(' ');
+    if (elements.count()!=11) return nullptr;
+
+    qreal posX, posY, rectX, rectY, rectW, rectH, rota, thick;
+    QColor stroke, fill;
+
+    try {
+        posX = elements.at(1).toDouble();
+        posY = elements.at(2).toDouble();
+        rectX = elements.at(3).toDouble();
+        rectY = elements.at(4).toDouble();
+        rectW = elements.at(5).toDouble();
+        rectH = elements.at(6).toDouble();
+        rota = elements.at(7).toDouble();
+        stroke = QColor(elements.at(8));
+        fill = QColor(elements.at(9));
+        thick = elements.at(10).toDouble();
+    } catch(...) {
+        return nullptr;
+    }
+
+    ellipse* newEllipse = new ellipse();
+    parentScene->addItem(newEllipse);
+    newEllipse->setPos(posX,posY);
+    newEllipse->setRect(QRectF(rectX,rectY, rectW, rectH));
+    newEllipse->setRotation(rota);
+    newEllipse->updateStrokeColor(stroke);
+    newEllipse->updateFillColor(fill);
+    newEllipse->updateThickness(thick);
+    newEllipse->updateGrabbersPosition();
+
+    std::cout << "ELLIPSE DESERIALIZED" << std::endl;
+
+
+    return newEllipse;
+}
+
+
+
 QString ellipse::toString()
 {
-    return QString("Ceci est un cercle");
+    return QString("ellipse");
 }
 

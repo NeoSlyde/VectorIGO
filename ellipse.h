@@ -13,13 +13,21 @@ public:
     ellipse(QObject *parent = nullptr, QGraphicsEllipseItem *parentGraphic = nullptr);
     QLayout* getPanel() override;
     void updateZvalue(int z) override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void updateGrabbersPosition();
     void updateGrabbersVisibility();
     QString toString() override;
+    VShape* clone() override;
+    void setVisible(bool value) override;
+    void setSelected(bool value) override;
+    void MoveBy(QPointF delta) override;
+    virtual QString serialize() override;
+
+    static QGraphicsItem* deSerialize(QString input, QGraphicsScene* scene);
+
 
 private:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     VGrabber* grabber1 = nullptr;
     VGrabber* grabber2 = nullptr;
     VGrabber* grabber3 = nullptr;

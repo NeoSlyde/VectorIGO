@@ -8,19 +8,20 @@
 #include <iostream>
 #include "vgrabber.h"
 #include <QKeyEvent>
+#include "rectangle.h"
+#include "ellipse.h"
 
 
 VScene::VScene(QObject *parent) :
     QGraphicsScene::QGraphicsScene(parent)
 {
-<<<<<<< HEAD
-    setSceneRect(0,0,800,600);
+
     copiedShapes = new QList<VShape*>();
-=======
+
     int width_ = 800;
     int height_ = 600;
     setSceneRect(0,0,width_,height_);
->>>>>>> main
+
 }
 
 void VScene::mousePressEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
@@ -49,7 +50,7 @@ VShape *VScene::getSelectedShape()
 }
 
 
-<<<<<<< HEAD
+
 QList<VShape *>* VScene::getSelectedShapes()
 {
     QList<QGraphicsItem*> selectedItemslist = selectedItems();
@@ -64,8 +65,7 @@ QList<VShape *>* VScene::getSelectedShapes()
 }
 
 
-=======
->>>>>>> main
+
  QList<QGraphicsItem*>* VScene::getShapes()
 {
     QList<QGraphicsItem*> itemsL = items();
@@ -102,14 +102,12 @@ QList<VShape *>* VScene::getSelectedShapes()
         QString shapeId = lineElements.at(0);
 
         QGraphicsItem* currentShape = nullptr;
-        if(shapeId == "rectangle")
-            /*currentShape = */VRectangle::deSerialize(line, this);
-        // if == ellipse
-        // if ...
-
+        if(shapeId == "rectangle") VRectangle::deSerialize(line, this);
+        if(shapeId == "ellipse") ellipse::deSerialize(line, this);
         //if (currentShape==nullptr) continue;
      }
  }
+
 
  bool VScene::isEmpty()
  {
@@ -118,6 +116,30 @@ QList<VShape *>* VScene::getSelectedShapes()
     delete shapes;
     return val;
  }
+
+ void VScene::selectAll()
+ {
+    QList<QGraphicsItem *> itemsL =  items();
+    for(QGraphicsItem* item : itemsL){
+        item->setSelected(true);
+    }
+    emit sigSceneHasChanged();
+ }
+
+ void VScene::sceneHasChanged()
+ {
+    emit sigSceneHasChanged();
+ }
+
+void VScene::deselectAll()
+{
+    QList<QGraphicsItem *> selectedItemsL = selectedItems();
+
+    for(QGraphicsItem* selectedItem : selectedItemsL){
+        selectedItem->setSelected(false);
+    }
+    emit sigSceneHasChanged();
+}
 
 
 void VScene::removeAllShapes()
@@ -128,6 +150,7 @@ void VScene::removeAllShapes()
         delete shape;
     }
     delete shapes;
+    emit sigSceneHasChanged();
 }
 
 void VScene::removeShapes()
@@ -139,15 +162,22 @@ void VScene::removeShapes()
         delete item;
     }
     emit sigRemoveItems();
+    emit sigSceneHasChanged();
 }
 
 void VScene::copy()
 {
+
+    for(VShape* copiedShape : *copiedShapes){
+        delete copiedShape;
+    }
     copiedShapes->clear();
+
     delta = QPointF(5,5);
     QList<VShape *>* selectedShapes = getSelectedShapes();
     for(VShape* selectedShape : *selectedShapes){
-        copiedShapes->append(selectedShape);
+        copiedShapes->append(selectedShape->clone());
+        selectedShape->setSelected(false);
     }
     delete selectedShapes;
 }
@@ -155,13 +185,14 @@ void VScene::copy()
 void VScene::paste()
 {
     for(VShape* copiedShape : *copiedShapes){
-        copiedShape->setSelected(false);
+        //copiedShape->setSelected(false);
         VShape* copy = copiedShape->clone();
         copy->MoveBy(delta);
         copy->setVisible(true);
         copy->setSelected(true);
         delta+=QPointF(5,5);
     }
+    emit sigSceneHasChanged();
 }
 
 
@@ -172,6 +203,7 @@ void VScene::paste()
 void VScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     emit sigmousePressEvent(mouseEvent, this);
+    emit sigSceneHasChanged();
 }
 
 
@@ -179,6 +211,7 @@ void VScene::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void VScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     emit sigmouseMoveEvent(mouseEvent, this);
+    emit sigSceneHasChanged();
 }
 
 
@@ -186,21 +219,24 @@ void VScene::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent)
 void VScene::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent)
 {
     emit sigmouseReleaseEvent(mouseEvent, this);
+    emit sigSceneHasChanged();
 }
 
 
 void VScene::keyPressEvent(QKeyEvent *keyEvent)
 {
-    if(keyEvent->key()==Qt::Key_Backspace || keyEvent->key()==Qt::Key_Delete){
-        removeShapes();
-    }
 
-    if(keyEvent->matches(QKeySequence::Copy)){
-        copy();
-    }
+//    if(keyEvent->key()==Qt::Key_Backspace || keyEvent->key()==Qt::Key_Delete){
+//        removeShapes();
+//    }
+
+//    if(keyEvent->matches(QKeySequence::Copy)){
+//        copy();
+//    }
 
     QGraphicsScene::keyPressEvent(keyEvent);
     emit sigkeyPressEvent(keyEvent);
+    emit sigSceneHasChanged();
 }
 
 
@@ -209,12 +245,13 @@ void VScene::keyPressEvent(QKeyEvent *keyEvent)
 void VScene::keyReleaseEvent(QKeyEvent *keyEvent)
 {
 
-    if(keyEvent->matches(QKeySequence::Paste)){
-        paste();
-    }
+//    if(keyEvent->matches(QKeySequence::Paste)){
+//        paste();
+//    }
 
     QGraphicsScene::keyReleaseEvent(keyEvent);
     emit sigkeyReleaseEvent(keyEvent);
+    emit sigSceneHasChanged();
 }
 
 

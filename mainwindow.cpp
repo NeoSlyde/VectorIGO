@@ -4,22 +4,19 @@
 #include <QtWidgets/QGraphicsView>
 #include "mainwindow.h"
 #include "toolmanager.h"
-//#include "qdialog.h"
 #include <iostream>
 #include "ellipse.h"
 #include <QSvgGenerator>
-<<<<<<< HEAD
 #include <QFileDialog>
 #include <QMessageBox>
-=======
-
-#include "toolmanager.h"
->>>>>>> main
+#include <QStandardPaths>
 
 
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
 {
+
+    /*setup visuel*/
     setupUi(this);
     _panel->setVisible(false);
     setWindowTitle(QString("VectorIGO"));
@@ -30,103 +27,63 @@ MainWindow::MainWindow(QWidget *parent)
     _undo->setIcon(QIcon(":/ressources/undo.png"));
     _redo->setIcon(QIcon(":/ressources/redo.png"));
     _ellipseTool->setIcon(QIcon(":/ressources/ellipse.png"));
-
-
-
     _groupBox_2->setStyleSheet("QGroupBox {border: 1px solid #CECECE;border-radius: 5px;margin-top: 0.5em;background-color: #FFFFFF;}QGroupBox::title {subcontrol-origin: margin;subcontrol-position: top center;padding: 0 3px;}");
 
-
+    /*objets importants*/
     scene = new VScene(this);
     _graphicsView->setScene(scene);
-
     ToolManager* toolManager = new ToolManager();
 
-    connect(actionOpen_Project, &QAction::triggered, this, &MainWindow::loadDoc);
-    connect(  _zoom, &QSlider::valueChanged,  this, &MainWindow::updateZoom  );
-    connect(  _reset, &QPushButton::clicked,  this, &MainWindow::resetZoom  );
-    connect(
-            _mouseTool, &QAbstractButton::clicked,
-            toolManager, &ToolManager::setMouseTool
-        );
-
-        connect(
-            _rectangleTool, &QAbstractButton::clicked,
-            toolManager, &ToolManager::setRectangleTool
-        );
-        connect(
-            _ellipseTool, &QAbstractButton::clicked,
-            toolManager, &ToolManager::setEllipseTool
-        );
-
-
-        connect(
-            scene, &VScene::sigmousePressEvent,
-            toolManager, &ToolManager::slotMousePress
-        );
-
-        connect(
-            scene, &VScene::sigmouseMoveEvent,
-            toolManager, &ToolManager::slotMouseMove
-        );
-
-        connect(
-            scene, &VScene::sigmouseReleaseEvent,
-            toolManager, &ToolManager::slotMouseRelease
-        );
+    /*connect des actions*/
+    connect(actionExport_as_SVG, &QAction::triggered,  this,         &MainWindow::exportSVG);
+    connect(actionExport_as_PNG, &QAction::triggered,  this,         &MainWindow::exportPNG);
+    connect(actionExport_as_JPG, &QAction::triggered,  this,         &MainWindow::exportJPG);
+    connect(actionExport_as_BMP, &QAction::triggered,  this,         &MainWindow::exportBMP);
+    connect(actionSave,          &QAction::triggered,  this,         &MainWindow::saveDoc);
+    connect(actionSave_as,       &QAction::triggered,  this,         &MainWindow::saveDocAs);
+    connect(actionNew,           &QAction::triggered,  this,         &MainWindow::newProject);
+    connect(actionOpen_Project,  &QAction::triggered,  this,         &MainWindow::loadDoc);
+    connect(actionAbout,         &QAction::triggered,  this,         &MainWindow::about);
+    connect(actionAbout_Qt,      &QAction::triggered,  this,         &MainWindow::aboutQt);
+    connect(actionClear,         &QAction::triggered,  this,         &MainWindow::clear);
+    connect(actionZoom_In,       &QAction::triggered,  this,         &MainWindow::zoomIn);
+    connect(actionZoom_Out,      &QAction::triggered,  this,         &MainWindow::zoomOut);
+    connect(actionReset_Zoom,    &QAction::triggered,  this,         &MainWindow::resetZoom);
+    connect(actionExit,          &QAction::triggered,  this,         &MainWindow::quit);
+    connect(actionDelete,        &QAction::triggered,  scene,        &VScene::removeShapes);
+    connect(actionPaste,         &QAction::triggered,  scene,        &VScene::paste);
+    connect(actionCopy,          &QAction::triggered,  scene,        &VScene::copy);
+    connect(actionSelect_All,    &QAction::triggered,  scene,        &VScene::selectAll);
+    connect(actionRectangle,     &QAction::triggered,  toolManager,  &ToolManager::setRectangleTool);
+    connect(actionEllispe,       &QAction::triggered,  toolManager,  &ToolManager::setEllipseTool);
+    connect(actionMouse,         &QAction::triggered,  toolManager,  &ToolManager::setMouseTool);
 
 
-        connect(
-            scene, &VScene::sigmouseReleaseEvent,
-            this, &MainWindow::updatePanel
-        );
-        connect(
-            scene, &VScene::sigmouseMoveEvent,
-            this, &MainWindow::updatePanel
-        );
-        connect(
-            scene, &VScene::sigmousePressEvent,
-            this, &MainWindow::updatePanel
-        );
-        connect(
-            scene, &VScene::sigkeyPressEvent,
-            this, &MainWindow::updatePanel
-        );
-        connect(
-            scene, &VScene::sigkeyReleaseEvent,
-            this, &MainWindow::updatePanel
-        );
+    /*connect des boutons zoom*/
+    connect(  _zoom,             &QSlider::valueChanged, this,       &MainWindow::updateZoom  );
+    connect(  _reset,            &QPushButton::clicked,  this,       &MainWindow::resetZoom  );
 
-        connect(
-            scene, &VScene::sigRemoveItems,
-            this, &MainWindow::updatePanel
-        );
+    /*connect SIGS btn --> toolManager*/
+    connect(_rectangleTool,     &QAbstractButton::clicked, toolManager, &ToolManager::setRectangleTool);
+    connect(_ellipseTool,       &QAbstractButton::clicked, toolManager, &ToolManager::setEllipseTool);
+    connect(_mouseTool,         &QAbstractButton::clicked, toolManager, &ToolManager::setMouseTool);
 
-        connect(
-            _clear, &QAbstractButton::clicked,
-            scene, &VScene::removeAllShapes
-        );
+    /*connect de boutons*/
+    connect(_clear,             &QAbstractButton::clicked, this,       &MainWindow::clear);
+    connect(_save,              &QAbstractButton::clicked, this,       &MainWindow::saveDoc);
 
-<<<<<<< HEAD
-        connect(
-            _save, &QAbstractButton::clicked,
-            this, &MainWindow::saveDoc
-        );
-=======
-        /* Export */
+    /*connect SIGS scene --> toolManager*/
+    connect(scene,              &VScene::sigmousePressEvent,    toolManager,  &ToolManager::slotMousePress);
+    connect(scene,              &VScene::sigmouseMoveEvent,     toolManager,  &ToolManager::slotMouseMove);
+    connect(scene,              &VScene::sigmouseReleaseEvent,  toolManager,  &ToolManager::slotMouseRelease);
 
-        connect(actionExport_as_SVG, &QAction::triggered,
-                this, &MainWindow::exportSVG);
+    /*connect scene-->updatePanel*/
+    connect(scene,             &VScene::sigSceneHasChanged,  this,    &MainWindow::updatePanel);
 
-        connect(actionExport_as_PNG, &QAction::triggered,
-                this, &MainWindow::exportPNG);
-
-        connect(actionExport_as_JPG, &QAction::triggered,
-                this, &MainWindow::exportJPG);
-
-        connect(actionExport_as_BMP, &QAction::triggered,
-                this, &MainWindow::exportBMP);
->>>>>>> main
 }
+
+
+
 
 
 /* export scene to svg file */
@@ -165,8 +122,8 @@ void MainWindow::exportPNG(){
     QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as PNG file."), "filename",
        tr("PNG files (*.png)"));
 
-    QGraphicsView view(scene);
-    QImage image(view.size(), QImage::Format_ARGB32);
+    //QGraphicsView view(scene);
+    QImage image(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
     image.fill(Qt::transparent);
     QPainter painter(&image);
     scene->render(&painter);
@@ -186,9 +143,9 @@ void MainWindow::exportJPG(){
     QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as JPG file."), "filename",
        tr("JPG files (*.jpg)"));
 
-    QGraphicsView view(scene);
-    QImage image(view.size(), QImage::Format_ARGB32);
-    image.fill(Qt::transparent);
+    //QGraphicsView view(scene);
+    QImage image(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+    image.fill(Qt::white);
     QPainter painter(&image);
     scene->render(&painter);
     image.save(newPath, "JPG");
@@ -206,9 +163,9 @@ void MainWindow::exportBMP(){
     QString newPath = QFileDialog::getSaveFileName(this, tr("VectorIGO : Export as BMP file."), "filename",
        tr("BMP files (*.bmp)"));
 
-    QGraphicsView view(scene);
-    QImage image(view.size(), QImage::Format_ARGB32);
-    image.fill(Qt::transparent);
+    //QGraphicsView view(scene);
+    QImage image(scene->sceneRect().size().toSize(), QImage::Format_ARGB32);
+    image.fill(Qt::white);
     QPainter painter(&image);
     scene->render(&painter);
     image.save(newPath, "BMP");
@@ -216,59 +173,26 @@ void MainWindow::exportBMP(){
     std::cout << "Exported as BMP file to : " << newPath.toStdString() << std::endl;
 }
 
-void MainWindow::btn1Function()
-{
-    //sceneToSvg();
-    //rect1->setRect(0,0,250,300);
-    //graphicsView->scale(1/1.5,1/1.5);
-   // graphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    //graphicsView->resetTransform();
 
+void MainWindow::about()
+{
+    QMessageBox::about(this, tr("About VectorIGO"), tr("VectorIGO is a vector drawing software.\nIt is carried out as part of the M1 IHM 2023 course at Aix-Marseille University (AMU).\n\nContributors:\n\tMUSARDO Léo-Paul\n\tMSAYIF Bassem\n\tNICHOLAS Elijah\n\tOUARAB Juba\n\tPAPAZIAN Maxime"));
 }
 
-void MainWindow::btn2Function()
+
+void MainWindow::aboutQt()
 {
-    //sceneToSvg();
-    //rect1->setRect(0,0,30,30);
-    //scene->setSceneRect(0,0,5000,5000);
-    //graphicsView->setTransformationAnchor(QGraphicsView::AnchorUnderMouse);
-    //graphicsView->scale(2,2);
+    QMessageBox::aboutQt(this, tr("About Qt"));
 }
 
-qreal a = 0;
-void MainWindow::btn3Function()
+void MainWindow::quit()
 {
-    //sceneToSvg();
-    //a+=5;
-    //rect1->setTransformOriginPoint(rect1->rect().center());
-    //rect1->setRotation(a);
-
-
+    qApp->exit();
 }
 
 
 
 
-<<<<<<< HEAD
-void MainWindow::sceneToSvg()
-{
-    std::cout << "OUIIIIIIIII: " << std::endl;
-
-    QSvgGenerator svgGen;
-    svgGen.setFileName( "/Users/leopaul/Desktop/scene.svg" );
-    svgGen.setSize(QSize(200, 200));
-    svgGen.setViewBox(QRect(0, 0, 200, 200));
-    svgGen.setTitle(tr("SVG Generator Example Drawing"));
-    svgGen.setDescription(tr("description trop cool"));
-
-    QPainter painter( &svgGen );
-
-    scene->render( &painter );
-}
-
-
-=======
->>>>>>> main
 void clearLayout(QLayout* layout, bool deleteWidgets = true)
 {
     while (QLayoutItem* item = layout->takeAt(0))
@@ -313,10 +237,19 @@ void MainWindow::resetZoom()
     _zoom->setValue(100);
 }
 
+void MainWindow::zoomIn()
+{
+    _zoom->setValue(_zoom->value()+10);
+}
+
+void MainWindow::zoomOut()
+{
+    _zoom->setValue(_zoom->value()-10);
+}
 
 
 
-QString filePath;
+
 void MainWindow::saveDoc()
 {
 
@@ -324,58 +257,104 @@ void MainWindow::saveDoc()
         QString fileName = filePath;
 
         if (fileName.isEmpty())
-            fileName = QFileDialog::getSaveFileName();
+            fileName = QFileDialog::getSaveFileName(this, "Save File As", QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) +QDir::separator()+"file.igo") ;
         if (fileName.isEmpty())
             break;
 
         QFile file(fileName);
         if (!file.open(QIODevice::WriteOnly)) {
-            QMessageBox::warning(this,
-                                tr("File error"),
-                                tr("Failed to open\n%1").arg(fileName));
-
+            QMessageBox::warning(this, tr("File error"),tr("Failed to open\n%1").arg(fileName));
         } else {
             QTextStream stream(&file);
             scene->save(stream);
             filePath = fileName;
+            _file->setText(filePath.split(QDir::separator()).last());
             break;
         }
     }
 }
 
-void MainWindow::loadDoc()
+void MainWindow::saveDocAs()
 {
-    QString fileName = QFileDialog::getOpenFileName(this);
-    if (fileName.isEmpty())
-        return;
+    for (;;) {
+        QString fileName = QFileDialog::getSaveFileName(this, "Save File As", QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) +QDir::separator()+"copy.igo") ;
+        if (fileName.isEmpty())
+            break;
 
-    QFile file(fileName);
-    if (!file.open(QIODevice::ReadOnly)) {
-        QMessageBox::warning(this,
-                            tr("File error"),
-                            tr("Failed to open\n%1").arg(fileName));
+        QFile file(fileName);
+        if (!file.open(QIODevice::WriteOnly)) {
+            QMessageBox::warning( this,  tr("File error"),  tr("Failed to open\n%1").arg(fileName) );
+        } else {
+            QTextStream stream(&file);
+            scene->save(stream);
+            break;
+        }
+    }
+}
+
+void MainWindow::newProject()
+{
+
+    QMessageBox::StandardButton userChoice = QMessageBox::warning(this,"Warning", "Change current project ?", QMessageBox::Yes | QMessageBox::No );
+    if(userChoice!=QMessageBox::Yes){
         return;
     }
 
+    QMessageBox msgBoxSave;
+    msgBoxSave.setText("Save previous project ?");
+    msgBoxSave.setInformativeText("Save the modifications of your previous project?");
+    msgBoxSave.setStandardButtons(QMessageBox::Save | QMessageBox::No);
+    msgBoxSave.setDefaultButton(QMessageBox::Save);
+    int ret = msgBoxSave.exec();
+    if(ret!=QMessageBox::No){
+        saveDoc();
+    }
+
+    filePath = QString();
+    _file->setText("sans_titre.igo");
     scene->removeAllShapes();
-
-    QTextStream stream(&file);
-    scene->load(stream);
-
-//    if (!doc->load(stream)) {
-//        QMessageBox::warning(this,
-//                            tr("Parse error"),
-//                            tr("Failed to parse\n%1").arg(fileName));
-//        delete doc;
-//        return;
-//    }
-
-    filePath = fileName;
 }
 
+void MainWindow::loadDoc()
+{
+    QString fileName = QFileDialog::getOpenFileName(this, "Open VectorIGO project", QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), "IGO PROJECTS (*.igo)");
+    if (fileName.isEmpty()) return;
+
+    QFile file(fileName);
+    if (!file.open(QIODevice::ReadOnly)) {
+        QMessageBox::warning(this, tr("File error"),tr("Failed to open\n%1").arg(fileName));
+        return;
+    }
+
+    QMessageBox::StandardButton userChoice = QMessageBox::warning(this,"Warning", "Change current project ?", QMessageBox::Yes | QMessageBox::No );
+    if(userChoice!=QMessageBox::Yes){
+        return;
+    }
+
+    QMessageBox msgBoxSave;
+    msgBoxSave.setText("Save previous project ?");
+    msgBoxSave.setInformativeText("Save the modifications of your previous project?");
+    msgBoxSave.setStandardButtons(QMessageBox::Save | QMessageBox::No);
+    msgBoxSave.setDefaultButton(QMessageBox::Save);
+    int ret = msgBoxSave.exec();
+    if(ret!=QMessageBox::No){
+        saveDoc();
+    }
+
+    scene->removeAllShapes();
+    QTextStream stream(&file);
+    scene->load(stream);
+    filePath = fileName;
+    _file->setText(filePath.split(QDir::separator()).last());
+}
 
 
 MainWindow::~MainWindow()
 {
+}
+
+void MainWindow::clear()
+{
+    scene->removeAllShapes();
 }
 
