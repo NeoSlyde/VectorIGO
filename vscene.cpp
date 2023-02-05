@@ -67,7 +67,9 @@ void VScene::removeAllShapes()
 }
 
 
-
+void VScene::addShape(VShape *shape) {
+    addItem(shape);
+}
 
 
 

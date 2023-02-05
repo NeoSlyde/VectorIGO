@@ -15,7 +15,7 @@ void VRectangleTool::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent, VScen
     pBuildingRectangle = new VRectangle();
     pBuildingRectangle->setRect(0, 0, 6, 6);
     //pBuildingRectangle->setSelected(true);
-    scene->addItem(pBuildingRectangle);
+    scene->addShape(pBuildingRectangle);
     pBuildingRectangle->setPos( mouseEvent->scenePos().x(), mouseEvent->scenePos().y() );
 
 }
