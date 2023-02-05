@@ -17,6 +17,8 @@ SOURCES += \
     rectangle.cpp \
     toolmanager.cpp \
     vcolorpicker.cpp \
+    vdocument.cpp \
+    vexporter.cpp \
     vgrabber.cpp \
     vmousetool.cpp \
     vrectangletool.cpp \
@@ -24,6 +26,7 @@ SOURCES += \
     vshape.cpp \
     vtool.cpp \
     vtoolbutton.cpp \
+    vverticallayout.cpp \
     vview.cpp
 
 HEADERS += \
@@ -33,6 +36,8 @@ HEADERS += \
     rectangle.h \
     toolmanager.h \
     vcolorpicker.h \
+    vdocument.h \
+    vexporter.h \
     vgrabber.h \
     vmousetool.h \
     vrectangletool.h \
@@ -40,6 +45,7 @@ HEADERS += \
     vshape.h \
     vtool.h \
     vtoolbutton.h \
+    vverticallayout.h \
     vview.h
 
 FORMS += \

@@ -73,7 +73,8 @@ void ellipse::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
 
 QVariant ellipse::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-   if (change == ItemPositionChange && scene()) {
+   /*
+    if (change == ItemPositionChange && scene()) {
     QPointF newPos = value.toPointF();
     QRectF rect = scene()->sceneRect();
     if (!rect.contains(newPos)) {
@@ -82,6 +83,7 @@ QVariant ellipse::itemChange(GraphicsItemChange change, const QVariant &value)
         return newPos;
         }
     }
+    */
 
     if (change == QGraphicsEllipseItem::ItemSelectedHasChanged && scene() )
     {

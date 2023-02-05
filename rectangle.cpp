@@ -86,6 +86,7 @@ void VRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
 QVariant VRectangle::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     // Keep the shape inside the scene rect
+/*
     if (change == ItemPositionChange && scene()) {
         // value is the new position.
         QPointF newPos = value.toPointF();
@@ -97,7 +98,7 @@ QVariant VRectangle::itemChange(GraphicsItemChange change, const QVariant &value
             return newPos;
         }
     }
-
+*/
     // Toggle grabbers if selected or not
     if (change == QGraphicsItem::ItemSelectedHasChanged && scene() )
         {

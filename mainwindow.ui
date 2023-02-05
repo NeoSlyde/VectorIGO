@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>VectorIGO</string>
   </property>
   <property name="documentMode">
    <bool>false</bool>
@@ -94,6 +94,27 @@
           </layout>
          </item>
          <item>
+          <widget class="VToolButton" name="_rectangleToolBtn">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VToolButton" name="_ellipseToolBtn">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
+          <widget class="VToolButton" name="_mouseToolBtn">
+           <property name="text">
+            <string/>
+           </property>
+          </widget>
+         </item>
+         <item>
           <spacer name="horizontalSpacer">
            <property name="orientation">
             <enum>Qt::Horizontal</enum>
@@ -137,6 +158,11 @@
            <property name="text">
             <string/>
            </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/ressources/undo.png</normalon>
+            </iconset>
+           </property>
           </widget>
          </item>
          <item>
@@ -149,6 +175,11 @@
            </property>
            <property name="text">
             <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/ressources/redo.png</normalon>
+            </iconset>
            </property>
           </widget>
          </item>
@@ -257,7 +288,7 @@ QPushButton:hover:!pressed
          <item>
           <layout class="QVBoxLayout" name="_settings">
            <item>
-            <layout class="QVBoxLayout" name="_verticalLayout"/>
+            <layout class="QVBoxLayout" name="verticalLayout_2"/>
            </item>
            <item>
             <spacer name="horizontalSpacer_3">
@@ -692,6 +723,11 @@ font-size: 36px;</string>
    <class>VView</class>
    <extends>QGraphicsView</extends>
    <header>vview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VToolButton</class>
+   <extends>QPushButton</extends>
+   <header>vtoolbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>

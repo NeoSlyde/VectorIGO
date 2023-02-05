@@ -14,7 +14,9 @@ class VToolButton : public QPushButton
 
 public:
 
-    VToolButton(QString toolId);
+    VToolButton(QString toolId, QIcon iconIn);
+    VToolButton(QWidget *parent = nullptr);
+    void set(QString toolId, QIcon iconIn);
     void notifyButton(QString toolId);
     QString buttonToolId;
     void enterEvent(QEnterEvent *event) override;
