@@ -4,6 +4,8 @@
 #include <QtWidgets/QGraphicsView>
 #include "mainwindow.h"
 #include "toolmanager.h"
+#include "vtoolbutton.h"
+#include "vrectangletool.h"
 #include <iostream>
 #include "ellipse.h"
 #include <QSvgGenerator>
@@ -20,14 +22,23 @@ MainWindow::MainWindow(QWidget *parent)
     setupUi(this);
     _panel->setVisible(false);
     setWindowTitle(QString("VectorIGO"));
+
+    _rectangleTool = new VToolButton(VRectangleTool::getID());
     _rectangleTool->setIcon(QIcon(":/ressources/form_square.png"));
+    _tools->addWidget(_rectangleTool);
+
+    _ellipseTool = new VToolButton(ellipseTool::getID());
+    _ellipseTool->setIcon(QIcon(":/ressources/ellipse.png"));
+    _tools->addWidget(_ellipseTool);
+
+    _mouseTool = new VToolButton(VMouseTool::getID());
     _mouseTool->setIcon(QIcon(":/ressources/pencil.png"));
-    _textTool->setIcon(QIcon(":/ressources/text.png"));
-    _courbeTool->setIcon(QIcon(":/ressources/pen.png"));
+    _tools->addWidget(_mouseTool);
+
     _undo->setIcon(QIcon(":/ressources/undo.png"));
     _redo->setIcon(QIcon(":/ressources/redo.png"));
-    _ellipseTool->setIcon(QIcon(":/ressources/ellipse.png"));
-    _groupBox_2->setStyleSheet("QGroupBox {border: 1px solid #CECECE;border-radius: 5px;margin-top: 0.5em;background-color: #FFFFFF;}QGroupBox::title {subcontrol-origin: margin;subcontrol-position: top center;padding: 0 3px;}");
+
+    //_groupBox_2->setStyleSheet("QGroupBox {border: 1px solid #CECECE;border-radius: 5px;margin-top: 0.5em;background-color: #FFFFFF;}QGroupBox::title {subcontrol-origin: margin;subcontrol-position: top center;padding: 0 3px;}");
 
     /*objets importants*/
     scene = new VScene(this);
@@ -64,9 +75,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(  _reset,            &QPushButton::clicked,  this,       &MainWindow::resetZoom  );
 
     /*connect SIGS btn --> toolManager*/
-    connect(_rectangleTool,     &QAbstractButton::clicked, toolManager, &ToolManager::setRectangleTool);
-    connect(_ellipseTool,       &QAbstractButton::clicked, toolManager, &ToolManager::setEllipseTool);
-    connect(_mouseTool,         &QAbstractButton::clicked, toolManager, &ToolManager::setMouseTool);
+    connect(_rectangleTool,       &VToolButton::clicked,     toolManager, &ToolManager::setRectangleTool);
+    connect(_ellipseTool,         &VToolButton::clicked,     toolManager, &ToolManager::setEllipseTool);
+    connect(_mouseTool,           &VToolButton::clicked,     toolManager, &ToolManager::setMouseTool);
 
     /*connect de boutons*/
     connect(_clear,             &QAbstractButton::clicked, this,       &MainWindow::clear);
@@ -79,6 +90,11 @@ MainWindow::MainWindow(QWidget *parent)
 
     /*connect scene-->updatePanel*/
     connect(scene,             &VScene::sigSceneHasChanged,  this,    &MainWindow::updatePanel);
+
+    /*connect toolManager-->toolBar*/
+    connect(toolManager,             &ToolManager::sigToolChanged,  _rectangleTool,    &VToolButton::notifyButton);
+    connect(toolManager,             &ToolManager::sigToolChanged,  _ellipseTool,    &VToolButton::notifyButton);
+    connect(toolManager,             &ToolManager::sigToolChanged,  _mouseTool,    &VToolButton::notifyButton);
 
 }
 
@@ -223,6 +239,8 @@ void MainWindow::updatePanel()
         _panel->setVisible(true);
     }
 }
+
+
 
 void MainWindow::updateZoom(int inputZoom)
 {

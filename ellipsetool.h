@@ -10,6 +10,9 @@ public:
     void mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)   override;
     void mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)    override;
     void mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager) override;
+    static QString getID();
+
+
 private:
     ellipse* pBuildingEllipse;
 };

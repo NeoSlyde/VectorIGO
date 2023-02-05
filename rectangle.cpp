@@ -143,7 +143,6 @@ void VRectangle::updateGrabbersVisibility()
 
         std::cout << "RECT SELECTED" << selectedShape->toString().toStdString() <<std::endl;
 
-        std::cout<<"lh ma 3m bi bayno w err recttts"<<std::endl;
         grabber1->setVisible(true);
         grabber2->setVisible(true);
         grabber3->setVisible(true);

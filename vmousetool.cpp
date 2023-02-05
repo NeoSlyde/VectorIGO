@@ -25,3 +25,8 @@ void VMouseTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene*
     scene->mouseReleaseEventDefault(mouseEvent);
 
 }
+
+QString VMouseTool::getID()
+{
+    return QString("mouseTool");
+}

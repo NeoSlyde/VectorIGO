@@ -31,6 +31,11 @@ private:
     VMouseTool* mouseTool = new VMouseTool();
     VTool* CurrentTool = mouseTool;
     ellipseTool* ellipsetool=new ellipseTool();
+
+
+signals:
+    void sigToolChanged(QString toolId);
+
 };
 
 

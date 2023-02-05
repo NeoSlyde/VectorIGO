@@ -4,7 +4,7 @@
 #include "ui_mainwindow.h"
 #include "rectangle.h"
 #include "ellipse.h"
-
+#include "vtoolbutton.h"
 #include "vscene.h"
 #include <QMainWindow>
 #include <QFileDialog>
@@ -20,9 +20,6 @@ public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
     VScene *scene;
-    QGraphicsEllipseItem *ellipse;
-    QGraphicsRectItem *rectangle;
-    QGraphicsTextItem *text;
     void sceneToSvg();
 
 public slots:
@@ -49,6 +46,9 @@ private:
     QString filePath;
     std::unique_ptr<QDialog> colorPickerFill;
     std::unique_ptr<QDialog> colorPickerStroke;
+    VToolButton* _rectangleTool = nullptr;
+    VToolButton* _ellipseTool = nullptr;
+    VToolButton* _mouseTool = nullptr;
 };
 
 #endif // MAINWINDOW_H

@@ -23,6 +23,7 @@ SOURCES += \
     vscene.cpp \
     vshape.cpp \
     vtool.cpp \
+    vtoolbutton.cpp \
     vview.cpp
 
 HEADERS += \
@@ -38,6 +39,7 @@ HEADERS += \
     vscene.h \
     vshape.h \
     vtool.h \
+    vtoolbutton.h \
     vview.h
 
 FORMS += \
