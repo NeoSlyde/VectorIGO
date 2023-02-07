@@ -11,15 +11,24 @@ class ellipse: public VShape, public QGraphicsEllipseItem
      Q_OBJECT
 public:
     ellipse(QObject *parent = nullptr, QGraphicsEllipseItem *parentGraphic = nullptr);
-    QLayout* getPanel() override;
     void updateZvalue(int z) override;
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void updateGrabbersPosition();
     void updateGrabbersVisibility();
     QString toString() override;
+    VShape* clone() override;
+    void setVisible(bool value) override;
+    void setSelected(bool value) override;
+    void MoveBy(QPointF delta) override;
+    void Accept(VShapeVisitor* visitor) override;
+    QColor getStrokeColor();
+    QColor getFillColor();
+    qreal getThickness();
+
+
 
 private:
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     VGrabber* grabber1 = nullptr;
     VGrabber* grabber2 = nullptr;
     VGrabber* grabber3 = nullptr;
@@ -57,8 +66,6 @@ public slots:
     void resizeFromLeft(QGraphicsSceneMouseEvent *event);
 
     void slotRotate(int rota);
-    void slotResizeFromTopLeftX(int x);
-    void slotResizeFromTopLeftY(int y);
     void setWidth(qreal inputWidth);
     void setHeight(qreal inputHeight);
     void updateStrokeColor(QColor col);

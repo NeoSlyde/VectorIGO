@@ -17,14 +17,21 @@ SOURCES += \
     rectangle.cpp \
     toolmanager.cpp \
     vcolorpicker.cpp \
+    vdeserializer.cpp \
+    vdocument.cpp \
+    vexporter.cpp \
     vgrabber.cpp \
     vmousetool.cpp \
+    vpanelvisitor.cpp \
     vrectangletool.cpp \
     vscene.cpp \
+    vserializevisitor.cpp \
     vshape.cpp \
+    vshapevisitor.cpp \
     vtool.cpp \
-    vview.cpp \
-    qdialog.cpp
+    vtoolbutton.cpp \
+    vverticallayout.cpp \
+    vview.cpp
 
 HEADERS += \
     ellipse.h \
@@ -33,18 +40,24 @@ HEADERS += \
     rectangle.h \
     toolmanager.h \
     vcolorpicker.h \
+    vdeserializer.h \
+    vdocument.h \
+    vexporter.h \
     vgrabber.h \
     vmousetool.h \
+    vpanelvisitor.h \
     vrectangletool.h \
     vscene.h \
+    vserializevisitor.h \
     vshape.h \
+    vshapevisitor.h \
     vtool.h \
-    vview.h \
-    qdialog.h
+    vtoolbutton.h \
+    vverticallayout.h \
+    vview.h
 
 FORMS += \
-    mainwindow.ui\
-    qdialog.ui
+    mainwindow.ui
 
 # Default rules for deployment.
 qnx: target.path = /tmp/$${TARGET}/bin

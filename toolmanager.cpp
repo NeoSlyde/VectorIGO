@@ -1,7 +1,7 @@
 #include "toolmanager.h"
 #include "vrectangletool.h"
-#include "vmousetool.h"
 #include "ellipsetool.h"
+#include "vmousetool.h"
 
 
 ToolManager::ToolManager(QObject *parent)
@@ -15,17 +15,20 @@ ToolManager::ToolManager(QObject *parent)
 void ToolManager::setRectangleTool()
 {
     this->CurrentTool = rectangleTool;
+    sigToolChanged(VRectangleTool::getID());
 }
+
 void ToolManager::setEllipseTool()
 {
     this->CurrentTool = ellipsetool;
+    sigToolChanged(ellipseTool::getID());
 }
-
 
 
 void ToolManager::setMouseTool()
 {
     this->CurrentTool = mouseTool;
+    sigToolChanged(VMouseTool::getID());
 }
 
 

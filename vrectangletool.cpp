@@ -44,3 +44,8 @@ void VRectangleTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent, VSc
 {
     toolmanager->setMouseTool();
 }
+
+QString VRectangleTool::getID()
+{
+    return QString("rectangleTool");
+}

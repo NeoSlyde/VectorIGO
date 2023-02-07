@@ -11,11 +11,11 @@ public:
     VView(QWidget *parent = nullptr);
     void drawBackground(QPainter *painter, const QRectF &rect) override;
 
-
-
-
-
-
+public slots:
+    void updateZoom(int inputZoom);
+    void resetZoom();
+    void zoomIn();
+    void zoomOut();
 
 
 

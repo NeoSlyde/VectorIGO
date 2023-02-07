@@ -4,9 +4,15 @@
 #include "ui_mainwindow.h"
 #include "rectangle.h"
 #include "ellipse.h"
-
+#include "vtoolbutton.h"
 #include "vscene.h"
+#include "toolmanager.h"
+#include "vexporter.h"
+#include "vdocument.h"
+#include "vverticallayout.h"
 #include <QMainWindow>
+#include <QFileDialog>
+#include <QMessageBox>
 
 
 
@@ -17,29 +23,15 @@ class MainWindow : public QMainWindow, private Ui::MainWindow
 public:
     MainWindow(QWidget *parent = nullptr);
     ~MainWindow();
-    VScene *scene;
-    QGraphicsEllipseItem *ellipse;
-    QGraphicsRectItem *rectangle;
-    QGraphicsTextItem *text;
-    void sceneToSvg();
-    VRectangle* rect1;
-    VRectangle* rect2;
+    VScene *_scene;
+    ToolManager* _toolManager;
+    VExporter* _exporter;
+    VDocument* _document;
+    VVerticalLayout* shapeSettingsSection;
 
 public slots:
-    void updatePanel();
-    void updateZoom(int inputZoom);
-    void resetZoom();
-    void exportSVG();
-    void exportPNG();
-    void exportJPG();
-    void exportBMP();
-    void btn1Function();
-    void btn2Function();
-    void btn3Function();
-
-private:
-    std::unique_ptr<QDialog> colorPickerFill;
-    std::unique_ptr<QDialog> colorPickerStroke;
+    void clearAllShapes();
+    void quit();
 };
 
 #endif // MAINWINDOW_H

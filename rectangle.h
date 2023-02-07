@@ -14,18 +14,27 @@ class VRectangle : public VShape, public QGraphicsRectItem
 
 
 public:
-    VRectangle(QObject *parent = nullptr, QGraphicsItem *parentGraphic = nullptr);
-    QLayout* getPanel() override;
+    VRectangle(QGraphicsItem *parentGraphic = nullptr,QObject *parent = nullptr);
     void updateZvalue(int z) override;
     //~VRectangle();
-
-    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
-    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     void updateGrabbersPosition();
     void updateGrabbersVisibility();
     QString toString() override;
+    VShape* clone() override;
+    void setVisible(bool value) override;
+    void setSelected(bool value) override;
+    void MoveBy(QPointF delta) override;
+    void Accept(VShapeVisitor* visitor) override;
+    QColor getStrokeColor();
+    QColor getFillColor();
+    qreal getThickness();
+
+
 
 private:
+
+    void paint(QPainter *painter, const QStyleOptionGraphicsItem *option, QWidget *widget = nullptr) override;
+    QVariant itemChange(GraphicsItemChange change, const QVariant &value) override;
     VGrabber* grabber1 = nullptr;
     VGrabber* grabber2 = nullptr;
     VGrabber* grabber3 = nullptr;
@@ -63,8 +72,6 @@ public slots:
 
     //panel inputs
     void slotRotate(int rota);
-    void slotResizeFromTopLeftX(int x);
-    void slotResizeFromTopLeftY(int y);
     void setWidth(qreal inputWidth);
     void setHeight(qreal inputHeight);
     void updateStrokeColor(QColor col);

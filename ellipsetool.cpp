@@ -42,7 +42,10 @@ void ellipseTool::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* s
 void ellipseTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)
 {
     toolmanager->setMouseTool();
+}
 
-
+QString ellipseTool::getID()
+{
+    return QString("ellipseTool");
 }
 

@@ -73,7 +73,8 @@ void ellipse::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
 
 QVariant ellipse::itemChange(GraphicsItemChange change, const QVariant &value)
 {
-   if (change == ItemPositionChange && scene()) {
+   /*
+    if (change == ItemPositionChange && scene()) {
     QPointF newPos = value.toPointF();
     QRectF rect = scene()->sceneRect();
     if (!rect.contains(newPos)) {
@@ -82,6 +83,7 @@ QVariant ellipse::itemChange(GraphicsItemChange change, const QVariant &value)
         return newPos;
         }
     }
+    */
 
     if (change == QGraphicsEllipseItem::ItemSelectedHasChanged && scene() )
     {
@@ -168,265 +170,6 @@ void ellipse::setHeight(qreal inputHeight)
 
 }
 
-QLayout* ellipse::getPanel()
-{
-    updateGrabbersVisibility();
-    std::cout << "GET ELLIPSE PANEL" << std::endl;
-    QVBoxLayout* panel = new QVBoxLayout();
-
-    QLabel* labelSettings = new QLabel();
-    labelSettings->setAlignment(Qt::AlignCenter);
-    labelSettings->setText(QString("Settings"));
-    panel->addWidget(labelSettings);
-    labelSettings->setStyleSheet("QLabel { padding-bottom: 10px; }");
-    QFont font = labelSettings->font();
-    font.setBold(true);
-    font.setPointSize(14);
-    labelSettings->setFont(font);
-    QFrame* line = new QFrame();
-    line->setFrameShape(QFrame::HLine);
-    line->setFrameShadow(QFrame::Sunken);
-    panel->addWidget(line);
-
-
-    QLabel* lableTL = new QLabel();
-    lableTL->setAlignment(Qt::AlignCenter);
-    lableTL->setText(QString("Top Left Coordinates"));
-    panel->addWidget(lableTL);
-
-    QHBoxLayout* layoutCoordTL = new QHBoxLayout();
-    panel->addItem(layoutCoordTL);
-
-    QLabel* labelTLX = new QLabel();
-    labelTLX->setText(QString("X:"));
-    layoutCoordTL->addWidget(labelTLX);
-
-    QLineEdit* lineEditTLX = new QLineEdit();
-    lineEditTLX->setText( QString::number(mapToScene(boundingRect().topLeft()).x()) );
-    lineEditTLX->setReadOnly(true);
-    lineEditTLX->setAlignment(Qt::AlignCenter);
-    //lineEditTPX->setMaximumWidth(38);
-    layoutCoordTL->addWidget(lineEditTLX);
-
-    QLabel* labelTLY = new QLabel();
-    labelTLY->setText(QString("Y:"));
-    layoutCoordTL->addWidget(labelTLY);
-
-    QLineEdit* lineEditTLY = new QLineEdit();
-    lineEditTLY->setText( QString::number(mapToScene(boundingRect().topLeft()).y()) );
-    lineEditTLY->setReadOnly(true);
-    lineEditTLY->setAlignment(Qt::AlignCenter);
-    layoutCoordTL->addWidget(lineEditTLY);
-
-
-
-    QLabel* lableTR = new QLabel();
-    lableTR->setAlignment(Qt::AlignCenter);
-    lableTR->setText(QString("Top Right Coordinates"));
-    panel->addWidget(lableTR);
-
-    QHBoxLayout* layoutCoordTR = new QHBoxLayout();
-    panel->addItem(layoutCoordTR);
-
-    QLabel* labelTRX = new QLabel();
-    labelTRX->setText(QString("X:"));
-    layoutCoordTR->addWidget(labelTRX);
-
-    QLineEdit* lineEditTRX = new QLineEdit();
-    lineEditTRX->setText( QString::number(mapToScene(boundingRect().topRight()).x()) );
-    lineEditTRX->setReadOnly(true);
-    lineEditTRX->setAlignment(Qt::AlignCenter);
-    layoutCoordTR->addWidget(lineEditTRX);
-
-    QLabel* labelTRY = new QLabel();
-    labelTRY->setText(QString("Y:"));
-    layoutCoordTR->addWidget(labelTRY);
-
-    QLineEdit* lineEditTRY = new QLineEdit();
-    lineEditTRY->setText( QString::number(mapToScene(boundingRect().topRight()).y()) );
-    lineEditTRY->setReadOnly(true);
-    lineEditTRY->setAlignment(Qt::AlignCenter);
-    layoutCoordTR->addWidget(lineEditTRY);
-
-
-    QLabel* lableBR = new QLabel();
-    lableBR->setAlignment(Qt::AlignCenter);
-    lableBR->setText(QString("Bottom Right Coordinates"));
-    panel->addWidget(lableBR);
-
-    QHBoxLayout* layoutCoordBR = new QHBoxLayout();
-    panel->addItem(layoutCoordBR);
-
-    QLabel* labelBRX = new QLabel();
-    labelBRX->setText(QString("X:"));
-    layoutCoordBR->addWidget(labelBRX);
-
-    QLineEdit* lineEditBRX = new QLineEdit();
-    lineEditBRX->setText( QString::number(mapToScene(boundingRect().bottomRight()).x()) );
-    lineEditBRX->setReadOnly(true);
-    lineEditBRX->setAlignment(Qt::AlignCenter);
-    //lineEditTPX->setMaximumWidth(38);
-    layoutCoordBR->addWidget(lineEditBRX);
-
-    QLabel* labelBRY = new QLabel();
-    labelBRY->setText(QString("Y:"));
-    layoutCoordBR->addWidget(labelBRY);
-
-    QLineEdit* lineEditBRY = new QLineEdit();
-    lineEditBRY->setText( QString::number(mapToScene(boundingRect().bottomRight()).y()) );
-    lineEditBRY->setReadOnly(true);
-    lineEditBRY->setAlignment(Qt::AlignCenter);
-    layoutCoordBR->addWidget(lineEditBRY);
-
-
-
-    QLabel* lableBL = new QLabel();
-    lableBL->setAlignment(Qt::AlignCenter);
-    lableBL->setText(QString("Bottom Left Coordinates"));
-    panel->addWidget(lableBL);
-
-    QHBoxLayout* layoutCoordBL = new QHBoxLayout();
-    panel->addItem(layoutCoordBL);
-
-    QLabel* labelBLX = new QLabel();
-    labelBLX->setText(QString("X:"));
-    layoutCoordBL->addWidget(labelBLX);
-
-    QLineEdit* lineEditBLX = new QLineEdit();
-    lineEditBLX->setText( QString::number(mapToScene(boundingRect().bottomLeft()).x()) );
-    lineEditBLX->setReadOnly(true);
-    lineEditBLX->setAlignment(Qt::AlignCenter);
-    layoutCoordBL->addWidget(lineEditBLX);
-
-    QLabel* labelBLY = new QLabel();
-    labelBLY->setText(QString("Y:"));
-    layoutCoordBL->addWidget(labelBLY);
-
-    QLineEdit* lineEditBLY = new QLineEdit();
-    lineEditBLY->setText( QString::number(mapToScene(boundingRect().bottomLeft()).y()) );
-    lineEditBLY->setReadOnly(true);
-    lineEditBLY->setAlignment(Qt::AlignCenter);
-    //lineEditTPY->setMaximumWidth(38);
-    layoutCoordBL->addWidget(lineEditBLY);
-
-//
-//
-    QHBoxLayout* layoutWidth = new QHBoxLayout();
-    layoutWidth->setAlignment(Qt::AlignLeft);
-    panel->addItem(layoutWidth);
-
-    QLabel* labelWidth = new QLabel();
-    labelWidth->setAlignment(Qt::AlignCenter);
-    labelWidth->setText(QString("Width"));
-    layoutWidth->addWidget(labelWidth);
-
-    QSpinBox* spinBoxWidth = new QSpinBox();
-    spinBoxWidth->setRange(4, INT_MAX);
-    spinBoxWidth->setValue(boundingRect().width());
-    spinBoxWidth->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxWidth, &QSpinBox::valueChanged,  this, &ellipse::setWidth );
-    layoutWidth->addWidget(spinBoxWidth);
-
-//
-//
-    QHBoxLayout* layoutHeight = new QHBoxLayout();
-    panel->addItem(layoutHeight);
-    layoutHeight->setAlignment(Qt::AlignLeft);
-
-    QLabel* labelHeight = new QLabel();
-    labelHeight->setAlignment(Qt::AlignCenter);
-    labelHeight->setText(QString("Height"));
-    layoutHeight->addWidget(labelHeight);
-
-    QSpinBox* spinBoxHeight = new QSpinBox();
-    spinBoxHeight->setRange(4, INT_MAX);
-    spinBoxHeight->setValue(boundingRect().height());
-    spinBoxHeight->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxHeight, &QSpinBox::valueChanged,  this, &ellipse::setHeight );
-    layoutHeight->addWidget(spinBoxHeight);
-
-//
-//
-    QHBoxLayout* layoutRoata = new QHBoxLayout();
-    panel->addItem(layoutRoata);
-    layoutRoata->setAlignment(Qt::AlignLeft);
-
-    QLabel* labelRota = new QLabel();
-    labelRota->setAlignment(Qt::AlignCenter);
-    labelRota->setText(QString("Rotation"));
-    layoutRoata->addWidget(labelRota);
-
-    QSpinBox* spinBoxRota = new QSpinBox();
-    spinBoxRota->setRange(0, 360);
-    spinBoxRota->setValue(rotation());
-    spinBoxRota->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxRota, &QSpinBox::valueChanged,  this, &ellipse::slotRotate );
-    layoutRoata->addWidget(spinBoxRota);
-
-//
-    QHBoxLayout* layoutThickness = new QHBoxLayout();
-    panel->addItem(layoutThickness);
-    layoutThickness->setAlignment(Qt::AlignLeft);
-
-    QLabel* labelThickness = new QLabel();
-    labelThickness->setAlignment(Qt::AlignCenter);
-    labelThickness->setText(QString("Thickness"));
-    layoutThickness->addWidget(labelThickness);
-
-    QDoubleSpinBox* spinBoxThickness = new QDoubleSpinBox();
-    spinBoxThickness->setRange(0, 40);
-    spinBoxThickness->setValue(thickness);
-    spinBoxThickness->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxThickness, &QDoubleSpinBox::valueChanged,  this, &ellipse::updateThickness );
-    layoutThickness->addWidget(spinBoxThickness);
-//
-    QLabel* labelColor = new QLabel();
-    labelColor->setAlignment(Qt::AlignCenter);
-    labelColor->setText(QString("Color"));
-    panel->addWidget(labelColor);
-
-    QHBoxLayout* layoutColor = new QHBoxLayout();
-    panel->addItem(layoutColor);
-
-    QLabel* labelSC = new QLabel();
-    labelSC->setAlignment(Qt::AlignCenter);
-    labelSC->setText(QString("Stroke"));
-    layoutColor->addWidget(labelSC);
-
-    VColorPicker* colorPickerStroke = new VColorPicker();
-    colorPickerStroke->setColor(strokeColor);
-    connect(  colorPickerStroke, &VColorPicker::sigColorChanged,  this, &ellipse::updateStrokeColor );
-    layoutColor->addWidget(colorPickerStroke);
-
-    QLabel* labelFC = new QLabel();
-    labelFC->setAlignment(Qt::AlignCenter);
-    labelFC->setText(QString("Fill"));
-    layoutColor->addWidget(labelFC);
-
-    VColorPicker* colorPickerFill = new VColorPicker();
-    colorPickerFill->setColor(FillColor);
-    connect(  colorPickerFill, &VColorPicker::sigColorChanged,  this, &ellipse::updateFillColor );
-    layoutColor->addWidget(colorPickerFill);
-
-    QHBoxLayout* layoutZvalue = new QHBoxLayout();
-    panel->addItem(layoutZvalue);
-    layoutZvalue->setAlignment(Qt::AlignLeft);
-
-    QLabel* labelZvalue = new QLabel();
-    labelZvalue->setAlignment(Qt::AlignCenter);
-    labelZvalue->setText(QString("Position / Z-Value"));
-    layoutZvalue->addWidget(labelZvalue);
-
-    QSpinBox* spinBoxZvalue = new QSpinBox();
-    spinBoxZvalue->setRange(0, 100);
-    spinBoxZvalue->setValue(zValue());
-    spinBoxZvalue->setAlignment(Qt::AlignCenter);
-    connect(  spinBoxZvalue, &QSpinBox::valueChanged,  this, &ellipse::updateZvalue );
-    layoutZvalue->addWidget(spinBoxZvalue);
-
-
-    return panel;
-}
 
 qreal ellipse::distance(QPointF p1, QPointF p2)
 {
@@ -470,6 +213,21 @@ void ellipse::doRotation(int rota)
     setTransformOriginPoint(boundingRect().center());
     setRotation(rota);
     updateGrabbersVisibility();
+}
+
+QColor ellipse::getStrokeColor()
+{
+    return strokeColor;
+}
+
+QColor ellipse::getFillColor()
+{
+    return FillColor;
+}
+
+qreal ellipse::getThickness()
+{
+    return thickness;
 }
 
 
@@ -578,30 +336,59 @@ void ellipse::resizeFromLeft(QGraphicsSceneMouseEvent *event)
 
 }
 
-void ellipse::slotResizeFromTopLeftX(int x)
-{
-    resize( QPointF(x, mapToParent(rect().topLeft()).y())  );
-    anchorGrabberDeformation = mapToParent(rect().bottomRight());
-
-}
-void ellipse::slotResizeFromTopLeftY(int y)
-{
-    resize( QPointF(mapToParent(rect().topLeft()).x(), y) );
-    anchorGrabberDeformation = mapToParent(rect().bottomRight());
-
-}
-
 
 void ellipse::slotRotate(int rota)
 {
     doRotation(rota);
 }
+
 void ellipse::updateZvalue(int z)
 {
     setZValue(z);
 }
+
+VShape* ellipse::clone()
+{
+    ellipse* newEllipse = new ellipse();
+    scene()->addItem(newEllipse);
+    newEllipse->setPos(pos());
+    newEllipse->setRect(rect());
+    newEllipse->setRotation(rotation());
+    newEllipse->updateStrokeColor(strokeColor);
+    newEllipse->updateFillColor(FillColor);
+    newEllipse->updateThickness(thickness);
+    newEllipse->setVisible(false);
+    return newEllipse;
+}
+
+void ellipse::setVisible(bool value)
+{
+    QGraphicsItem::setVisible(value);
+    updateGrabbersPosition();
+    updateGrabbersVisibility();
+}
+
+void ellipse::setSelected(bool value)
+{
+    QGraphicsItem::setSelected(value);
+}
+
+void ellipse::MoveBy(QPointF delta)
+{
+    QGraphicsItem::moveBy(delta.x(),delta.y());
+}
+
+
+
+void ellipse::Accept(VShapeVisitor *visitor)
+{
+    visitor->visit(this);
+}
+
+
+
 QString ellipse::toString()
 {
-    return QString("Ceci est un cercle");
+    return QString("ellipse");
 }
 

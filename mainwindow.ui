@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>VectorIGO</string>
   </property>
   <property name="documentMode">
    <bool>false</bool>
@@ -19,21 +19,30 @@
   <widget class="QWidget" name="centralwidget">
    <layout class="QVBoxLayout" name="verticalLayout_3">
     <property name="spacing">
-     <number>3</number>
+     <number>10</number>
+    </property>
+    <property name="topMargin">
+     <number>12</number>
     </property>
     <item>
      <widget class="QGroupBox" name="_groupBox_2">
+      <property name="enabled">
+       <bool>true</bool>
+      </property>
       <property name="minimumSize">
        <size>
         <width>0</width>
-        <height>40</height>
+        <height>45</height>
        </size>
       </property>
       <property name="maximumSize">
        <size>
         <width>16777215</width>
-        <height>40</height>
+        <height>45</height>
        </size>
+      </property>
+      <property name="layoutDirection">
+       <enum>Qt::LeftToRight</enum>
       </property>
       <property name="autoFillBackground">
        <bool>true</bool>
@@ -41,66 +50,65 @@
       <property name="title">
        <string/>
       </property>
+      <property name="flat">
+       <bool>false</bool>
+      </property>
       <layout class="QVBoxLayout" name="verticalLayout_4">
        <property name="spacing">
-        <number>10</number>
+        <number>0</number>
        </property>
        <property name="leftMargin">
-        <number>15</number>
+        <number>10</number>
        </property>
        <property name="topMargin">
         <number>0</number>
        </property>
        <property name="rightMargin">
-        <number>15</number>
+        <number>10</number>
        </property>
        <property name="bottomMargin">
         <number>0</number>
        </property>
        <item>
         <layout class="QHBoxLayout" name="_toolbar">
+         <property name="spacing">
+          <number>10</number>
+         </property>
+         <property name="sizeConstraint">
+          <enum>QLayout::SetMaximumSize</enum>
+         </property>
+         <property name="topMargin">
+          <number>0</number>
+         </property>
          <item>
-          <widget class="QPushButton" name="_mouseTool">
+          <layout class="QHBoxLayout" name="_tools">
+           <property name="spacing">
+            <number>0</number>
+           </property>
+           <property name="sizeConstraint">
+            <enum>QLayout::SetMaximumSize</enum>
+           </property>
+           <property name="topMargin">
+            <number>0</number>
+           </property>
+          </layout>
+         </item>
+         <item>
+          <widget class="VToolButton" name="_rectangleToolBtn">
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="_rectangleTool">
-           <property name="text">
-            <string/>
-           </property>
-           <property name="checkable">
-            <bool>false</bool>
-           </property>
-           <property name="checked">
-            <bool>false</bool>
-           </property>
-           <property name="autoRepeat">
-            <bool>false</bool>
-           </property>
-           <property name="autoExclusive">
-            <bool>false</bool>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="_ellipseTool">
+          <widget class="VToolButton" name="_ellipseToolBtn">
            <property name="text">
             <string/>
            </property>
           </widget>
          </item>
          <item>
-          <widget class="QPushButton" name="_textTool">
-           <property name="text">
-            <string/>
-           </property>
-          </widget>
-         </item>
-         <item>
-          <widget class="QPushButton" name="_courbeTool">
+          <widget class="VToolButton" name="_mouseToolBtn">
            <property name="text">
             <string/>
            </property>
@@ -120,9 +128,9 @@
           </spacer>
          </item>
          <item>
-          <widget class="QLabel" name="label">
+          <widget class="QLabel" name="_file">
            <property name="text">
-            <string>Sans_titre.igo</string>
+            <string>sans_titre.igo</string>
            </property>
           </widget>
          </item>
@@ -143,12 +151,17 @@
           <widget class="QPushButton" name="_undo">
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>0</height>
+             <width>53</width>
+             <height>33</height>
             </size>
            </property>
            <property name="text">
             <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/ressources/undo.png</normalon>
+            </iconset>
            </property>
           </widget>
          </item>
@@ -156,12 +169,17 @@
           <widget class="QPushButton" name="_redo">
            <property name="minimumSize">
             <size>
-             <width>0</width>
-             <height>0</height>
+             <width>53</width>
+             <height>33</height>
             </size>
            </property>
            <property name="text">
             <string/>
+           </property>
+           <property name="icon">
+            <iconset>
+             <normalon>:/ressources/redo.png</normalon>
+            </iconset>
            </property>
           </widget>
          </item>
@@ -234,7 +252,11 @@ QPushButton:hover:!pressed
        <number>10</number>
       </property>
       <item>
-       <widget class="VView" name="_graphicsView"/>
+       <widget class="VView" name="_graphicsView">
+        <property name="renderHints">
+         <set>QPainter::Antialiasing|QPainter::TextAntialiasing</set>
+        </property>
+       </widget>
       </item>
       <item>
        <widget class="QGroupBox" name="_panel">
@@ -266,7 +288,7 @@ QPushButton:hover:!pressed
          <item>
           <layout class="QVBoxLayout" name="_settings">
            <item>
-            <layout class="QVBoxLayout" name="_verticalLayout"/>
+            <layout class="QVBoxLayout" name="verticalLayout_2"/>
            </item>
            <item>
             <spacer name="horizontalSpacer_3">
@@ -344,25 +366,18 @@ font-size: 36px;</string>
        </spacer>
       </item>
       <item>
-       <widget class="QLabel" name="label_10">
-        <property name="text">
-         <string>Zoom</string>
-        </property>
-       </widget>
-      </item>
-      <item>
        <widget class="QPushButton" name="_reset">
         <property name="enabled">
          <bool>true</bool>
         </property>
         <property name="maximumSize">
          <size>
-          <width>41</width>
+          <width>85</width>
           <height>16777215</height>
          </size>
         </property>
         <property name="text">
-         <string>reset</string>
+         <string>Reset Zoom</string>
         </property>
         <property name="checkable">
          <bool>false</bool>
@@ -443,7 +458,7 @@ font-size: 36px;</string>
      <x>0</x>
      <y>0</y>
      <width>923</width>
-     <height>23</height>
+     <height>24</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuVectorIgo">
@@ -462,7 +477,8 @@ font-size: 36px;</string>
     <addaction name="actionNew"/>
     <addaction name="actionOpen_Project"/>
     <addaction name="separator"/>
-    <addaction name="actionSave_3"/>
+    <addaction name="actionSave"/>
+    <addaction name="actionSave_as"/>
     <addaction name="menuExport"/>
     <addaction name="separator"/>
     <addaction name="actionExit"/>
@@ -476,8 +492,9 @@ font-size: 36px;</string>
     <addaction name="separator"/>
     <addaction name="actionCopy"/>
     <addaction name="actionPaste"/>
-    <addaction name="actionCut"/>
     <addaction name="actionDelete"/>
+    <addaction name="actionSelect_All"/>
+    <addaction name="actionClear"/>
    </widget>
    <widget class="QMenu" name="menuHelp">
     <property name="title">
@@ -485,94 +502,116 @@ font-size: 36px;</string>
     </property>
     <addaction name="actionCheck_for_Update"/>
     <addaction name="actionAbout"/>
+    <addaction name="actionAbout_Qt"/>
+   </widget>
+   <widget class="QMenu" name="menuOutils">
+    <property name="title">
+     <string>Tools</string>
+    </property>
+    <addaction name="actionRectangle"/>
+    <addaction name="actionEllispe"/>
+    <addaction name="actionMouse"/>
+   </widget>
+   <widget class="QMenu" name="menuView">
+    <property name="title">
+     <string>View</string>
+    </property>
+    <addaction name="actionZoom_In"/>
+    <addaction name="actionZoom_Out"/>
+    <addaction name="actionReset_Zoom"/>
    </widget>
    <addaction name="menuVectorIgo"/>
    <addaction name="menuEditions"/>
    <addaction name="menuHelp"/>
+   <addaction name="menuOutils"/>
+   <addaction name="menuView"/>
   </widget>
-  <action name="actioncqcac">
-   <property name="text">
-    <string>Open</string>
-   </property>
-  </action>
-  <action name="actionSave">
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </action>
-  <action name="actionSave_AS">
-   <property name="text">
-    <string>Save As</string>
-   </property>
-  </action>
-  <action name="actionSave_2">
-   <property name="text">
-    <string>Save</string>
-   </property>
-  </action>
-  <action name="actionSave_As">
-   <property name="text">
-    <string>Save As</string>
-   </property>
-  </action>
   <action name="actionNew">
    <property name="text">
     <string>New Project</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+N</string>
    </property>
   </action>
   <action name="actionOpen_Project">
    <property name="text">
     <string>Open Project</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+O</string>
+   </property>
   </action>
-  <action name="actionSave_3">
+  <action name="actionSave">
    <property name="text">
     <string>Save</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+S</string>
    </property>
   </action>
   <action name="actionExit">
    <property name="text">
     <string>Exit</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Q</string>
+   </property>
   </action>
   <action name="actionExport_as_SVG">
    <property name="text">
     <string>Export as SVG...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+&amp;</string>
    </property>
   </action>
   <action name="actionExport_as_PNG">
    <property name="text">
     <string>Export as PNG...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+É</string>
+   </property>
   </action>
   <action name="actionUndo">
    <property name="text">
     <string>Undo</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Z</string>
    </property>
   </action>
   <action name="actionRedo">
    <property name="text">
     <string>Redo</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+Y, Ctrl+Shift+Z</string>
+   </property>
   </action>
   <action name="actionCopy">
    <property name="text">
     <string>Copy</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+C</string>
    </property>
   </action>
   <action name="actionPaste">
    <property name="text">
     <string>Paste</string>
    </property>
-  </action>
-  <action name="actionCut">
-   <property name="text">
-    <string>Cut</string>
+   <property name="shortcut">
+    <string>Ctrl+V</string>
    </property>
   </action>
   <action name="actionDelete">
    <property name="text">
     <string>Delete</string>
+   </property>
+   <property name="shortcut">
+    <string>Backspace</string>
    </property>
   </action>
   <action name="actionCheck_for_Update">
@@ -589,10 +628,93 @@ font-size: 36px;</string>
    <property name="text">
     <string>Export as JPG...</string>
    </property>
+   <property name="shortcut">
+    <string>Ctrl+&quot;</string>
+   </property>
   </action>
   <action name="actionExport_as_BMP">
    <property name="text">
     <string>Export as BMP...</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+'</string>
+   </property>
+  </action>
+  <action name="actionSave_as">
+   <property name="text">
+    <string>Save As</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+Alt+S</string>
+   </property>
+  </action>
+  <action name="actionAbout_Qt">
+   <property name="text">
+    <string>About Qt</string>
+   </property>
+  </action>
+  <action name="actionSelect_All">
+   <property name="text">
+    <string>Select All</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+A</string>
+   </property>
+  </action>
+  <action name="actionRectangle">
+   <property name="text">
+    <string>Rectangle</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+R</string>
+   </property>
+  </action>
+  <action name="actionEllispe">
+   <property name="text">
+    <string>Ellispe</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+E</string>
+   </property>
+  </action>
+  <action name="actionMouse">
+   <property name="text">
+    <string>Mouse</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+M</string>
+   </property>
+  </action>
+  <action name="actionClear">
+   <property name="text">
+    <string>Clear</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+K</string>
+   </property>
+  </action>
+  <action name="actionZoom_In">
+   <property name="text">
+    <string>Zoom In</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+=</string>
+   </property>
+  </action>
+  <action name="actionZoom_Out">
+   <property name="text">
+    <string>Zoom Out</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+-</string>
+   </property>
+  </action>
+  <action name="actionReset_Zoom">
+   <property name="text">
+    <string>Reset Zoom</string>
+   </property>
+   <property name="shortcut">
+    <string>Ctrl+À</string>
    </property>
   </action>
  </widget>
@@ -601,6 +723,11 @@ font-size: 36px;</string>
    <class>VView</class>
    <extends>QGraphicsView</extends>
    <header>vview.h</header>
+  </customwidget>
+  <customwidget>
+   <class>VToolButton</class>
+   <extends>QPushButton</extends>
+   <header>vtoolbutton.h</header>
   </customwidget>
  </customwidgets>
  <resources/>
