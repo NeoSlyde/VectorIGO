@@ -17,6 +17,7 @@ SOURCES += \
     rectangle.cpp \
     toolmanager.cpp \
     vcolorpicker.cpp \
+    vdeserializer.cpp \
     vdocument.cpp \
     vexporter.cpp \
     vgrabber.cpp \
@@ -39,6 +40,7 @@ HEADERS += \
     rectangle.h \
     toolmanager.h \
     vcolorpicker.h \
+    vdeserializer.h \
     vdocument.h \
     vexporter.h \
     vgrabber.h \

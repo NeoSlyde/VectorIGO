@@ -336,24 +336,12 @@ void ellipse::resizeFromLeft(QGraphicsSceneMouseEvent *event)
 
 }
 
-void ellipse::slotResizeFromTopLeftX(int x)
-{
-    resize( QPointF(x, mapToParent(rect().topLeft()).y())  );
-    anchorGrabberDeformation = mapToParent(rect().bottomRight());
-
-}
-void ellipse::slotResizeFromTopLeftY(int y)
-{
-    resize( QPointF(mapToParent(rect().topLeft()).x(), y) );
-    anchorGrabberDeformation = mapToParent(rect().bottomRight());
-
-}
-
 
 void ellipse::slotRotate(int rota)
 {
     doRotation(rota);
 }
+
 void ellipse::updateZvalue(int z)
 {
     setZValue(z);
@@ -395,45 +383,6 @@ void ellipse::MoveBy(QPointF delta)
 void ellipse::Accept(VShapeVisitor *visitor)
 {
     visitor->visit(this);
-}
-
-QGraphicsItem* ellipse::deSerialize(QString input, QGraphicsScene* parentScene)
-{
-    QStringList elements = input.split(' ');
-    if (elements.count()!=11) return nullptr;
-
-    qreal posX, posY, rectX, rectY, rectW, rectH, rota, thick;
-    QColor stroke, fill;
-
-    try {
-        posX = elements.at(1).toDouble();
-        posY = elements.at(2).toDouble();
-        rectX = elements.at(3).toDouble();
-        rectY = elements.at(4).toDouble();
-        rectW = elements.at(5).toDouble();
-        rectH = elements.at(6).toDouble();
-        rota = elements.at(7).toDouble();
-        stroke = QColor(elements.at(8));
-        fill = QColor(elements.at(9));
-        thick = elements.at(10).toDouble();
-    } catch(...) {
-        return nullptr;
-    }
-
-    ellipse* newEllipse = new ellipse();
-    parentScene->addItem(newEllipse);
-    newEllipse->setPos(posX,posY);
-    newEllipse->setRect(QRectF(rectX,rectY, rectW, rectH));
-    newEllipse->setRotation(rota);
-    newEllipse->updateStrokeColor(stroke);
-    newEllipse->updateFillColor(fill);
-    newEllipse->updateThickness(thick);
-    newEllipse->updateGrabbersPosition();
-
-    std::cout << "ELLIPSE DESERIALIZED" << std::endl;
-
-
-    return newEllipse;
 }
 
 

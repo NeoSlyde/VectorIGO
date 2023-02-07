@@ -10,6 +10,7 @@
 #include <QKeyEvent>
 #include "rectangle.h"
 #include "ellipse.h"
+#include "vdeserializer.h"
 
 
 VScene::VScene(QObject *parent) :
@@ -103,8 +104,8 @@ QList<VShape *>* VScene::getSelectedShapes()
         QString shapeId = lineElements.at(0);
 
         QGraphicsItem* currentShape = nullptr;
-        if(shapeId == "rectangle") VRectangle::deSerialize(line, this);
-        if(shapeId == "ellipse") ellipse::deSerialize(line, this);
+        if(shapeId == "rectangle") VDeserializer::deSerializeRectangle(line, this);
+        if(shapeId == "ellipse") VDeserializer::deSerializeEllipse(line, this);
         //if (currentShape==nullptr) continue;
      }
  }

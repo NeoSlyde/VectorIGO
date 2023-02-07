@@ -214,50 +214,6 @@ void VRectangle::Accept(VShapeVisitor* visitor)
     return visitor->visit(this);
 }
 
-QGraphicsItem* VRectangle::deSerialize(QString input, QGraphicsScene* parentScene)
-{
-    QStringList elements = input.split(' ');
-    if (elements.count()!=11) return nullptr;
-
-    qreal posX, posY, rectX, rectY, rectW, rectH, rota, thick;
-    QColor stroke, fill;
-
-    try {
-        posX = elements.at(1).toDouble();
-        posY = elements.at(2).toDouble();
-        rectX = elements.at(3).toDouble();
-        rectY = elements.at(4).toDouble();
-        rectW = elements.at(5).toDouble();
-        rectH = elements.at(6).toDouble();
-        rota = elements.at(7).toDouble();
-        stroke = QColor(elements.at(8));
-        fill = QColor(elements.at(9));
-        thick = elements.at(10).toDouble();
-    } catch(...) {
-        return nullptr;
-    }
-
-    VRectangle* newRect = new VRectangle();
-    parentScene->addItem(newRect);
-    newRect->setPos(posX,posY);
-    newRect->setRect(QRectF(rectX,rectY, rectW, rectH));
-    newRect->setRotation(rota);
-    newRect->updateStrokeColor(stroke);
-    newRect->updateFillColor(fill);
-    newRect->updateThickness(thick);
-    newRect->updateGrabbersPosition();
-
-    std::cout << "RECTANGLE DESERIALIZED" << std::endl;
-
-
-    return newRect;
-}
-
-
-
-
-
-
 
 
 qreal VRectangle::distance(QPointF p1, QPointF p2)
@@ -476,18 +432,6 @@ void VRectangle::resizeFromLeft(QGraphicsSceneMouseEvent *event)
 //---------------------PANEL INPUTS-------------------------
 
 
-void VRectangle::slotResizeFromTopLeftX(int x)
-{
-    resize( QPointF(x, mapToParent(rect().topLeft()).y())  );
-    anchorGrabberDeformation = mapToParent(rect().bottomRight());
-}
-
-void VRectangle::slotResizeFromTopLeftY(int y)
-{
-    resize( QPointF(mapToParent(rect().topLeft()).x(), y) );
-    anchorGrabberDeformation = mapToParent(rect().bottomRight());
-}
-
 
 void VRectangle::slotRotate(int rota)
 {
@@ -498,7 +442,5 @@ void VRectangle::updateZvalue(int z)
 {
     setZValue(z);
 }
-
-
 
 

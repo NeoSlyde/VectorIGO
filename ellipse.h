@@ -24,7 +24,6 @@ public:
     QColor getFillColor();
     qreal getThickness();
 
-    static QGraphicsItem* deSerialize(QString input, QGraphicsScene* scene);
 
 
 private:
@@ -67,8 +66,6 @@ public slots:
     void resizeFromLeft(QGraphicsSceneMouseEvent *event);
 
     void slotRotate(int rota);
-    void slotResizeFromTopLeftX(int x);
-    void slotResizeFromTopLeftY(int y);
     void setWidth(qreal inputWidth);
     void setHeight(qreal inputHeight);
     void updateStrokeColor(QColor col);
