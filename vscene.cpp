@@ -8,10 +8,11 @@
 #include <iostream>
 #include "vgrabber.h"
 #include <QKeyEvent>
+#include "commands.h"
 
 
-VScene::VScene(QObject *parent) :
-    QGraphicsScene::QGraphicsScene(parent)
+VScene::VScene(QObject *parent, QUndoStack *undoStack) :
+    QGraphicsScene::QGraphicsScene(parent), _undoStack(undoStack)
 {
     int width_ = 800;
     int height_ = 600;
@@ -68,8 +69,17 @@ void VScene::removeAllShapes()
 
 
 void VScene::addShape(VShape *shape) {
-    addItem(shape);
+    addItem(static_cast<QGraphicsItem>(shape));
+    QUndoCommand *addCommand = new AddCommand(this, shape);
+    _undoStack->push(addCommand);
 }
+
+void VScene::removeShape(VShape *shape) {
+    removeItem(shape);
+    QUndoCommand *removeCommand = new RemoveCommand(this, shape);
+    _undoStack->push(removeCommand);
+}
+
 
 
 

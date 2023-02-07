@@ -16,13 +16,12 @@ public:
 private:
     VScene *_scene;
     VShape *_shape;
-    QString _shapeName;
 };
 
 class RemoveCommand : public QUndoCommand
 {
 public:
-    RemoveCommand(VScene *scene, const QString &shapeName,
+    RemoveCommand(VScene *scene, VShape *shape,
                        QUndoCommand *parent = nullptr);
     void undo() override;
     void redo() override;
@@ -30,7 +29,6 @@ public:
 private:
     VScene *_scene;
     VShape *_shape;
-    QString _shapeName;
 };
 
 /*

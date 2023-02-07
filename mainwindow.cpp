@@ -7,6 +7,7 @@
 #include <iostream>
 #include "ellipse.h"
 #include <QSvgGenerator>
+#include <QAction>
 
 #include "toolmanager.h"
 
@@ -29,11 +30,14 @@ MainWindow::MainWindow(QWidget *parent)
 
     _groupBox_2->setStyleSheet("QGroupBox {border: 1px solid #CECECE;border-radius: 5px;margin-top: 0.5em;background-color: #FFFFFF;}QGroupBox::title {subcontrol-origin: margin;subcontrol-position: top center;padding: 0 3px;}");
 
+    undoStack = new QUndoStack(this);
+    createActions();
 
-    scene = new VScene(this);
+    scene = new VScene(this, undoStack);
     _graphicsView->setScene(scene);
 
     ToolManager* toolManager = new ToolManager();
+
 
     connect(  _zoom, &QSlider::valueChanged,  this, &MainWindow::updateZoom  );
     connect(  _reset, &QPushButton::clicked,  this, &MainWindow::resetZoom  );
@@ -101,6 +105,15 @@ MainWindow::MainWindow(QWidget *parent)
 
         connect(actionExport_as_BMP, &QAction::triggered,
                 this, &MainWindow::exportBMP);
+}
+
+void MainWindow::createActions()
+{
+    undoAction = undoStack->createUndoAction(this, tr("&Undo"));
+    undoAction->setShortcuts(QKeySequence::Undo);
+
+    redoAction = undoStack->createRedoAction(this, tr("&Redo"));
+    redoAction->setShortcuts(QKeySequence::Redo);
 }
 
 

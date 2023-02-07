@@ -7,6 +7,8 @@
 
 #include "vscene.h"
 #include <QMainWindow>
+#include <QUndoStack>
+#include <QAction>
 
 
 
@@ -38,6 +40,11 @@ public slots:
     void btn3Function();
 
 private:
+    void createActions();
+    QUndoStack *undoStack = nullptr;
+    QAction *undoAction = nullptr;
+    QAction *redoAction = nullptr;
+
     std::unique_ptr<QDialog> colorPickerFill;
     std::unique_ptr<QDialog> colorPickerStroke;
 };

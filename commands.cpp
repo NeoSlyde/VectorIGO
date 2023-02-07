@@ -11,32 +11,31 @@ AddCommand::AddCommand(VScene *scene, VShape *shape, QUndoCommand *parent)
 
 void AddCommand::undo()
 {
-    _scene->removeItem(_shapeName);
+    _scene->removeShape(_shape);
 }
 
 void AddCommand::redo()
 {
     // A shape only gets a name when it is inserted into a document
-    _scene->addItem(_shape);
+    _scene->addShape(_shape);
     setText(QObject::tr("Add %1").arg("ui"));
 }
 
-RemoveCommand::RemoveCommand(VScene *scene, const QString &shapeName,
+RemoveCommand::RemoveCommand(VScene *scene, VShape *shape,
                                        QUndoCommand *parent)
-    : QUndoCommand(parent), _scene(scene), _shape(scene->shape(shapeName)) // TODO: Create shape() that returns the shape
-    , _shapeName(shapeName)
+    : QUndoCommand(parent), _scene(scene), _shape(shape)
 {
-    setText(QObject::tr("Remove %1").arg(shapeName));
+    setText(QObject::tr("Remove %1").arg("oi"));
 }
 
 void RemoveCommand::undo()
 {
-    _scene->addItem(_shape);
+    _scene->addShape(_shape);
 }
 
 void RemoveCommand::redo()
 {
-    _scene->removeItem(_shapeName);
+    _scene->removeShape(_shape);
 }
 
 /******************************************************************************
