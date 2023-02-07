@@ -52,7 +52,7 @@ void VDocument::saveDoc(QWidget *parent, VScene *scene, QLabel* titre)
         QString fileName = filePath;
 
         if (fileName.isEmpty())
-            fileName = QFileDialog::getSaveFileName(parent, "Save File As", QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) +QDir::separator()+"file.igo") ;
+            fileName = QFileDialog::getSaveFileName(parent, "Save File", QStandardPaths::writableLocation(QStandardPaths::DesktopLocation) +QDir::separator()+"file.igo", tr("IGO files (*.igo)")) ;
         if (fileName.isEmpty())
             break;
 
