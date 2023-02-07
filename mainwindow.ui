@@ -458,7 +458,7 @@ font-size: 36px;</string>
      <x>0</x>
      <y>0</y>
      <width>923</width>
-     <height>24</height>
+     <height>21</height>
     </rect>
    </property>
    <widget class="QMenu" name="menuVectorIgo">
@@ -522,9 +522,9 @@ font-size: 36px;</string>
    </widget>
    <addaction name="menuVectorIgo"/>
    <addaction name="menuEditions"/>
-   <addaction name="menuHelp"/>
    <addaction name="menuOutils"/>
    <addaction name="menuView"/>
+   <addaction name="menuHelp"/>
   </widget>
   <action name="actionNew">
    <property name="text">
