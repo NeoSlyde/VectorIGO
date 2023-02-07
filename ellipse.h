@@ -11,7 +11,6 @@ class ellipse: public VShape, public QGraphicsEllipseItem
      Q_OBJECT
 public:
     ellipse(QObject *parent = nullptr, QGraphicsEllipseItem *parentGraphic = nullptr);
-    QLayout* getPanel() override;
     void updateZvalue(int z) override;
     void updateGrabbersPosition();
     void updateGrabbersVisibility();
@@ -20,7 +19,10 @@ public:
     void setVisible(bool value) override;
     void setSelected(bool value) override;
     void MoveBy(QPointF delta) override;
-    virtual QString serialize() override;
+    void Accept(VShapeVisitor* visitor) override;
+    QColor getStrokeColor();
+    QColor getFillColor();
+    qreal getThickness();
 
     static QGraphicsItem* deSerialize(QString input, QGraphicsScene* scene);
 

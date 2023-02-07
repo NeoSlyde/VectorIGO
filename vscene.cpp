@@ -86,7 +86,8 @@ QList<VShape *>* VScene::getSelectedShapes()
         QGraphicsItem* item = itemsL.at(i);
         VShape* shape = dynamic_cast<VShape*>(item);
         if(shape==nullptr) continue;
-        stream << shape->serialize();
+        shape->Accept(&serializeVisitor);
+        stream << serializeVisitor.getResult();
         if (i<items().count()-1) stream << '\n';
     }
     //    m_undoStack->setClean();

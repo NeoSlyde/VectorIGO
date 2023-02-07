@@ -15,7 +15,6 @@ class VRectangle : public VShape, public QGraphicsRectItem
 
 public:
     VRectangle(QGraphicsItem *parentGraphic = nullptr,QObject *parent = nullptr);
-    QLayout* getPanel() override;
     void updateZvalue(int z) override;
     //~VRectangle();
     void updateGrabbersPosition();
@@ -25,7 +24,10 @@ public:
     void setVisible(bool value) override;
     void setSelected(bool value) override;
     void MoveBy(QPointF delta) override;
-    virtual QString serialize() override;
+    void Accept(VShapeVisitor* visitor) override;
+    QColor getStrokeColor();
+    QColor getFillColor();
+    qreal getThickness();
 
     static QGraphicsItem* deSerialize(QString input, QGraphicsScene* scene);
 

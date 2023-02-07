@@ -1,6 +1,7 @@
 #ifndef VVERTICALLAYOUT_H
 #define VVERTICALLAYOUT_H
 
+#include "vpanelvisitor.h"
 #include "vshape.h"
 #include <QObject>
 #include <QVBoxLayout>
@@ -15,6 +16,8 @@ public:
     void clearLayout(QLayout* layout, bool deleteWidgets = true);
     void refresh(VShape* selectedShape, QWidget* panel);
 
+private:
+    VPanelVisitor panelVisitor;
 
 
 

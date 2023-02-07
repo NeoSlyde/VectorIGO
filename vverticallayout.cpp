@@ -37,7 +37,8 @@ void VVerticalLayout::refresh(VShape* selectedShape, QWidget* panel)
         panel->setVisible(false);
         return;
     }else{
-        QLayout* shapePanel = selectedShape->getPanel();
+        selectedShape->Accept(&panelVisitor);
+        QLayout* shapePanel = panelVisitor.getResult();
         this->addLayout(shapePanel);
         panel->setVisible(true);
     }

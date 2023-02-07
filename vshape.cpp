@@ -3,8 +3,4 @@
 VShape::VShape(QObject *parent)
     : QObject{parent}
 {
-
-
-
-
 }

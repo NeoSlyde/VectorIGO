@@ -21,9 +21,12 @@ SOURCES += \
     vexporter.cpp \
     vgrabber.cpp \
     vmousetool.cpp \
+    vpanelvisitor.cpp \
     vrectangletool.cpp \
     vscene.cpp \
+    vserializevisitor.cpp \
     vshape.cpp \
+    vshapevisitor.cpp \
     vtool.cpp \
     vtoolbutton.cpp \
     vverticallayout.cpp \
@@ -40,9 +43,12 @@ HEADERS += \
     vexporter.h \
     vgrabber.h \
     vmousetool.h \
+    vpanelvisitor.h \
     vrectangletool.h \
     vscene.h \
+    vserializevisitor.h \
     vshape.h \
+    vshapevisitor.h \
     vtool.h \
     vtoolbutton.h \
     vverticallayout.h \

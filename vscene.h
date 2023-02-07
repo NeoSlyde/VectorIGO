@@ -1,5 +1,7 @@
 #ifndef VSCENE_H
 #define VSCENE_H
+#include "vserializevisitor.h"
+
 #include <QObject>
 #include <QGraphicsScene>
 #include <vshape.h>
@@ -41,6 +43,7 @@ private:
     void keyReleaseEvent(QKeyEvent *e) override;
     QList<VShape*>* copiedShapes= nullptr;
     QPointF delta = QPointF(5,5);
+    VSerializeVisitor serializeVisitor;
 
 
 signals:
