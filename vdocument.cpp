@@ -11,7 +11,14 @@ VDocument::VDocument(QObject *parent) : QObject{parent}
 {
 }
 
-
+/**
+ * @brief VDocument::loadDoc
+ * @param parent
+ * @param scene
+ * @param titre
+ * @details
+ * Load a project from a .igo file.
+*/
 void VDocument::loadDoc(QWidget* parent, VScene *scene, QLabel* titre)
 {
     QString fileName = QFileDialog::getOpenFileName(parent, "Open VectorIGO project", QStandardPaths::writableLocation(QStandardPaths::DesktopLocation), "IGO PROJECTS (*.igo)");
@@ -45,7 +52,14 @@ void VDocument::loadDoc(QWidget* parent, VScene *scene, QLabel* titre)
     titre->setText(filePath.split(QDir::separator()).last());
 }
 
-
+/**
+ * @brief VDocument::saveDoc
+ * @param parent
+ * @param scene
+ * @param titre
+ * @details
+ * Save a project to a .igo file.
+*/
 void VDocument::saveDoc(QWidget *parent, VScene *scene, QLabel* titre)
 {
     for (;;) {
@@ -69,7 +83,13 @@ void VDocument::saveDoc(QWidget *parent, VScene *scene, QLabel* titre)
     }
 }
 
-
+/**
+ * @brief VDocument::saveDocAs
+ * @param parent
+ * @param scene
+ * @details
+ * Save a project to a file with a new name.
+*/
 void VDocument::saveDocAs(QWidget *parent, VScene *scene)
 {
     for (;;) {
@@ -88,7 +108,14 @@ void VDocument::saveDocAs(QWidget *parent, VScene *scene)
     }
 }
 
-
+/**
+ * @brief VDocument::newProject
+ * @param parent
+ * @param scene
+ * @param titre
+ * @details
+ * Create a new project.
+*/
 void VDocument::newProject(QWidget *parent, VScene *scene, QLabel* titre)
 {
     QMessageBox::StandardButton userChoice = QMessageBox::warning(parent,"Warning", "Change current project ?", QMessageBox::Yes | QMessageBox::No );

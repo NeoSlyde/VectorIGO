@@ -9,6 +9,14 @@ VDeserializer::VDeserializer(QObject *parent)
 {
 }
 
+/**
+ * @brief VDeserializer::deSerializeRectangle
+ * @param input
+ * @param scene
+ * @return
+ * @details
+ * Deserialize a rectangle from a string.
+*/
 QGraphicsItem *VDeserializer::deSerializeRectangle(QString input, QGraphicsScene *scene)
 {
     QStringList elements = input.split(' ');
@@ -48,7 +56,14 @@ QGraphicsItem *VDeserializer::deSerializeRectangle(QString input, QGraphicsScene
 
 
 
-
+/**
+ * @brief VDeserializer::deSerializeEllipse
+ * @param input
+ * @param scene
+ * @return
+ * @details
+ * Deserialize an ellipse from a string.
+*/
 QGraphicsItem *VDeserializer::deSerializeEllipse(QString input, QGraphicsScene *scene)
 {
     QStringList elements = input.split(' ');

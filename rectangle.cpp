@@ -15,7 +15,12 @@
 #include <QLineEdit>
 #include <exception>
 
-
+/**
+ * @brief VRectangle::VRectangle
+ * @param parentGraphic
+ * @param parent
+ * @details Constructeur de la classe VRectangle
+*/
 VRectangle::VRectangle(QGraphicsItem *parentGraphic,QObject *parent):
     VShape(parent),
     VRectangle::QGraphicsRectItem(parentGraphic)
@@ -59,8 +64,14 @@ VRectangle::VRectangle(QGraphicsItem *parentGraphic,QObject *parent):
     QObject::connect(grabber8, &VGrabber::sigMouseMoveEvent,this, &VRectangle::resizeFromLeft);
 }
 
-
-
+/**
+ * @brief VRectangle::paint
+ * @param painter
+ * @param option
+ * @param widget
+ * @details Fonction de dessin de la classe VRectangle
+ * @details Dessine un rectangle avec les paramètres de la classe
+*/
 void VRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     setPen(QPen(strokeColor, thickness));
@@ -81,8 +92,13 @@ void VRectangle::paint(QPainter* painter, const QStyleOptionGraphicsItem* option
     QGraphicsRectItem::paint(painter, option, widget);
 }
 
-
-
+/**
+ * @brief VRectangle::itemChange
+ * @param change
+ * @param value
+ * @return
+ * @details Fonction de changement d'état de la classe VRectangle
+*/
 QVariant VRectangle::itemChange(GraphicsItemChange change, const QVariant &value)
 {
     // Keep the shape inside the scene rect
@@ -120,7 +136,10 @@ QVariant VRectangle::itemChange(GraphicsItemChange change, const QVariant &value
 
 
 
-
+/**
+ * @brief VRectangle::updateGrabbersPosition
+ * @details Fonction de mise a jour de la position des grabbers
+*/
 void VRectangle::updateGrabbersPosition()
 {
     prepareGeometryChange();
@@ -135,6 +154,10 @@ void VRectangle::updateGrabbersPosition()
     update();
 }
 
+/**
+ * @brief VRectangle::updateGrabbersVisibility
+ * @details Fonction de mise a jour de la visibilité des grabbers
+*/
 void VRectangle::updateGrabbersVisibility()
 {
     if(isSelected()){
@@ -172,11 +195,23 @@ void VRectangle::updateGrabbersVisibility()
     }
 }
 
+/**
+ * @brief VRectangle::toString
+ * @return
+ * @details Retourne le nom de la classe
+*/
 QString VRectangle::toString()
 {
     return QString("rectangle");
 }
 
+/**
+ * @brief VRectangle::clone
+ * @return
+ * @details Fonction de clonage de la classe VRectangle
+ * @details Retourne un pointeur vers une copie de l'objet
+ * @details La copie est ajoutée à la scène
+*/
 VShape* VRectangle::clone()
 {
     VRectangle* newRect = new VRectangle();
@@ -191,6 +226,11 @@ VShape* VRectangle::clone()
     return newRect;
 }
 
+/**
+ * @brief VRectangle::setVisible
+ * @param value
+ * @details Fonction de mise a jour de la visibilité de la classe VRectangle
+*/
 void VRectangle::setVisible(bool value)
 {
     QGraphicsItem::setVisible(value);
@@ -198,30 +238,58 @@ void VRectangle::setVisible(bool value)
     updateGrabbersVisibility();
 }
 
+/**
+ * @brief VRectangle::setSelected
+ * @param value
+ * @details Fonction de mise a jour de la selection de la classe VRectangle
+*/
 void VRectangle::setSelected(bool value)
 {
     QGraphicsItem::setSelected(value);
 }
 
+/**
+ * @brief VRectangle::MoveBy
+ * @param delta
+ * @details Fonction de déplacement de la classe VRectangle
+ * @details Déplace l'objet de delta en x et delta en y
+*/
 void VRectangle::MoveBy(QPointF delta)
 {
     QGraphicsItem::moveBy(delta.x(),delta.y());
 }
 
-
+/**
+ * @brief VRectangle::Accept
+ * @param visitor
+ * @details Fonction d'acceptation de la classe VRectangle
+ * 
+*/
 void VRectangle::Accept(VShapeVisitor* visitor)
 {
     return visitor->visit(this);
 }
 
 
-
+/**
+ * @brief VRectangle::distance
+ * @param p1
+ * @param p2
+ * @return
+ * @details Fonction de calcul de la distance entre deux points
+ * @details Retourne la distance entre les deux points
+*/
 qreal VRectangle::distance(QPointF p1, QPointF p2)
 {
     return sqrt(pow(p2.x() - p1.x(), 2) + pow(p2.y() - p1.y(), 2) * 1.0);
 }
 
-
+/**
+ * @brief VRectangle::resize
+ * @param moveDest
+ * @details Fonction de redimensionnement de la classe VRectangle
+ * @details Redimensionne l'objet en fonction de la position du grabber
+*/
 void VRectangle::resize(QPointF moveDest )
 {
     std::cout << "GRABBER SIG RECEIVE" << std::endl;
@@ -271,6 +339,12 @@ void VRectangle::updateThickness(qreal thickness)
     update();
 }
 
+/**
+ * @brief VRectangle::doRotation
+ * @param rota
+ * @details Fonction de rotation de la classe VRectangle
+ * @details Effectue une rotation de l'objet de rota degrés
+*/
 void VRectangle::doRotation(int rota)
 {
     std::cout << rect().topLeft().x()<<" "<< rect().topLeft().y()<< std::endl;

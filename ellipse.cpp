@@ -15,7 +15,11 @@
 #include "vcolorpicker.h"
 
 
-
+/**
+ * @brief ellipse::ellipse
+ * @param parent
+ * @param parentGraphic
+ */
 ellipse::ellipse(QObject *parent, QGraphicsEllipseItem *parentGraphic):
     VShape(parent),
     ellipse::QGraphicsEllipseItem(parentGraphic)
@@ -60,6 +64,12 @@ ellipse::ellipse(QObject *parent, QGraphicsEllipseItem *parentGraphic):
     QObject::connect(grabber8, &VGrabber::sigMouseMoveEvent,this, &ellipse::resizeFromLeft);
     }
 
+/**
+ * @brief ellipse::paint
+ * @param painter
+ * @param option
+ * @param widget
+ */
 void ellipse::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
     setPen(QPen(strokeColor, thickness));
@@ -71,6 +81,12 @@ void ellipse::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
     QGraphicsEllipseItem::paint(painter, option, widget);
 }
 
+/**
+ * @brief ellipse::itemChange
+ * @param change
+ * @param value
+ * @return
+ */
 QVariant ellipse::itemChange(GraphicsItemChange change, const QVariant &value)
 {
    /*

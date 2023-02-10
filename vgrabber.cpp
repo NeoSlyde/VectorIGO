@@ -4,6 +4,15 @@
 qreal* VGrabber::_width = new qreal(6);
 qreal* VGrabber::_height = new qreal(6);
 
+/**
+ * @brief VGrabber::VGrabber
+ * @param x
+ * @param y
+ * @param parent
+ * @param parentGraphic
+ * @details
+ * Constructeur de la classe VGrabber
+ */
 VGrabber::VGrabber(qreal x, qreal y, QObject *parent, QGraphicsItem *parentGraphic) :
     QObject(parent),
     QGraphicsRectItem(parentGraphic)

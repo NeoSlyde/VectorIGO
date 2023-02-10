@@ -10,7 +10,13 @@ VExporter::VExporter(QObject *parent) : QObject{parent}
 }
 
 
-
+/**
+ * @brief VExporter::exportSVG
+ * @param parent
+ * @param scene
+ * @details
+ * Export scene to svg file.
+*/
 void VExporter::exportSVG(QWidget *parent, VScene* scene){
 
     /* export scene to svg file.
@@ -35,7 +41,13 @@ void VExporter::exportSVG(QWidget *parent, VScene* scene){
 
 }
 
-
+/**
+ * @brief VExporter::exportPNG
+ * @param parent
+ * @param scene
+ * @details
+ * Export scene to png file.
+*/
 void VExporter::exportPNG(QWidget *parent, VScene* scene){
 
     /* export scene to png file.
@@ -56,7 +68,13 @@ void VExporter::exportPNG(QWidget *parent, VScene* scene){
 
 }
 
-
+/**
+ * @brief VExporter::exportJPG
+ * @param parent
+ * @param scene
+ * @details
+ * Export scene to jpg file.
+*/
 void VExporter::exportJPG(QWidget *parent, VScene* scene){
 
     /* export scene to jpg file.
@@ -76,7 +94,13 @@ void VExporter::exportJPG(QWidget *parent, VScene* scene){
     std::cout << "Exported as JPG file to : " << newPath.toStdString() << std::endl;
 }
 
-
+/**
+ * @brief VExporter::exportBMP
+ * @param parent
+ * @param scene
+ * @details
+ * Export scene to bmp file.
+*/
 void VExporter::exportBMP(QWidget *parent, VScene* scene){
 
     /* export scene to bmp file.
