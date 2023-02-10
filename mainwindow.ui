@@ -611,7 +611,7 @@ font-size: 36px;</string>
     <string>Delete</string>
    </property>
    <property name="shortcut">
-    <string>Backspace</string>
+    <string>Del</string>
    </property>
   </action>
   <action name="actionCheck_for_Update">
