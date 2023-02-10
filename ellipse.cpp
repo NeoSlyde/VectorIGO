@@ -19,6 +19,8 @@
  * @brief ellipse::ellipse
  * @param parent
  * @param parentGraphic
+ * @details
+ * Constructeur de la classe ellipse
  */
 ellipse::ellipse(QObject *parent, QGraphicsEllipseItem *parentGraphic):
     VShape(parent),
@@ -69,6 +71,8 @@ ellipse::ellipse(QObject *parent, QGraphicsEllipseItem *parentGraphic):
  * @param painter
  * @param option
  * @param widget
+ * @details
+ * Fonction qui permet de dessiner l'ellipse
  */
 void ellipse::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, QWidget* widget)
 {
@@ -86,6 +90,8 @@ void ellipse::paint(QPainter* painter, const QStyleOptionGraphicsItem* option, Q
  * @param change
  * @param value
  * @return
+ * @details
+ * Fonction qui permet de changer l'ellipse
  */
 QVariant ellipse::itemChange(GraphicsItemChange change, const QVariant &value)
 {
@@ -115,6 +121,11 @@ QVariant ellipse::itemChange(GraphicsItemChange change, const QVariant &value)
     return QGraphicsItem::itemChange(change, value);
 }
 
+/**
+ * @brief ellipse::updateGrabbersVisibility
+ * @details
+ * Fonction qui permet de mettre à jour la visibilité des grabbers
+ */
 void ellipse::updateGrabbersVisibility()
 {
     if(isSelected()){
@@ -154,6 +165,11 @@ void ellipse::updateGrabbersVisibility()
     }
 }
 
+/**
+ * @brief ellipse::updateGrabbersPosition
+ * @details
+ * Fonction qui permet de mettre à jour la position des grabbers
+*/
 void ellipse::updateGrabbersPosition()
 {
     prepareGeometryChange();
@@ -186,12 +202,26 @@ void ellipse::setHeight(qreal inputHeight)
 
 }
 
-
+/**
+ * @brief ellipse::distance
+ * @param p1
+ * @param p2
+ * @return
+ * @details
+ * Fonction qui permet de calculer la distance entre deux points
+*/
 qreal ellipse::distance(QPointF p1, QPointF p2)
 {
     return sqrt(pow(p2.x() - p1.x(), 2) + pow(p2.y() - p1.y(), 2) * 1.0);
 }
 
+
+/**
+ * @brief ellipse::resize
+ * @param moveDest
+ * @details
+ * Fonction qui permet de redimensionner l'ellipse
+*/
 void ellipse::resize(QPointF moveDest )
 {
     std::cout << "GRABBER SIG RECEIVE" << std::endl;
