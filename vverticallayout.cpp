@@ -3,11 +3,21 @@
 #include <QWidget>
 #include <iostream>
 
+/**
+ * @details Permet de gérer le panneau propre à chaque forme sur la droite.
+ */
+
 VVerticalLayout::VVerticalLayout() : QVBoxLayout()
 {
 }
 
 
+/**
+ * @brief VVerticalLayout::clearLayout
+ * @param layout 
+ * @param deleteWidgets 
+ * @details Permet de retirer de l'affichage le panneau.
+ */
 void VVerticalLayout::clearLayout(QLayout* layout, bool deleteWidgets)
 {
     while (QLayoutItem* item = layout->takeAt(0))
@@ -24,7 +34,12 @@ void VVerticalLayout::clearLayout(QLayout* layout, bool deleteWidgets)
 }
 
 
-
+/**
+ * @brief VVerticalLayout::refresh
+ * @param selectedShape 
+ * @param panel 
+ * @details Permet de rafraichir le panneau en fonction de la forme actuelle.
+ */
 void VVerticalLayout::refresh(VShape* selectedShape, QWidget* panel)
 {
 

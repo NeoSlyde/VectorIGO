@@ -1,6 +1,10 @@
 #include "vmousetool.h"
 #include "vscene.h"
 
+/**
+ * @details Classe qui représente l'outil de sélection. Permet de sélectionner et déplacer les formes.
+ */
+
 VMouseTool::VMouseTool()
 {
 
