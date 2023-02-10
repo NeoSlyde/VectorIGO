@@ -8,7 +8,15 @@ ellipseTool::ellipseTool()
 
 }
 
-
+/**
+ * @brief ellipseTool::mousePressEvent
+ * @param mouseEvent
+ * @param scene
+ * @param toolmanager
+ * @details
+ * Slot appelé lors d'un clic sur la scène
+ * Crée un nouvel objet ellipse et l'ajoute à la scène
+*/
 void ellipseTool::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)
 {
 //    QPointF originePoint = mouseEvent->buttonDownScenePos(Qt::RightButton);
@@ -19,7 +27,15 @@ void ellipseTool::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* 
     pBuildingEllipse->setPos( mouseEvent->scenePos().x(), mouseEvent->scenePos().y() );
 }
 
-
+/**
+ * @brief ellipseTool::mouseMoveEvent
+ * @param mouseEvent
+ * @param scene
+ * @param toolmanager
+ * @details
+ * Slot appelé lors d'un déplacement de la souris sur la scène
+ * Modifie la taille de l'ellipse en cours de création
+*/
 void ellipseTool::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)
 {
     QPointF originePoint = mouseEvent->buttonDownScenePos(Qt::LeftButton);
@@ -38,12 +54,26 @@ void ellipseTool::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* s
     pBuildingEllipse->updateGrabbersPosition();
 }
 
-
+/**
+ * @brief ellipseTool::mouseReleaseEvent
+ * @param mouseEvent
+ * @param scene
+ * @param toolmanager
+ * @details
+ * Slot appelé lors d'un relâchement de la souris sur la scène
+ * Change l'outil courant en mouseTool
+*/
 void ellipseTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)
 {
     toolmanager->setMouseTool();
 }
 
+/**
+ * @brief ellipseTool::getID
+ * @return
+ * @details
+ * Retourne l'identifiant de l'outil ellipseTool
+*/
 QString ellipseTool::getID()
 {
     return QString("ellipseTool");

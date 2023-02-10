@@ -16,6 +16,15 @@
 #include <QStandardPaths>
 
 
+/**
+ * @brief MainWindow::MainWindow
+ * @param parent
+ * @details
+ * Constructor of the class MainWindow
+ * Setup the visual part of the application
+ * Create the main objects of the application
+ * Connect actions
+*/
 MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
 {
     /* setup visuel */
@@ -80,7 +89,15 @@ MainWindow::MainWindow(QWidget *parent) : QMainWindow(parent)
     connect(_scene,              &VScene::sigSceneHasChanged,    this,                [this]{shapeSettingsSection->refresh(_scene->getSelectedShape(), _panel);} );
 }
 
-
+/**
+ * @brief MainWindow::quit
+ * @details quit the application
+ * @return void
+ * @details ask the user if he wants to save his project before quitting
+ * @details if the user wants to save his project, call the saveDoc method
+ * @details if the user doesn't want to save his project, quit the application
+ * @details if the user doesn't want to quit the application, do nothing
+*/
 void MainWindow::quit()
 {
     QMessageBox::StandardButton quitChoice = QMessageBox::warning(this, "Quit the Application?","Quit the Application?",QMessageBox::Yes | QMessageBox::No );
@@ -91,7 +108,11 @@ void MainWindow::quit()
     qApp->exit();
 }
 
-
+/**
+ * @brief MainWindow::clearAllShapes
+ * @details clear all shapes in the scene
+ * @return void
+*/
 void MainWindow::clearAllShapes()
 {
     QMessageBox::StandardButton userChoice = QMessageBox::warning(this, "Delete all Shapes ?" ,"Delete all Shapes ?",QMessageBox::Yes | QMessageBox::No );
