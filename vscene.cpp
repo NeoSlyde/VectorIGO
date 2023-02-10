@@ -12,6 +12,9 @@
 #include "ellipse.h"
 #include "vdeserializer.h"
 
+/**
+ * @details Permet de gérer la scene sur laquelle les formes seront placées.
+ */
 
 VScene::VScene(QObject *parent) :
     QGraphicsScene::QGraphicsScene(parent)
@@ -40,7 +43,11 @@ void VScene::mouseReleaseEventDefault(QGraphicsSceneMouseEvent *mouseEvent)
     QGraphicsScene::mouseReleaseEvent(mouseEvent);
 }
 
-
+/**
+ * @brief VScene::getSelectedShape
+ * @return VShape* 
+ * @details Retourne le type de shape de l'item selectionné.
+ */
 VShape *VScene::getSelectedShape()
 {
     QList<QGraphicsItem*> selectedItemslist = selectedItems();
@@ -51,7 +58,11 @@ VShape *VScene::getSelectedShape()
 }
 
 
-
+/**
+ * @brief VScene::getSelectedShapes
+ * @return QList<VShape *>* 
+ * @details Retourne une liste des shapes selectionnées.
+ */
 QList<VShape *>* VScene::getSelectedShapes()
 {
     QList<QGraphicsItem*> selectedItemslist = selectedItems();
@@ -66,7 +77,11 @@ QList<VShape *>* VScene::getSelectedShapes()
 }
 
 
-
+/**
+ * @brief VScene::getShapes
+ * @return QList<QGraphicsItem*>*
+ * @details Retourne une liste de QGraphicsItem correspondant aux items selectionnés.
+ */
  QList<QGraphicsItem*>* VScene::getShapes()
 {
     QList<QGraphicsItem*> itemsL = items();
@@ -80,6 +95,12 @@ QList<VShape *>* VScene::getSelectedShapes()
     return shapes;
  }
 
+
+/**
+ * @brief VScene::save
+ * @param stream 
+ * @details Permet de sauvegarder la scene.
+ */
  void VScene::save(QTextStream &stream)
  {
     QList<QGraphicsItem*> itemsL = items(Qt::AscendingOrder);
@@ -94,6 +115,11 @@ QList<VShape *>* VScene::getSelectedShapes()
     //    m_undoStack->setClean();
  }
 
+/**
+ * @brief VScene::load
+ * @param stream 
+ * @details Permet de charger la scene.
+ */
  void VScene::load(QTextStream &stream)
  {
      while(!stream.atEnd())
@@ -111,6 +137,11 @@ QList<VShape *>* VScene::getSelectedShapes()
  }
 
 
+/**
+ * @brief VScene::isEmpty
+ * @return true Si la scene est vide
+ * @return false Si la scene n'est pas vide
+ */
  bool VScene::isEmpty()
  {
     QList<QGraphicsItem*>* shapes = getShapes();
@@ -119,6 +150,10 @@ QList<VShape *>* VScene::getSelectedShapes()
     return val;
  }
 
+/**
+ * @brief VScene::selectAll
+ * @details Permet de sélectionner tous les QGraphicsItem de la scene.
+ */
  void VScene::selectAll()
  {
     QList<QGraphicsItem *> itemsL =  items();
@@ -128,11 +163,19 @@ QList<VShape *>* VScene::getSelectedShapes()
     emit sigSceneHasChanged();
  }
 
+/**
+ * @brief VScene::sceneHasChanged
+ * @details Émet un signal si la scene a changé.
+ */
  void VScene::sceneHasChanged()
  {
     emit sigSceneHasChanged();
  }
 
+/**
+ * @brief VScene::deselectAll
+ * @details Permet de déselectionner tous les QGraphicsItem.
+ */
 void VScene::deselectAll()
 {
     QList<QGraphicsItem *> selectedItemsL = selectedItems();
@@ -143,7 +186,10 @@ void VScene::deselectAll()
     emit sigSceneHasChanged();
 }
 
-
+/**
+ * @brief VScene::removeAllShapes
+ * @details Permet de supprimer tous les QGraphicsItem de la scene.
+ */
 void VScene::removeAllShapes()
 {
     QList<QGraphicsItem*>* shapes = getShapes();
@@ -155,6 +201,10 @@ void VScene::removeAllShapes()
     emit sigSceneHasChanged();
 }
 
+/**
+ * @brief VScene::removeShapes
+ * @details Permet de supprimer les formes sélectionnées.
+ */
 void VScene::removeShapes()
 {
     QList<QGraphicsItem*> selectedItemslist = selectedItems();
@@ -167,6 +217,10 @@ void VScene::removeShapes()
     emit sigSceneHasChanged();
 }
 
+/**
+ * @brief VScene::copy
+ * @details Permet de copier le contenu de la scene.
+ */
 void VScene::copy()
 {
 
@@ -184,6 +238,10 @@ void VScene::copy()
     delete selectedShapes;
 }
 
+/**
+ * @brief VScene::paste
+ * @details Permet de coller des formes à partir de copiedShapes.
+ */
 void VScene::paste()
 {
     for(VShape* copiedShape : *copiedShapes){

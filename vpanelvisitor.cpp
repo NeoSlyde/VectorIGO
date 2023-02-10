@@ -10,13 +10,24 @@
 #include <iostream>
 #include <QString>
 
+
+/**
+ * @details Classe suivant le patron de conception Visitor et qui permet de visiter chaque shape pour en
+ * extraire leurs caractéristiques propres notamment pour les afficher sur le panneau à droite.
+ * @param parent 
+ */
+
 VPanelVisitor::VPanelVisitor(QObject *parent): QObject{parent}
 {
 }
 
 
 
-
+/**
+ * @brief VPanelVisitor::visit
+ * @param rectangle 
+ * @details Visite un rectangle.
+ */
 void VPanelVisitor::visit( VRectangle *rectangle)
 {
     std::cout << "GET PANEL" << std::endl;
@@ -297,7 +308,11 @@ void VPanelVisitor::visit( VRectangle *rectangle)
 
 
 
-
+/**
+ * @brief VPanelVisitor::visit
+ * @param ell 
+ * @details Visite une ellipse.
+ */
 void VPanelVisitor::visit( ellipse* ell)
 {
     ell->updateGrabbersVisibility();

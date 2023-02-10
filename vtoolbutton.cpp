@@ -3,6 +3,11 @@
 #include <QString>
 #include <string.h>
 
+/**
+ * @brief Construct a new VToolButton::VToolButton object
+ * @param toolId 
+ * @param iconIn 
+ */
 VToolButton::VToolButton(QString toolId, QIcon iconIn) : QPushButton()
 {
     setCheckable(true);

@@ -3,12 +3,24 @@
 #include <iostream>
 #include <toolmanager.h>
 
+/**
+ * @details Permet de gérer l'outil rectangle
+ */
+
 VRectangleTool::VRectangleTool()
 {
 
 }
 
 
+/**
+ * @brief VRectangleTool::mousePressEvent
+ * 
+ * @param mouseEvent 
+ * @param scene 
+ * @param toolmanager 
+ * @details Permet d'ajouter un rectangle lorsque la souris est pressée.
+ */
 void VRectangleTool::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)
 {
 //    QPointF originePoint = mouseEvent->buttonDownScenePos(Qt::RightButton);
@@ -20,7 +32,13 @@ void VRectangleTool::mousePressEvent(QGraphicsSceneMouseEvent *mouseEvent, VScen
 
 }
 
-
+/**
+ * @brief VRectangleTool::mouseMoveEvent
+ * @param mouseEvent 
+ * @param scene 
+ * @param toolmanager 
+ * @details Permet de définir la taille du rectangle lorsque la souris bouge.
+ */
 void VRectangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)
 {
     QPointF originePoint = mouseEvent->buttonDownScenePos(Qt::LeftButton);
@@ -39,7 +57,13 @@ void VRectangleTool::mouseMoveEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene
     pBuildingRectangle->updateGrabbersPosition();
 }
 
-
+/**
+ * @brief VRectangleTool::mouseReleaseEvent
+ * @param mouseEvent 
+ * @param scene 
+ * @param toolmanager 
+ * @details Repasse à l'outil souris une fois le clic de souris relâché.
+ */
 void VRectangleTool::mouseReleaseEvent(QGraphicsSceneMouseEvent *mouseEvent, VScene* scene, ToolManager* toolmanager)
 {
     toolmanager->setMouseTool();
